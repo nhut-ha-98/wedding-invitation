@@ -1,0 +1,102 @@
+<app-animated-section>
+  <section class="info-section">
+    <div class="info-card">
+      <p class="info-label">Save the Date</p>
+      <div class="ornament">&#10086;</div>
+      <h2 class="info-title">
+        {{ config().couple.partner1 }}
+        <span class="ampersand">&</span>
+        {{ config().couple.partner2 }}
+      </h2>
+      <p class="info-subtitle">Request the honor of your presence</p>
+
+      <div class="info-details">
+        <div class="detail-row">
+          <span class="detail-icon">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M3 10h18" />
+            </svg>
+          </span>
+          <div>
+            <p class="detail-label">Date</p>
+            <p class="detail-value">{{ config().date }}</p>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-icon">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+          </span>
+          <div>
+            <p class="detail-label">Time</p>
+            <p class="detail-value">{{ config().time }}</p>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-icon">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </span>
+          <div>
+            <p class="detail-label">Venue</p>
+            <p class="detail-value">{{ config().venue.name }}</p>
+            <p class="detail-sub">{{ config().venue.address }}</p>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-icon">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M4 7V4h16v3" />
+              <path d="M9 20h6" />
+              <path d="M12 4v16" />
+            </svg>
+          </span>
+          <div>
+            <p class="detail-label">Dress Code</p>
+            <p class="detail-value">{{ config().dressCode }}</p>
+          </div>
+        </div>
+      </div>
+
+      <a class="map-btn" [href]="config().venue.mapUrl" target="_blank" rel="noopener noreferrer">
+        View on Map
+      </a>
+    </div>
+  </section>
+</app-animated-section>

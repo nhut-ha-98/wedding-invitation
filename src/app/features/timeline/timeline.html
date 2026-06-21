@@ -1,0 +1,19 @@
+<app-animated-section>
+  <section class="timeline-section">
+    <h2 class="timeline-title">Our Journey</h2>
+    <p class="timeline-subtitle">Moments that brought us here</p>
+    <div class="timeline-rail">
+      <div class="timeline-line"></div>
+      @for (event of config().timeline; track event.year) {
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-year">{{ event.year }}</span>
+            <h3 class="timeline-event-title">{{ event.title }}</h3>
+            <p class="timeline-desc">{{ event.description }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+</app-animated-section>

@@ -1,0 +1,90 @@
+:host {
+  display: block;
+}
+
+.timeline-section {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+
+.timeline-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  color: #2c1810;
+  margin: 0 0 0.25rem;
+}
+
+.timeline-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: #8b7355;
+  font-style: italic;
+  margin: 0 0 3rem;
+}
+
+.timeline-rail {
+  position: relative;
+  text-align: left;
+  padding-left: 2rem;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #d4af37, #c5a032, #8b7355);
+  transform-origin: top center;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -1.35rem;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d4af37;
+  border: 3px solid #f5e6d3;
+  box-shadow: 0 0 0 2px #d4af37;
+}
+
+.timeline-content {
+  padding-left: 0.5rem;
+}
+
+.timeline-year {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.8rem;
+  color: #d4af37;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.timeline-event-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.125rem;
+  color: #2c1810;
+  margin: 0.25rem 0 0.25rem;
+}
+
+.timeline-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: #5c4033;
+  line-height: 1.6;
+  margin: 0;
+}

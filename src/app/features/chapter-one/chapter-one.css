@@ -1,0 +1,57 @@
+:host {
+  display: block;
+}
+
+.chapter-section {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.chapter-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.875rem;
+  color: #d4af37;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0 0 1.5rem;
+}
+
+.photo-frame {
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(44, 24, 16, 0.15);
+}
+
+.photo-placeholder {
+  position: relative;
+  width: 100%;
+  padding-bottom: 66%;
+  background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c0 100%);
+  overflow: hidden;
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #2c1810 0%, transparent 50%);
+  z-index: 1;
+}
+
+.photo-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d4af37;
+  opacity: 0.5;
+  z-index: 2;
+}
+
+.chapter-body p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.125rem;
+  color: #5c4033;
+  line-height: 1.8;
+  margin: 0;
+}

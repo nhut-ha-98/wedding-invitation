@@ -1,0 +1,25 @@
+<app-animated-section>
+  <section class="proposal-section">
+    <p class="proposal-label">The Proposal</p>
+    <div class="polaroid-grid">
+      @for (polaroid of polaroids; track polaroid.alt; let i = $index) {
+        <div
+          class="polaroid"
+          [style.--rotate]="polaroid.rotate + 'deg'"
+          [style.--top]="polaroid.top + 'px'"
+          [style.--left]="polaroid.left + 'px'"
+          [attr.data-rotate]="polaroid.rotate"
+          role="img"
+          [attr.aria-label]="polaroid.alt"
+        >
+          <div class="polaroid-photo">
+            <div class="polaroid-placeholder"></div>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="proposal-story">
+      <p>{{ config().proposalStory }}</p>
+    </div>
+  </section>
+</app-animated-section>

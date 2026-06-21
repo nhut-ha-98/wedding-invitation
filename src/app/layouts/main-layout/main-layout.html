@@ -1,0 +1,33 @@
+<div
+  class="cover-stage"
+  [class.cover-hidden]="bookStateSig() === 'open' || bookStateSig() === 'closing'"
+>
+  <app-cover [config]="config" (opened)="onCoverOpened()" />
+</div>
+
+<div
+  class="scroll-stage"
+  [class.scroll-visible]="bookStateSig() === 'open'"
+  [class.scroll-opening]="bookStateSig() === 'opening'"
+  [class.scroll-closing]="bookStateSig() === 'closing'"
+  #scrollContent
+>
+  <app-introduction id="introduction" [config]="config" />
+  <app-chapter-one id="chapter-one" [config]="config" />
+  <app-timeline id="timeline" [config]="config" />
+  <app-proposal id="proposal" [config]="config" />
+  <app-wedding-info id="wedding-info" [config]="config" />
+  <app-rsvp id="rsvp" />
+  <app-ending id="ending" [config]="config" (closeBook)="onCloseBook()" />
+</div>
+
+@if (bookStateSig() === 'closing') {
+  <div class="closing-overlay">
+    <div class="closing-book">
+      <div class="closing-inner">
+        <p class="closing-vibes">With Love</p>
+        <p class="closing-names">{{ config.couple.partner1 }} &amp; {{ config.couple.partner2 }}</p>
+      </div>
+    </div>
+  </div>
+}

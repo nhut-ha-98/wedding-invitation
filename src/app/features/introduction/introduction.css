@@ -1,0 +1,45 @@
+:host {
+  display: block;
+}
+
+.intro-section {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+
+.quote-block {
+  margin-bottom: 2.5rem;
+}
+
+.quote-mark {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  color: #d4af37;
+  line-height: 1;
+  margin: 0 0 0.5rem;
+}
+
+.quote-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.375rem;
+  font-style: italic;
+  color: #4a2c1a;
+  line-height: 1.6;
+  margin: 0 0 0.75rem;
+}
+
+.quote-author {
+  font-size: 0.875rem;
+  color: #8b7355;
+  margin: 0;
+}
+
+.intro-body p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.125rem;
+  color: #5c4033;
+  line-height: 1.8;
+  margin: 0;
+}

@@ -1,0 +1,32 @@
+<div
+  #bookContainer
+  class="book-container"
+  role="application"
+  aria-label="Wedding invitation book cover"
+>
+  <div class="page cover-page" data-density="hard">
+    <div class="cover-content">
+      <p class="great-vibes invitation-label">You are invited to</p>
+      <h1 class="couple-names">
+        {{ config().couple.partner1 }}
+        <span class="ampersand">&</span>
+        {{ config().couple.partner2 }}
+      </h1>
+      <div class="divider-ornament">&#10086;</div>
+      <p class="wedding-date">{{ config().date }}</p>
+      <button
+        class="open-btn"
+        (click)="openBook()"
+        (keydown.enter)="openBook()"
+        aria-label="Open the wedding invitation"
+      >
+        Tap to Open
+      </button>
+    </div>
+  </div>
+  <div class="page transition-page">
+    <div class="transition-inner">
+      <p class="great-vibes transition-text">Our Love Story</p>
+    </div>
+  </div>
+</div>

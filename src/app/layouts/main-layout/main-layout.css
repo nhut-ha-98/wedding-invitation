@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+
+.cover-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #1a0f0a;
+  transition:
+    opacity 0.5s ease,
+    visibility 0.5s ease;
+}
+
+.cover-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.scroll-stage {
+  background: #fdf8f0;
+  min-height: 100dvh;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.scroll-opening {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.scroll-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-closing {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.closing-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: #1a0f0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.closing-book {
+  width: 280px;
+  height: 400px;
+  background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 50%, #2c1810 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bookClose 0.8s ease forwards;
+  transform-origin: left center;
+}
+
+.closing-inner {
+  text-align: center;
+  padding: 2rem;
+}
+
+.closing-vibes {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.75rem;
+  color: #d4af37;
+  margin: 0 0 0.75rem;
+}
+
+.closing-names {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.125rem;
+  color: #f5e6d3;
+  margin: 0;
+  line-height: 1.4;
+}
+
+app-introduction,
+app-chapter-one,
+app-timeline,
+app-proposal,
+app-wedding-info,
+app-rsvp,
+app-ending {
+  scroll-margin-top: 80px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bookClose {
+  from {
+    transform: perspective(800px) rotateY(0deg);
+    opacity: 0;
+  }
+  to {
+    transform: perspective(800px) rotateY(0deg);
+    opacity: 1;
+  }
+}

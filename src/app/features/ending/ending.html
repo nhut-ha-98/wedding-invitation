@@ -1,0 +1,26 @@
+<app-animated-section>
+  <section class="ending-section">
+    <div class="ending-divider">
+      <span class="ornament">&#10086;</span>
+    </div>
+
+    <div class="ending-quote-block">
+      <p class="ending-quote">&#8220;{{ config().closingQuote }}&#8221;</p>
+      <p class="ending-author">&mdash; {{ config().closingQuoteAuthor }}</p>
+    </div>
+
+    <div class="close-cta">
+      <p class="close-text">Thank you for being part of our story.</p>
+      <button
+        class="close-btn"
+        (click)="onClose()"
+        (keydown.enter)="onClose()"
+        aria-label="Close the wedding invitation book"
+      >
+        Close Book
+      </button>
+    </div>
+
+    <p class="footer-note">{{ config().couple.partner1 }} & {{ config().couple.partner2 }}</p>
+  </section>
+</app-animated-section>
