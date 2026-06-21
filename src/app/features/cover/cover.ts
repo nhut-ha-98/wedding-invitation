@@ -35,12 +35,18 @@ export class Cover {
 
   private initPageFlip(): void {
     const container = this.bookContainer().nativeElement;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const bookWidth = Math.min(vw * 0.85, 440);
+    const bookHeight = Math.min(bookWidth * (520 / 360), vh * 0.75);
+
     const pages = container.querySelectorAll<HTMLElement>('.page');
 
     this.pageFlip = new PageFlip(container, {
-      width: 360,
-      height: 520,
-      size: 'stretch',
+      width: bookWidth,
+      height: bookHeight,
+      size: 'fixed',
       flippingTime: 800,
       showCover: true,
       startZIndex: 10,
