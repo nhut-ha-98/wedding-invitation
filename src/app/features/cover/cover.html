@@ -5,6 +5,12 @@
   aria-label="Wedding invitation book cover"
 >
   <div class="page cover-page" data-density="hard">
+    <!-- Vintage magic book corner pieces -->
+    <div class="book-corner corner-tl"></div>
+    <div class="book-corner corner-tr"></div>
+    <div class="book-corner corner-bl"></div>
+    <div class="book-corner corner-br"></div>
+
     <div class="cover-content">
       <p class="great-vibes invitation-label">You are invited to</p>
       <h1 class="couple-names">
@@ -14,14 +20,6 @@
       </h1>
       <div class="divider-ornament">&#10086;</div>
       <p class="wedding-date">{{ config().date }}</p>
-      <button
-        class="open-btn"
-        (click)="openBook()"
-        (keydown.enter)="openBook()"
-        aria-label="Open the wedding invitation"
-      >
-        Tap to Open
-      </button>
     </div>
   </div>
   <div class="page transition-page">
@@ -30,3 +28,28 @@
     </div>
   </div>
 </div>
+
+<!-- Screen-wide background canvas and music control -->
+<canvas #particleCanvas class="particle-canvas"></canvas>
+
+<button
+  class="music-toggle-btn"
+  (click)="toggleMusic(); $event.stopPropagation()"
+  [class.playing]="isMusicPlaying()"
+  aria-label="Toggle background music"
+>
+  <span class="music-icon">&#9835;</span>
+</button>
+
+<!-- Floating game-like Tap to Open prompt -->
+@if (showTapPrompt()) {
+  <button
+    class="tap-prompt-container"
+    (click)="openBook()"
+    (keydown.enter)="openBook()"
+    aria-label="Tap to Open the invitation book"
+  >
+    <span class="great-vibes tap-prompt-text">Tap to Open</span>
+    <span class="tap-prompt-arrow">&#8964;</span>
+  </button>
+}
