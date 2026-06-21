@@ -204,7 +204,7 @@ export class Cover {
     this.pageFlip.on('flip', (e) => {
       if (e.data === 1) {
         this.audioService.stopWind();
-        setTimeout(() => this.opened.emit(), 200);
+        setTimeout(() => this.opened.emit(), 500);
       }
     });
 

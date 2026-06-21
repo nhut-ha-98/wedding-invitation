@@ -10,6 +10,11 @@
   overflow: hidden;
 }
 
+.page {
+  position: absolute !important;
+  top: 0 !important;
+}
+
 /* Dark vignette over the screen background */
 :host::before {
   content: '';
