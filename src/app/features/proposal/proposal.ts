@@ -10,13 +10,14 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatedSection } from '../../shared/components/animated-section';
+import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
 import { WeddingConfig } from '../../core/models/wedding-config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-proposal',
-  imports: [AnimatedSection],
+  imports: [AnimatedSection, HandwriteDirective],
   templateUrl: './proposal.html',
   styleUrl: './proposal.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,7 +38,6 @@ export class Proposal {
     afterNextRender(() => {
       const root = this.el.nativeElement;
       const photos = root.querySelectorAll('.polaroid');
-      const story = root.querySelector('.proposal-story');
       const label = root.querySelector('.proposal-label');
 
       ScrollTrigger.create({
@@ -66,13 +66,6 @@ export class Proposal {
               i === 0 ? '-=0.3' : '-=0.4',
             );
           });
-
-          tl.fromTo(
-            story,
-            { opacity: 0, y: 25 },
-            { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-            '-=0.3',
-          );
         },
         once: true,
       });

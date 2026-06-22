@@ -10,13 +10,14 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatedSection } from '../../shared/components/animated-section';
+import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
 import { WeddingConfig } from '../../core/models/wedding-config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-introduction',
-  imports: [AnimatedSection],
+  imports: [AnimatedSection, HandwriteDirective],
   templateUrl: './introduction.html',
   styleUrl: './introduction.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,9 +31,7 @@ export class Introduction {
   constructor() {
     afterNextRender(() => {
       const el = this.quoteEl.nativeElement;
-      const quote = el.querySelector('.quote-text');
       const author = el.querySelector('.quote-author');
-      const body = el.querySelector('.intro-body');
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -42,18 +41,7 @@ export class Introduction {
         },
       });
 
-      tl.fromTo(
-        quote,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-      )
-        .fromTo(author, { opacity: 0 }, { opacity: 1, duration: 0.5 }, '-=0.3')
-        .fromTo(
-          body,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-          '-=0.2',
-        );
+      tl.fromTo(author, { opacity: 0 }, { opacity: 1, duration: 0.5 });
 
       this.destroyRef.onDestroy(() => {
         tl.kill();

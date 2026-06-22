@@ -6,6 +6,7 @@ import {
   DestroyRef,
   viewChild,
   ElementRef,
+  signal,
 } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -19,12 +20,14 @@ import { Proposal } from '../../features/proposal/proposal';
 import { WeddingInfo } from '../../features/wedding-info/wedding-info';
 import { Rsvp } from '../../features/rsvp/rsvp';
 import { Ending } from '../../features/ending/ending';
+import { ChapterBreadcrumb } from '../../shared/components/chapter-breadcrumb';
+import type { ChapterSection } from '../../shared/components/chapter-breadcrumb';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-main-layout',
-  imports: [Cover, Introduction, ChapterOne, Timeline, Proposal, WeddingInfo, Rsvp, Ending],
+  imports: [Cover, Introduction, ChapterOne, Timeline, Proposal, WeddingInfo, Rsvp, Ending, ChapterBreadcrumb],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +49,18 @@ export class MainLayout {
 
   readonly config = DEFAULT_WEDDING_CONFIG;
   readonly bookStateSig = this.bookState.state;
+  readonly sectionIndex = signal(0);
+  readonly scrollProgress = signal(0);
+
+  readonly breadcrumbSections: ChapterSection[] = [
+    { id: 'introduction', number: 1, label: 'Introduction' },
+    { id: 'chapter-one', number: 2, label: 'Chapter One' },
+    { id: 'timeline', number: 3, label: 'Timeline' },
+    { id: 'proposal', number: 4, label: 'Proposal' },
+    { id: 'wedding-info', number: 5, label: 'Wedding Info' },
+    { id: 'rsvp', number: 6, label: 'RSVP' },
+    { id: 'ending', number: 7, label: 'Ending' },
+  ];
 
   private scrollContainer = viewChild.required<ElementRef<HTMLElement>>('scrollContent');
 
@@ -63,6 +78,7 @@ export class MainLayout {
     setTimeout(() => {
       this.bookState.setOpen();
       this.startSectionObserver();
+      this.startScrollProgressTracking();
       this.scrollToInitialHash();
     }, 600);
   }
@@ -75,6 +91,23 @@ export class MainLayout {
         setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 300);
       }
     }
+  }
+
+  onBreadcrumbNavigate(index: number): void {
+    const section = this.breadcrumbSections[index];
+    if (section) {
+      document.getElementById(section.id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  private startScrollProgressTracking(): void {
+    const handler = () => {
+      const scrollTop = document.documentElement.scrollTop || window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      this.scrollProgress.set(scrollHeight > 0 ? scrollTop / scrollHeight : 0);
+    };
+    window.addEventListener('scroll', handler, { passive: true });
+    this.destroyRef.onDestroy(() => window.removeEventListener('scroll', handler));
   }
 
   onCloseBook(): void {
@@ -118,6 +151,10 @@ export class MainLayout {
           if (id && id !== this.currentHash) {
             this.currentHash = id;
             history.replaceState(null, '', `#${id}`);
+            const idx = this.sectionIds.indexOf(id);
+            if (idx >= 0) {
+              this.sectionIndex.set(idx);
+            }
           }
         }
       },

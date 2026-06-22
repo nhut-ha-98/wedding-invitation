@@ -10,13 +10,14 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatedSection } from '../../shared/components/animated-section';
+import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
 import { WeddingConfig } from '../../core/models/wedding-config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-chapter-one',
-  imports: [AnimatedSection],
+  imports: [AnimatedSection, HandwriteDirective],
   templateUrl: './chapter-one.html',
   styleUrl: './chapter-one.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,7 +33,6 @@ export class ChapterOne {
       const root = this.el.nativeElement;
       const photo = root.querySelector('.chapter-photo');
       const overlay = root.querySelector('.photo-overlay');
-      const body = root.querySelector('.chapter-body');
       const label = root.querySelector('.chapter-label');
 
       const tl = gsap.timeline({
@@ -59,12 +59,6 @@ export class ChapterOne {
           { opacity: 1 },
           { opacity: 0, duration: 0.8, ease: 'power2.inOut' },
           '-=0.6',
-        )
-        .fromTo(
-          body,
-          { opacity: 0, y: 25 },
-          { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-          '-=0.3',
         );
 
       this.destroyRef.onDestroy(() => {

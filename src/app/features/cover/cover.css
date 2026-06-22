@@ -190,6 +190,7 @@
 
 /* "You are invited to" — small gold caps */
 .invitation-label {
+  font-family: 'MedievalSharp', serif;
   font-size: clamp(1rem, 3.5vw, 1.3rem);
   color: #c8a84b;
   margin-bottom: 0.5rem;
@@ -203,7 +204,7 @@
 
 /* Couple names — magical shimmer / gold foil effect */
 .couple-names {
-  font-family: 'Playfair Display', serif;
+  font-family: 'MedievalSharp', serif;
   font-size: clamp(1.75rem, 5.5vw, 2.6rem);
   font-weight: 700;
   line-height: 1.3;

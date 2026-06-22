@@ -21,6 +21,14 @@
   <app-ending id="ending" [config]="config" (closeBook)="onCloseBook()" />
 </div>
 
+<app-chapter-breadcrumb
+  [sections]="breadcrumbSections"
+  [currentIndex]="sectionIndex()"
+  [scrollProgress]="scrollProgress()"
+  [style.display]="bookStateSig() === 'open' ? 'block' : 'none'"
+  (navigate)="onBreadcrumbNavigate($event)"
+/>
+
 @if (bookStateSig() === 'closing') {
   <div class="closing-overlay">
     <div class="closing-book">
