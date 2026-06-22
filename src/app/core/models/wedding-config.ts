@@ -36,14 +36,14 @@ export const WEDDING_CONFIG = new InjectionToken<WeddingConfig>('WEDDING_CONFIG'
 
 export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   couple: {
-    partner1: 'Alex',
-    partner2: 'Jamie',
+    partner1: 'Nhut Ha',
+    partner2: 'Hoa Ha',
   },
-  date: 'June 21, 2026',
-  time: '3:00 PM',
+  date: 'November 11, 2026',
+  time: '6:00 PM',
   venue: {
-    name: 'The Garden Estate',
-    address: '123 Blossom Lane, Evergreen Valley',
+    name: 'The Lacasa',
+    address: 'Nguyen Van Huong, Thao Dien',
     mapUrl: 'https://maps.google.com',
   },
   dressCode: 'Formal attire',
