@@ -5,6 +5,10 @@
   <app-cover [config]="config" (opened)="onCoverOpened()" />
 </div>
 
+@if (showTransition()) {
+  <app-dandelion-transition (complete)="onTransitionComplete()" />
+}
+
 <div
   class="scroll-stage"
   [class.scroll-visible]="bookStateSig() === 'open'"

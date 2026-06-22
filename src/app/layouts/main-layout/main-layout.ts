@@ -22,12 +22,13 @@ import { Rsvp } from '../../features/rsvp/rsvp';
 import { Ending } from '../../features/ending/ending';
 import { ChapterBreadcrumb } from '../../shared/components/chapter-breadcrumb';
 import type { ChapterSection } from '../../shared/components/chapter-breadcrumb';
+import { DandelionTransition } from '../../shared/components/dandelion-transition';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-main-layout',
-  imports: [Cover, Introduction, ChapterOne, Timeline, Proposal, WeddingInfo, Rsvp, Ending, ChapterBreadcrumb],
+  imports: [Cover, Introduction, ChapterOne, Timeline, Proposal, WeddingInfo, Rsvp, Ending, ChapterBreadcrumb, DandelionTransition],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,6 +52,7 @@ export class MainLayout {
   readonly bookStateSig = this.bookState.state;
   readonly sectionIndex = signal(0);
   readonly scrollProgress = signal(0);
+  readonly showTransition = signal(false);
 
   readonly breadcrumbSections: ChapterSection[] = [
     { id: 'introduction', number: 1, label: 'Introduction' },
@@ -76,11 +78,37 @@ export class MainLayout {
   onCoverOpened(): void {
     this.bookState.setOpening();
     setTimeout(() => {
-      this.bookState.setOpen();
-      this.startSectionObserver();
-      this.startScrollProgressTracking();
-      this.scrollToInitialHash();
+      const coverEl = document.querySelector('.cover-stage') as HTMLElement | null;
+      const scrollEl = document.querySelector('.scroll-stage') as HTMLElement | null;
+
+      this.showTransition.set(true);
+
+      if (coverEl && scrollEl) {
+        gsap.set(scrollEl, { clearProps: 'all' });
+
+        gsap.timeline({
+          onComplete: () => {
+            gsap.set(coverEl, { clearProps: 'all' });
+            gsap.set(scrollEl, { clearProps: 'all' });
+            this.bookState.setOpen();
+            this.startSectionObserver();
+            this.startScrollProgressTracking();
+            this.scrollToInitialHash();
+          },
+        })
+          .to(coverEl, { x: '80%', scale: 0.9, opacity: 0, duration: 1.2, ease: 'power2.inOut' }, 0)
+          .fromTo(scrollEl, { opacity: 0, x: '-8%' }, { opacity: 1, x: '0%', duration: 1.2, ease: 'power2.out' }, 0);
+      } else {
+        this.bookState.setOpen();
+        this.startSectionObserver();
+        this.startScrollProgressTracking();
+        this.scrollToInitialHash();
+      }
     }, 600);
+  }
+
+  onTransitionComplete(): void {
+    this.showTransition.set(false);
   }
 
   private scrollToInitialHash(): void {
@@ -125,6 +153,9 @@ export class MainLayout {
         this.bookState.setClosed();
         this.currentHash = '';
         history.replaceState(null, '', window.location.pathname);
+        const cover = document.querySelector('.cover-stage');
+        if (cover) gsap.set(cover, { clearProps: 'all' });
+        gsap.set(container, { clearProps: 'all' });
       },
     });
   }
