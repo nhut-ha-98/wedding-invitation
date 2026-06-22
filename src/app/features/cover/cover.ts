@@ -15,6 +15,7 @@ import { PageFlip } from 'page-flip';
 import type { FlipSetting } from 'page-flip';
 import { WeddingConfig } from '../../core/models/wedding-config';
 import { AudioService } from '../../core/services/audio.service';
+import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
 
 class DandelionParticle {
   x = 0;
@@ -146,6 +147,7 @@ class GlowingDust {
 
 @Component({
   selector: 'app-cover',
+  imports: [HandwriteDirective],
   templateUrl: './cover.html',
   styleUrl: './cover.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
