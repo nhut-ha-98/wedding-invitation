@@ -9,6 +9,7 @@ import {
   DestroyRef,
   inject,
   signal,
+  computed,
 } from '@angular/core';
 import { PageFlip } from 'page-flip';
 import type { FlipSetting } from 'page-flip';
@@ -154,6 +155,19 @@ export class Cover {
   opened = output<void>();
   showTapPrompt = signal(false);
 
+  formattedDate = computed(() => {
+    try {
+      const date = new Date(this.config().date);
+      if (isNaN(date.getTime())) return this.config().date;
+      const d = String(date.getDate()).padStart(2, '0');
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const y = date.getFullYear();
+      return `${d} • ${m} • ${y}`;
+    } catch {
+      return this.config().date;
+    }
+  });
+
   private bookContainer = viewChild.required<ElementRef<HTMLElement>>('bookContainer');
   private particleCanvas = viewChild.required<ElementRef<HTMLCanvasElement>>('particleCanvas');
   private destroyRef = inject(DestroyRef);
@@ -178,7 +192,7 @@ export class Cover {
     const vh = window.innerHeight;
 
     const bookWidth = Math.min(vw * 0.85, 440);
-    const bookHeight = Math.min(bookWidth * (520 / 360), vh * 0.75);
+    const bookHeight = Math.min(bookWidth * (520 / 360), vh * 0.88);
 
     container.style.width = `${bookWidth}px`;
     container.style.height = `${bookHeight}px`;
@@ -292,6 +306,11 @@ export class Cover {
   openBook(): void {
     this.audioService.playClick();
     this.audioService.playFlip();
-    this.pageFlip?.flipNext('top' as never);
+    const container = this.bookContainer().nativeElement;
+    container.classList.add('scale-down');
+    setTimeout(() => {
+      container.classList.remove('scale-down');
+      this.pageFlip?.flipNext('top' as never);
+    }, 150);
   }
 }
