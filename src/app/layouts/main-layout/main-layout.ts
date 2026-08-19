@@ -112,13 +112,9 @@ export class MainLayout {
   }
 
   private scrollToInitialHash(): void {
-    const hash = window.location.hash.slice(1);
-    if (hash && this.sectionIds.includes(hash)) {
-      const el = document.getElementById(hash);
-      if (el) {
-        setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 300);
-      }
-    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    this.currentHash = '';
+    history.replaceState(null, '', window.location.pathname);
   }
 
   onBreadcrumbNavigate(index: number): void {
