@@ -315,4 +315,8 @@ export class Cover {
       this.pageFlip?.flipNext('top' as never);
     }, 150);
   }
+
+  resetFlip(): void {
+    this.pageFlip?.flipPrev('top' as never);
+  }
 }

@@ -2,7 +2,7 @@
   class="cover-stage"
   [class.cover-hidden]="bookStateSig() === 'open' || bookStateSig() === 'closing'"
 >
-  <app-cover [config]="config" (opened)="onCoverOpened()" />
+  <app-cover #coverComponent [config]="config" (opened)="onCoverOpened()" />
 </div>
 
 @if (showTransition()) {
@@ -32,14 +32,3 @@
   [style.display]="bookStateSig() === 'open' ? 'block' : 'none'"
   (navigate)="onBreadcrumbNavigate($event)"
 />
-
-@if (bookStateSig() === 'closing') {
-  <div class="closing-overlay">
-    <div class="closing-book">
-      <div class="closing-inner">
-        <p class="closing-vibes">With Love</p>
-        <p class="closing-names">{{ config.couple.partner1 }} &amp; {{ config.couple.partner2 }}</p>
-      </div>
-    </div>
-  </div>
-}

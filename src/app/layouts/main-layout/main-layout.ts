@@ -28,7 +28,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-main-layout',
-  imports: [Cover, Introduction, ChapterOne, Timeline, Proposal, WeddingInfo, Rsvp, Ending, ChapterBreadcrumb, DandelionTransition],
+  imports: [
+    Cover,
+    Introduction,
+    ChapterOne,
+    Timeline,
+    Proposal,
+    WeddingInfo,
+    Rsvp,
+    Ending,
+    ChapterBreadcrumb,
+    DandelionTransition,
+  ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,6 +76,7 @@ export class MainLayout {
   ];
 
   private scrollContainer = viewChild.required<ElementRef<HTMLElement>>('scrollContent');
+  private coverComponent = viewChild.required<Cover>('coverComponent');
 
   constructor() {
     afterNextRender(() => {
@@ -86,18 +98,24 @@ export class MainLayout {
       if (coverEl && scrollEl) {
         gsap.set(scrollEl, { clearProps: 'all' });
 
-        gsap.timeline({
-          onComplete: () => {
-            gsap.set(coverEl, { clearProps: 'all' });
-            gsap.set(scrollEl, { clearProps: 'all' });
-            this.bookState.setOpen();
-            this.startSectionObserver();
-            this.startScrollProgressTracking();
-            this.scrollToInitialHash();
-          },
-        })
+        gsap
+          .timeline({
+            onComplete: () => {
+              gsap.set(coverEl, { clearProps: 'all' });
+              gsap.set(scrollEl, { clearProps: 'all' });
+              this.bookState.setOpen();
+              this.startSectionObserver();
+              this.startScrollProgressTracking();
+              this.scrollToInitialHash();
+            },
+          })
           .to(coverEl, { x: '80%', scale: 0.9, opacity: 0, duration: 1.2, ease: 'power2.inOut' }, 0)
-          .fromTo(scrollEl, { opacity: 0, x: '-8%' }, { opacity: 1, x: '0%', duration: 1.2, ease: 'power2.out' }, 0);
+          .fromTo(
+            scrollEl,
+            { opacity: 0, x: '-8%' },
+            { opacity: 1, x: '0%', duration: 1.2, ease: 'power2.out' },
+            0,
+          );
       } else {
         this.bookState.setOpen();
         this.startSectionObserver();
@@ -138,6 +156,8 @@ export class MainLayout {
     this.bookState.setClosing();
     this.observer?.disconnect();
 
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
     const container = this.scrollContainer().nativeElement;
 
     gsap.to(container, {
@@ -146,12 +166,15 @@ export class MainLayout {
       duration: 0.6,
       ease: 'power2.inOut',
       onComplete: () => {
+        this.coverComponent().resetFlip();
         this.bookState.setClosed();
         this.currentHash = '';
         history.replaceState(null, '', window.location.pathname);
-        const cover = document.querySelector('.cover-stage');
-        if (cover) gsap.set(cover, { clearProps: 'all' });
-        gsap.set(container, { clearProps: 'all' });
+        requestAnimationFrame(() => {
+          const cover = document.querySelector('.cover-stage');
+          if (cover) gsap.set(cover, { clearProps: 'all' });
+          gsap.set(container, { clearProps: 'all' });
+        });
       },
     });
   }
