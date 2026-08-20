@@ -30,6 +30,8 @@ export interface TimelineEvent {
   year: string;
   title: string;
   description: string;
+  image?: string;
+  icon?: string;
 }
 
 export const WEDDING_CONFIG = new InjectionToken<WeddingConfig>('WEDDING_CONFIG');
@@ -63,23 +65,27 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       title: 'First Meeting',
       description:
         'Bumped into each other at The Cozy Nook Bookshop. Bonded over a shared love for old poetry.',
+      icon: '📖',
     },
     {
       year: '2020',
       title: 'First Trip',
       description:
         'A spontaneous weekend trip to the mountains. We watched the sunrise from the peak and knew this was forever.',
+      icon: '🏔️',
     },
     {
       year: '2024',
       title: 'The Proposal',
       description:
         'Under the same oak tree where we had our first picnic, Alex got down on one knee.',
+      icon: '💍',
     },
     {
       year: '2026',
       title: 'Our Wedding',
       description: 'Surrounded by our loved ones, we will say "I do" and begin our forever.',
+      icon: '🥂',
     },
   ],
   proposalStory:

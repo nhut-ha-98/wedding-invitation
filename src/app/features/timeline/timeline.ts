@@ -29,45 +29,92 @@ export class Timeline {
 
   constructor() {
     afterNextRender(() => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const root = this.el.nativeElement;
-      const items = root.querySelectorAll('.timeline-item');
-      const line = root.querySelector('.timeline-line');
+      const line = root.querySelector<HTMLElement>('.timeline-line');
+      const items = root.querySelectorAll<HTMLElement>('.timeline-item');
 
-      const masterTl = gsap.timeline({
+      if (!line || !items.length) return;
+
+      if (prefersReducedMotion) {
+        gsap.set(line, { scaleY: 1 });
+        items.forEach((item) => {
+          const dot = item.querySelector('.timeline-dot');
+          const card = item.querySelector('.timeline-card');
+          const polaroid = item.querySelector('.timeline-polaroid');
+          if (dot) gsap.set(dot, { scale: 1, opacity: 1 });
+          if (card) gsap.set(card, { opacity: 1, y: 0 });
+          if (polaroid) gsap.set(polaroid, { opacity: 1, y: 0 });
+        });
+        return;
+      }
+
+      gsap.to(line, {
+        scaleY: 1,
+        ease: 'none',
         scrollTrigger: {
           trigger: root,
-          start: 'top 75%',
-          toggleActions: 'play none none none',
+          start: 'top 80%',
+          end: 'bottom 60%',
+          scrub: 0.5,
         },
       });
 
-      masterTl.fromTo(
-        line,
-        { scaleY: 0 },
-        { scaleY: 1, duration: 1, ease: 'power2.inOut', transformOrigin: 'top center' },
-      );
-
       items.forEach((item, i) => {
         const dot = item.querySelector('.timeline-dot');
-        const content = item.querySelector('.timeline-content');
+        const card = item.querySelector('.timeline-card');
+        const polaroid = item.querySelector('.timeline-polaroid');
 
-        masterTl
-          .fromTo(
+        const itemTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+          },
+        });
+
+        if (dot) {
+          itemTl.fromTo(
             dot,
             { scale: 0, opacity: 0 },
             { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' },
-            i === 0 ? '-=0.8' : '-=0.3',
-          )
-          .fromTo(
-            content,
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+          );
+        }
+
+        if (card) {
+          const isLeft = i % 2 === 0;
+          itemTl.fromTo(
+            card,
+            { opacity: 0, y: 20, x: isLeft ? -15 : 15 },
+            { opacity: 1, y: 0, x: 0, duration: 0.6, ease: 'power2.out' },
             '-=0.2',
           );
+        }
+
+        if (polaroid) {
+          itemTl.fromTo(
+            polaroid,
+            { opacity: 0, y: 15, rotation: i % 2 === 0 ? -8 : 8 },
+            { opacity: 1, y: 0, rotation: i % 2 === 0 ? -3 : 3, duration: 0.5, ease: 'power2.out' },
+            '-=0.4',
+          );
+        }
+
+        if (card) {
+          gsap.to(card, {
+            y: -8,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
+          });
+        }
       });
 
       this.destroyRef.onDestroy(() => {
-        masterTl.kill();
         ScrollTrigger.getAll().forEach((st) => st.kill());
       });
     });
