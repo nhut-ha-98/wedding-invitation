@@ -7,40 +7,11 @@
   inset: 0;
   z-index: 10;
   background: #1a0f0a;
-  transition:
-    opacity 0.5s ease,
-    visibility 0.5s ease;
-}
-
-.cover-hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
 }
 
 .scroll-stage {
   background: #fdf8f0;
   min-height: 100dvh;
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
-}
-
-.scroll-opening {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.scroll-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.scroll-closing {
-  opacity: 0;
-  pointer-events: none;
 }
 
 app-introduction,

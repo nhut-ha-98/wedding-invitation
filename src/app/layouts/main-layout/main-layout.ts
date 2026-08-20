@@ -95,32 +95,32 @@ export class MainLayout {
 
       this.showTransition.set(true);
 
-      if (coverEl && scrollEl) {
-        gsap.set(scrollEl, { clearProps: 'all' });
-
-        gsap
-          .timeline({
-            onComplete: () => {
-              gsap.set(coverEl, { clearProps: 'all' });
-              gsap.set(scrollEl, { clearProps: 'all' });
-              this.bookState.setOpen();
-              this.startSectionObserver();
-              this.startScrollProgressTracking();
-              this.scrollToInitialHash();
-            },
-          })
-          .to(coverEl, { x: '80%', scale: 0.9, opacity: 0, duration: 1.2, ease: 'power2.inOut' }, 0)
-          .fromTo(
-            scrollEl,
-            { opacity: 0, x: '-8%' },
-            { opacity: 1, x: '0%', duration: 1.2, ease: 'power2.out' },
-            0,
-          );
-      } else {
+      const finalize = () => {
         this.bookState.setOpen();
         this.startSectionObserver();
         this.startScrollProgressTracking();
         this.scrollToInitialHash();
+      };
+
+      if (coverEl && scrollEl) {
+        gsap.set(scrollEl, { opacity: 0, y: 0 });
+        gsap.to(coverEl, {
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.inOut',
+        });
+        gsap.to(scrollEl, {
+          opacity: 1,
+          duration: 0.6,
+          delay: 0.3,
+          ease: 'power2.out',
+          onComplete: () => {
+            gsap.set(scrollEl, { clearProps: 'all' });
+            finalize();
+          },
+        });
+      } else {
+        finalize();
       }
     }, 600);
   }
@@ -159,24 +159,36 @@ export class MainLayout {
     window.scrollTo({ top: 0, behavior: 'instant' });
 
     const container = this.scrollContainer().nativeElement;
+    const coverEl = document.querySelector('.cover-stage') as HTMLElement | null;
 
     gsap.to(container, {
       opacity: 0,
       y: 20,
-      duration: 0.6,
+      duration: 0.5,
       ease: 'power2.inOut',
-      onComplete: () => {
-        this.coverComponent().resetFlip();
-        this.bookState.setClosed();
-        this.currentHash = '';
-        history.replaceState(null, '', window.location.pathname);
-        requestAnimationFrame(() => {
-          const cover = document.querySelector('.cover-stage');
-          if (cover) gsap.set(cover, { clearProps: 'all' });
-          gsap.set(container, { clearProps: 'all' });
-        });
-      },
     });
+
+    if (coverEl) {
+      gsap.to(coverEl, {
+        opacity: 1,
+        duration: 0.5,
+        delay: 0.2,
+        ease: 'power2.out',
+        onComplete: () => {
+          this.coverComponent().resetFlip();
+          this.bookState.setClosed();
+          this.currentHash = '';
+          history.replaceState(null, '', window.location.pathname);
+          gsap.set(container, { clearProps: 'all' });
+        },
+      });
+    } else {
+      this.coverComponent().resetFlip();
+      this.bookState.setClosed();
+      this.currentHash = '';
+      history.replaceState(null, '', window.location.pathname);
+      gsap.set(container, { clearProps: 'all' });
+    }
   }
 
   private startSectionObserver(): void {

@@ -66,13 +66,18 @@ Not yet in `package.json` — install before building features:
 
 ## Design Principles
 
-Theme: Vintage, Storybook, Fairytale, Elegant, Warm
+Theme: Papercut, Fairytale, Vintage, Storybook, Elegant, Warm
 
-Color Palette: Parchment, Ivory, Dark Brown, Gold Accent, Dusty Rose
+Color Palette: Parchment, Ivory, Dark Brown, Gold Accent, Dusty Rose, Vintage Yellow
 
-Typography: Playfair Display, Cormorant Garamond, Great Vibes
+Typography: Handwriting fonts preferred for body text (Caveat, Patrick Hand, Kalam). Playfair Display for headings. Great Vibes for decorative accents.
 
-Avoid: Modern glassmorphism, Neon colors, Heavy gradients, Corporate UI
+Visual Style:
+- Every page must feel like a physical book page (paper texture, torn edges, subtle shadows)
+- Forms and images must feel like ivory/parchment paper material
+- Minimal style across the app — clean, uncluttered, warm
+- Papercut aesthetic: layered paper elements, subtle depth, handcrafted feel
+- No modern glassmorphism, neon colors, heavy gradients, or corporate UI
 
 ---
 

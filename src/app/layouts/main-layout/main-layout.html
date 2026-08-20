@@ -1,7 +1,4 @@
-<div
-  class="cover-stage"
-  [class.cover-hidden]="bookStateSig() === 'open' || bookStateSig() === 'closing'"
->
+<div class="cover-stage">
   <app-cover #coverComponent [config]="config" (opened)="onCoverOpened()" />
 </div>
 
@@ -11,9 +8,6 @@
 
 <div
   class="scroll-stage"
-  [class.scroll-visible]="bookStateSig() === 'open'"
-  [class.scroll-opening]="bookStateSig() === 'opening'"
-  [class.scroll-closing]="bookStateSig() === 'closing'"
   #scrollContent
 >
   <app-introduction id="introduction" [config]="config" />
