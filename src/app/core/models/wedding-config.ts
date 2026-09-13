@@ -41,8 +41,8 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     partner1: 'Nhut Ha',
     partner2: 'Hoa Ha',
   },
-  date: 'November 1, 2026',
-  time: '6:00 PM',
+  date: '01.11.2026',
+  time: '18:00',
   venue: {
     name: 'The Lacasa',
     address: 'Nguyen Van Huong, Thao Dien',
