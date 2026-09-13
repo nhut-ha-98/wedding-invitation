@@ -1,0 +1,120 @@
+<svg
+  aria-hidden="true"
+  class="sky"
+  [attr.viewBox]="viewBox"
+  [attr.style.opacity]="'1'"
+  preserveAspectRatio="xMidYMid slice"
+>
+  <defs>
+    <style>
+      .cl-line {
+        fill: none;
+        stroke-linecap: round;
+        stroke-width: 1.1;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+      }
+      .cl-line--aquarius {
+        stroke: #6b8fae;
+      }
+      .cl-line--cancer {
+        stroke: #d4af37;
+      }
+      .halo {
+        opacity: 0.32;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .star-glyph {
+        stroke-width: 0.5;
+      }
+      .star-host--aquarius .star-glyph {
+        fill: #c9d7e6;
+        stroke: #5b7d9c;
+      }
+      .star-host--cancer .star-glyph {
+        fill: #f0df9f;
+        stroke: #bc942e;
+      }
+      .star-host--aquarius .halo {
+        fill: #c9d7e6;
+      }
+      .star-host--cancer .halo {
+        fill: #f0df9f;
+      }
+      .flash {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .star-host--aquarius .flash {
+        fill: #eaf3fa;
+      }
+      .star-host--cancer .flash {
+        fill: #fdf0c8;
+      }
+      .ring {
+        fill: none;
+        stroke-width: 1.4;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .ring--aquarius {
+        stroke: #6b8fae;
+      }
+      .ring--cancer {
+        stroke: #d4af37;
+      }
+      .glint {
+        opacity: 0;
+        fill: none;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .glint--aquarius {
+        fill: #eaf3fa;
+      }
+      .glint--cancer {
+        fill: #fdf0c8;
+      }
+    </style>
+  </defs>
+
+  <g #lineGroup>
+    @for (line2 of lines; track line2.id) {
+      <path class="cl-line cl-line--{{ line2.set }}" [attr.d]="lineD(line2)" pathLength="1" />
+    }
+  </g>
+
+  <g #starGroup>
+    @for (star of stars; track star.id) {
+      <g
+        class="star-host star-host--{{ star.set }}"
+        [attr.transform]="'translate(' + star.x + ',' + star.y + ')'"
+      >
+        <circle class="halo" [attr.r]="haloR" />
+        <path
+          class="star-glyph"
+          [attr.d]="starGlyphD"
+          [attr.transform]="'scale(' + starScale + ')'"
+        />
+        <circle class="flash" [attr.r]="flashR" />
+      </g>
+    }
+  </g>
+
+  <g #effectsGroup>
+    @for (fx of effects; track fx.id) {
+      <g [attr.id]="fx.id" class="fx fx--{{ fx.set }}">
+        <circle class="ring ring--{{ fx.set }}" [attr.cx]="fx.x" [attr.cy]="fx.y" [attr.r]="fx.r" />
+        <g
+          class="glint glint--{{ fx.set }}"
+          [attr.transform]="'translate(' + fx.x + ',' + fx.y + ') scale(0.9)'"
+        >
+          <path [attr.d]="glintD" />
+        </g>
+      </g>
+    }
+  </g>
+</svg>

@@ -7,13 +7,16 @@
 }
 
 <div class="scroll-stage" #scrollContent>
-  <app-introduction id="introduction" [config]="config" />
-  <app-chapter-one id="chapter-one" [config]="config" />
-  <app-timeline id="timeline" [config]="config" />
-  <app-proposal id="proposal" [config]="config" />
-  <app-wedding-info id="wedding-info" [config]="config" />
-  <app-rsvp id="rsvp" />
-  <app-ending id="ending" [config]="config" (closeBook)="onCloseBook()" />
+  <app-constellation-background />
+  <div class="scroll-content">
+    <app-introduction id="introduction" [config]="config" />
+    <app-chapter-one id="chapter-one" [config]="config" />
+    <app-timeline id="timeline" [config]="config" />
+    <app-proposal id="proposal" [config]="config" />
+    <app-wedding-info id="wedding-info" [config]="config" />
+    <app-rsvp id="rsvp" />
+    <app-ending id="ending" [config]="config" (closeBook)="onCloseBook()" />
+  </div>
 </div>
 
 <app-chapter-breadcrumb

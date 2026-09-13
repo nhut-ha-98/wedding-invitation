@@ -23,6 +23,8 @@ import { Ending } from '../../features/ending/ending';
 import { ChapterBreadcrumb } from '../../shared/components/chapter-breadcrumb';
 import type { ChapterSection } from '../../shared/components/chapter-breadcrumb';
 import { DandelionTransition } from '../../shared/components/dandelion-transition';
+import { ConstellationBackground } from '../../features/constellation-background/constellation-background';
+import { StoryAutoScrollService } from '../../core/services/story-auto-scroll.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,6 +41,7 @@ gsap.registerPlugin(ScrollTrigger);
     Ending,
     ChapterBreadcrumb,
     DandelionTransition,
+    ConstellationBackground,
   ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
@@ -47,6 +50,7 @@ gsap.registerPlugin(ScrollTrigger);
 export class MainLayout {
   private bookState = inject(BookStateService);
   private destroyRef = inject(DestroyRef);
+  private storyAutoScroll = inject(StoryAutoScrollService);
   private observer: IntersectionObserver | null = null;
   private currentHash = '';
   private readonly sectionIds = [
@@ -99,6 +103,7 @@ export class MainLayout {
         this.bookState.setOpen();
         this.startSectionObserver();
         this.startScrollProgressTracking();
+        this.storyAutoScroll.startTour();
         this.scrollToInitialHash();
       };
 
@@ -136,6 +141,7 @@ export class MainLayout {
   }
 
   onBreadcrumbNavigate(index: number): void {
+    this.storyAutoScroll.endTour();
     const section = this.breadcrumbSections[index];
     if (section) {
       document.getElementById(section.id)?.scrollIntoView({ behavior: 'smooth' });
@@ -155,6 +161,7 @@ export class MainLayout {
   onCloseBook(): void {
     this.bookState.setClosing();
     this.observer?.disconnect();
+    this.storyAutoScroll.endTour();
 
     window.scrollTo({ top: 0, behavior: 'instant' });
 
