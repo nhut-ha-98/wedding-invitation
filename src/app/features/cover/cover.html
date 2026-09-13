@@ -1,4 +1,9 @@
-<div #bookContainer class="book-container" role="application" aria-label="Wedding invitation storybook cover">
+<div
+  #bookContainer
+  class="book-container"
+  role="application"
+  aria-label="Wedding invitation storybook cover"
+>
   <div class="page cover-page" data-density="hard">
     <!-- SVG Filters for tactile papercut depth and fiber -->
     <svg class="svg-defs" width="0" height="0" aria-hidden="true">
@@ -9,7 +14,13 @@
         </filter>
         <!-- Elevated shadow for foreground butterflies and embossed letters -->
         <filter id="paper-lift-shadow" x="-30%" y="-30%" width="160%" height="160%">
-          <feDropShadow dx="0.5" dy="3.2" stdDeviation="3.0" flood-color="#0f0602" flood-opacity="0.82" />
+          <feDropShadow
+            dx="0.5"
+            dy="3.2"
+            stdDeviation="3.0"
+            flood-color="#0f0602"
+            flood-opacity="0.82"
+          />
         </filter>
         <!-- Subtle inset bevel for paper cuts -->
         <filter id="paper-emboss" x="-20%" y="-20%" width="140%" height="140%">
@@ -19,9 +30,19 @@
         </filter>
         <!-- Handcut micro-rough paper edge displacement filter -->
         <filter id="handcut-deckle" x="-5%" y="-5%" width="110%" height="110%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="3" result="roughNoise" />
-          <feDisplacementMap in="SourceGraphic" in2="roughNoise" scale="1.4" xChannelSelector="R"
-            yChannelSelector="G" />
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.08"
+            numOctaves="3"
+            result="roughNoise"
+          />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="roughNoise"
+            scale="1.4"
+            xChannelSelector="R"
+            yChannelSelector="G"
+          />
         </filter>
       </defs>
     </svg>
@@ -47,36 +68,74 @@
     <div class="paper-mat mat-inner" aria-hidden="true"></div>
 
     <!-- Art Nouveau Botanical Frame & Motifs (Pure SVG Papercut) -->
-    <svg class="art-nouveau-frame-svg" viewBox="0 0 400 580" preserveAspectRatio="none" aria-hidden="true">
+    <svg
+      class="art-nouveau-frame-svg"
+      viewBox="0 0 400 580"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
       <!-- Shadow Layer for Frame (Cutout Underlay) -->
       <g class="frame-shadow-layer" transform="translate(0.5, 2)" opacity="0.7">
-        <rect x="22" y="22" width="356" height="536" rx="4" fill="none" stroke="#100602" stroke-width="2" />
-        <rect x="27" y="27" width="346" height="526" rx="2" fill="none" stroke="#100602" stroke-width="1" />
-        <rect x="33" y="33" width="334" height="514" fill="none" stroke="#100602" stroke-width="1.1"
-          stroke-dasharray="8 3" />
+        <rect
+          x="22"
+          y="22"
+          width="356"
+          height="536"
+          rx="4"
+          fill="none"
+          stroke="#100602"
+          stroke-width="2"
+        />
+        <rect
+          x="27"
+          y="27"
+          width="346"
+          height="526"
+          rx="2"
+          fill="none"
+          stroke="#100602"
+          stroke-width="1"
+        />
+        <rect
+          x="33"
+          y="33"
+          width="334"
+          height="514"
+          fill="none"
+          stroke="#100602"
+          stroke-width="1.1"
+          stroke-dasharray="8 3"
+        />
 
         <!-- Top Left Corner Shadow -->
-        <path d="M24,24 C45,26 60,34 76,52 C88,66 94,84 96,108 C93,92 84,78 70,68 C58,58 42,50 24,48 Z"
-          fill="#100602" />
+        <path
+          d="M24,24 C45,26 60,34 76,52 C88,66 94,84 96,108 C93,92 84,78 70,68 C58,58 42,50 24,48 Z"
+          fill="#100602"
+        />
         <path d="M42,24 C50,38 52,56 46,74 C40,56 36,44 42,24 Z" fill="#100602" />
         <path d="M24,60 C40,64 56,76 64,96 C52,90 40,80 24,76 Z" fill="#100602" />
 
         <!-- Top Right Corner Shadow -->
-        <path d="M376,24 C355,26 340,34 324,52 C312,66 306,84 304,108 C307,92 316,78 330,68 C342,58 358,50 376,48 Z"
-          fill="#100602" />
+        <path
+          d="M376,24 C355,26 340,34 324,52 C312,66 306,84 304,108 C307,92 316,78 330,68 C342,58 358,50 376,48 Z"
+          fill="#100602"
+        />
         <path d="M358,24 C350,38 348,56 354,74 C360,56 364,44 358,24 Z" fill="#100602" />
         <path d="M376,60 C360,64 344,76 336,96 C348,90 360,80 376,76 Z" fill="#100602" />
 
         <!-- Bottom Left Corner Shadow -->
-        <path d="M24,556 C45,554 60,546 76,528 C88,514 94,496 96,472 C93,488 84,502 70,512 C58,522 42,530 24,532 Z"
-          fill="#100602" />
+        <path
+          d="M24,556 C45,554 60,546 76,528 C88,514 94,496 96,472 C93,488 84,502 70,512 C58,522 42,530 24,532 Z"
+          fill="#100602"
+        />
         <path d="M42,556 C50,542 52,524 46,506 C40,524 36,536 42,556 Z" fill="#100602" />
         <path d="M24,520 C40,516 56,504 64,484 C52,490 40,500 24,504 Z" fill="#100602" />
 
         <!-- Bottom Right Corner Shadow -->
         <path
           d="M376,556 C355,554 340,546 324,528 C312,514 306,496 304,472 C307,488 316,502 330,512 C342,522 358,530 376,532 Z"
-          fill="#100602" />
+          fill="#100602"
+        />
         <path d="M358,556 C350,542 348,524 354,506 C360,524 364,536 358,556 Z" fill="#100602" />
         <path d="M376,520 C360,516 344,504 336,484 C348,490 360,500 376,504 Z" fill="#100602" />
       </g>
@@ -84,28 +143,71 @@
       <!-- Main Cutout Paper Layer with Enhanced Tactile Edge Texture -->
       <g class="frame-paper-cut" filter="url(#paper-layer-shadow)">
         <!-- 1. Outer hand-deckled paper border -->
-        <rect x="22" y="22" width="356" height="536" rx="4" fill="none" stroke="#aa794d" stroke-width="1.8"
-          filter="url(#handcut-deckle)" />
+        <rect
+          x="22"
+          y="22"
+          width="356"
+          height="536"
+          rx="4"
+          fill="none"
+          stroke="#aa794d"
+          stroke-width="1.8"
+          filter="url(#handcut-deckle)"
+        />
         <!-- 2. Debossed shadow furrow line -->
-        <rect x="25.5" y="25.5" width="349" height="529" rx="3" fill="none" stroke="#482512" stroke-width="1"
-          opacity="0.9" />
+        <rect
+          x="25.5"
+          y="25.5"
+          width="349"
+          height="529"
+          rx="3"
+          fill="none"
+          stroke="#482512"
+          stroke-width="1"
+          opacity="0.9"
+        />
         <!-- 3. Caramel paper cord line -->
-        <rect x="28" y="28" width="344" height="524" rx="2" fill="none" stroke="#7d4b29" stroke-width="1.2" />
+        <rect
+          x="28"
+          y="28"
+          width="344"
+          height="524"
+          rx="2"
+          fill="none"
+          stroke="#7d4b29"
+          stroke-width="1.2"
+        />
         <!-- 4. Tactile stitched paper ribbon band -->
-        <rect x="33" y="33" width="334" height="514" fill="none" stroke="#dcb889" stroke-width="1"
-          stroke-dasharray="8 2.5 1.5 2.5" />
+        <rect
+          x="33"
+          y="33"
+          width="334"
+          height="514"
+          fill="none"
+          stroke="#dcb889"
+          stroke-width="1"
+          stroke-dasharray="8 2.5 1.5 2.5"
+        />
         <!-- 5. Inner textured deckled hairline border -->
-        <rect x="37" y="37" width="326" height="506" fill="none" stroke="#8d5f39" stroke-width="0.75"
-          filter="url(#handcut-deckle)" />
-
-
-
+        <rect
+          x="37"
+          y="37"
+          width="326"
+          height="506"
+          fill="none"
+          stroke="#8d5f39"
+          stroke-width="0.75"
+          filter="url(#handcut-deckle)"
+        />
 
         <!-- ─── Symmetrical Side Botanical Ornaments ─── -->
         <!-- Left Side Tendril Motif -->
         <g class="side-motif side-left" transform="translate(26, 260)">
-          <path d="M-2,0 C12,5 24,18 25,32 C26,44 18,54 7,56 C-2,57 4,46 12,42 C18,39 18,30 10,24 C4,20 -1,22 -2,20 Z"
-            fill="#caa377" filter="url(#handcut-deckle)" />
+          <path
+            d="M-2,0 C12,5 24,18 25,32 C26,44 18,54 7,56 C-2,57 4,46 12,42 C18,39 18,30 10,24 C4,20 -1,22 -2,20 Z"
+            fill="#caa377"
+            filter="url(#handcut-deckle)"
+          />
           <path d="M16,28 C26,26 36,33 40,42 C30,42 22,36 16,28 Z" fill="#e5ceae" />
           <path d="M18,30 C26,30 32,34 36,40" stroke="#714527" stroke-width="0.75" fill="none" />
           <path d="M12,42 C20,44 26,52 28,62 C20,59 15,52 12,42 Z" fill="#9b6e49" />
@@ -114,8 +216,11 @@
 
         <!-- Right Side Tendril Motif -->
         <g class="side-motif side-right" transform="translate(374, 260) scale(-1, 1)">
-          <path d="M-2,0 C12,5 24,18 25,32 C26,44 18,54 7,56 C-2,57 4,46 12,42 C18,39 18,30 10,24 C4,20 -1,22 -2,20 Z"
-            fill="#caa377" filter="url(#handcut-deckle)" />
+          <path
+            d="M-2,0 C12,5 24,18 25,32 C26,44 18,54 7,56 C-2,57 4,46 12,42 C18,39 18,30 10,24 C4,20 -1,22 -2,20 Z"
+            fill="#caa377"
+            filter="url(#handcut-deckle)"
+          />
           <path d="M16,28 C26,26 36,33 40,42 C30,42 22,36 16,28 Z" fill="#e5ceae" />
           <path d="M18,30 C26,30 32,34 36,40" stroke="#714527" stroke-width="0.75" fill="none" />
           <path d="M12,42 C20,44 26,52 28,62 C20,59 15,52 12,42 Z" fill="#9b6e49" />
@@ -125,8 +230,11 @@
         <!-- ─── Top & Bottom Central Floral Diamond Medallions ─── -->
         <!-- Top Central Medallion -->
         <g class="central-medallion top-medallion" transform="translate(200, 30)">
-          <path d="M-45,0 C-30,-8 -15,-4 0,-12 C15,-4 30,-8 45,0 C30,4 15,1 0,6 C-15,1 -30,4 -45,0 Z" fill="#b88c5f"
-            filter="url(#handcut-deckle)" />
+          <path
+            d="M-45,0 C-30,-8 -15,-4 0,-12 C15,-4 30,-8 45,0 C30,4 15,1 0,6 C-15,1 -30,4 -45,0 Z"
+            fill="#b88c5f"
+            filter="url(#handcut-deckle)"
+          />
           <polygon points="0,-16 8,-4 0,8 -8,-4" fill="#ebd8bf" />
           <circle cx="0" cy="-4" r="2.5" fill="#58351d" />
           <circle cx="-20" cy="-2" r="1.5" fill="#d8b489" />
@@ -135,8 +243,11 @@
 
         <!-- Bottom Central Medallion -->
         <g class="central-medallion bottom-medallion" transform="translate(200, 550)">
-          <path d="M-45,0 C-30,8 -15,4 0,12 C15,4 30,8 45,0 C30,-4 15,-1 0,-6 C-15,-1 -30,-4 -45,0 Z" fill="#b88c5f"
-            filter="url(#handcut-deckle)" />
+          <path
+            d="M-45,0 C-30,8 -15,4 0,12 C15,4 30,8 45,0 C30,-4 15,-1 0,-6 C-15,-1 -30,-4 -45,0 Z"
+            fill="#b88c5f"
+            filter="url(#handcut-deckle)"
+          />
           <polygon points="0,16 8,4 0,-8 -8,4" fill="#ebd8bf" />
           <circle cx="0" cy="4" r="2.5" fill="#58351d" />
           <circle cx="-20" cy="2" r="1.5" fill="#d8b489" />
@@ -155,13 +266,34 @@
           <svg viewBox="0 0 28 40" class="wing-svg">
             <path d="M27,19 C19,7 8,2 2,7 C-2,12 1,22 8,27 C15,31 22,25 27,21 Z" fill="#2c150a" />
             <path d="M26,19 C19,9 9,4 4,8 C1,12 3,20 9,25 C15,28 21,23 26,20 Z" fill="#6b3e21" />
-            <path d="M25,18 C19,10 11,7 6,10 C3,13 5,19 10,23 C15,26 21,22 25,19 Z" fill="#ebd6bd" />
+            <path
+              d="M25,18 C19,10 11,7 6,10 C3,13 5,19 10,23 C15,26 21,22 25,19 Z"
+              fill="#ebd6bd"
+            />
             <!-- Embossed paper vein lines (solid paper relief) -->
-            <path d="M25,18 C19,14 13,12 7,11 M25,18 C19,18 13,18 9,18 M25,18 C19,22 15,24 10,25" stroke="#a87c53"
-              stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.85" />
-            <path d="M17,14 C15,11 12,9 9,10 M17,18 C14,16 11,14 8,14 M16,22 C14,23 12,24 10,23" stroke="#c79d72"
-              stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.9" />
-            <path d="M2,7 C-1,11 1,19 7,23" stroke="#b5885c" stroke-width="0.9" fill="none" opacity="0.75" />
+            <path
+              d="M25,18 C19,14 13,12 7,11 M25,18 C19,18 13,18 9,18 M25,18 C19,22 15,24 10,25"
+              stroke="#a87c53"
+              stroke-width="0.8"
+              stroke-linecap="round"
+              fill="none"
+              opacity="0.85"
+            />
+            <path
+              d="M17,14 C15,11 12,9 9,10 M17,18 C14,16 11,14 8,14 M16,22 C14,23 12,24 10,23"
+              stroke="#c79d72"
+              stroke-width="0.6"
+              stroke-linecap="round"
+              fill="none"
+              opacity="0.9"
+            />
+            <path
+              d="M2,7 C-1,11 1,19 7,23"
+              stroke="#b5885c"
+              stroke-width="0.9"
+              fill="none"
+              opacity="0.75"
+            />
           </svg>
         </div>
         <!-- Center Thorax & Antennae -->
@@ -169,8 +301,20 @@
           <svg viewBox="0 0 10 34" class="body-svg">
             <ellipse cx="5" cy="18" rx="1.8" ry="6.5" fill="#241107" />
             <circle cx="5" cy="10" r="1.5" fill="#3a1e0e" />
-            <path d="M4.5,9 C3,4 1,3 0,4" stroke="#ebd7be" stroke-width="0.8" stroke-linecap="round" fill="none" />
-            <path d="M5.5,9 C7,4 9,3 10,4" stroke="#ebd7be" stroke-width="0.8" stroke-linecap="round" fill="none" />
+            <path
+              d="M4.5,9 C3,4 1,3 0,4"
+              stroke="#ebd7be"
+              stroke-width="0.8"
+              stroke-linecap="round"
+              fill="none"
+            />
+            <path
+              d="M5.5,9 C7,4 9,3 10,4"
+              stroke="#ebd7be"
+              stroke-width="0.8"
+              stroke-linecap="round"
+              fill="none"
+            />
             <circle cx="0.5" cy="4" r="0.9" fill="#dcb889" />
             <circle cx="9.5" cy="4" r="0.9" fill="#dcb889" />
           </svg>
@@ -181,12 +325,33 @@
             <g transform="translate(28, 0) scale(-1, 1)">
               <path d="M27,19 C19,7 8,2 2,7 C-2,12 1,22 8,27 C15,31 22,25 27,21 Z" fill="#2c150a" />
               <path d="M26,19 C19,9 9,4 4,8 C1,12 3,20 9,25 C15,28 21,23 26,20 Z" fill="#6b3e21" />
-              <path d="M25,18 C19,10 11,7 6,10 C3,13 5,19 10,23 C15,26 21,22 25,19 Z" fill="#ebd6bd" />
-              <path d="M25,18 C19,14 13,12 7,11 M25,18 C19,18 13,18 9,18 M25,18 C19,22 15,24 10,25" stroke="#a87c53"
-                stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.85" />
-              <path d="M17,14 C15,11 12,9 9,10 M17,18 C14,16 11,14 8,14 M16,22 C14,23 12,24 10,23" stroke="#c79d72"
-                stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.9" />
-              <path d="M2,7 C-1,11 1,19 7,23" stroke="#b5885c" stroke-width="0.9" fill="none" opacity="0.75" />
+              <path
+                d="M25,18 C19,10 11,7 6,10 C3,13 5,19 10,23 C15,26 21,22 25,19 Z"
+                fill="#ebd6bd"
+              />
+              <path
+                d="M25,18 C19,14 13,12 7,11 M25,18 C19,18 13,18 9,18 M25,18 C19,22 15,24 10,25"
+                stroke="#a87c53"
+                stroke-width="0.8"
+                stroke-linecap="round"
+                fill="none"
+                opacity="0.85"
+              />
+              <path
+                d="M17,14 C15,11 12,9 9,10 M17,18 C14,16 11,14 8,14 M16,22 C14,23 12,24 10,23"
+                stroke="#c79d72"
+                stroke-width="0.6"
+                stroke-linecap="round"
+                fill="none"
+                opacity="0.9"
+              />
+              <path
+                d="M2,7 C-1,11 1,19 7,23"
+                stroke="#b5885c"
+                stroke-width="0.9"
+                fill="none"
+                opacity="0.75"
+              />
             </g>
           </svg>
         </div>
@@ -203,10 +368,22 @@
             <path d="M23,16 C16,6 7,2 2,6 C-2,10 1,19 7,23 C14,26 20,20 23,18 Z" fill="#2c150a" />
             <path d="M22,16 C16,7 8,4 3,7 C1,11 3,18 8,22 C14,24 19,19 22,17 Z" fill="#673c21" />
             <path d="M21,15 C16,8 9,5 4,8 C2,11 4,17 9,20 C14,22 18,18 21,16 Z" fill="#ebd6bd" />
-            <path d="M21,15 C16,12 11,10 6,10 M21,15 C16,15 11,16 7,16 M21,15 C16,19 12,21 8,21" stroke="#a87c53"
-              stroke-width="0.75" stroke-linecap="round" fill="none" opacity="0.85" />
-            <path d="M14,11 C12,9 10,8 7,8 M15,15 C12,14 10,13 7,13" stroke="#c79d72" stroke-width="0.55"
-              stroke-linecap="round" fill="none" opacity="0.9" />
+            <path
+              d="M21,15 C16,12 11,10 6,10 M21,15 C16,15 11,16 7,16 M21,15 C16,19 12,21 8,21"
+              stroke="#a87c53"
+              stroke-width="0.75"
+              stroke-linecap="round"
+              fill="none"
+              opacity="0.85"
+            />
+            <path
+              d="M14,11 C12,9 10,8 7,8 M15,15 C12,14 10,13 7,13"
+              stroke="#c79d72"
+              stroke-width="0.55"
+              stroke-linecap="round"
+              fill="none"
+              opacity="0.9"
+            />
           </svg>
         </div>
         <!-- Center Body -->
@@ -214,8 +391,20 @@
           <svg viewBox="0 0 8 28" class="body-svg">
             <ellipse cx="4" cy="15" rx="1.5" ry="5.5" fill="#241107" />
             <circle cx="4" cy="8" r="1.3" fill="#3a1e0e" />
-            <path d="M3.5,7 C2,3 1,2 0,3" stroke="#ebd7be" stroke-width="0.7" stroke-linecap="round" fill="none" />
-            <path d="M4.5,7 C6,3 7,2 8,3" stroke="#ebd7be" stroke-width="0.7" stroke-linecap="round" fill="none" />
+            <path
+              d="M3.5,7 C2,3 1,2 0,3"
+              stroke="#ebd7be"
+              stroke-width="0.7"
+              stroke-linecap="round"
+              fill="none"
+            />
+            <path
+              d="M4.5,7 C6,3 7,2 8,3"
+              stroke="#ebd7be"
+              stroke-width="0.7"
+              stroke-linecap="round"
+              fill="none"
+            />
           </svg>
         </div>
         <!-- Right Wing (Solid Layered Paper with Organic Veins - NO HOLES) -->
@@ -225,10 +414,22 @@
               <path d="M23,16 C16,6 7,2 2,6 C-2,10 1,19 7,23 C14,26 20,20 23,18 Z" fill="#2c150a" />
               <path d="M22,16 C16,7 8,4 3,7 C1,11 3,18 8,22 C14,24 19,19 22,17 Z" fill="#673c21" />
               <path d="M21,15 C16,8 9,5 4,8 C2,11 4,17 9,20 C14,22 18,18 21,16 Z" fill="#ebd6bd" />
-              <path d="M21,15 C16,12 11,10 6,10 M21,15 C16,15 11,16 7,16 M21,15 C16,19 12,21 8,21" stroke="#a87c53"
-                stroke-width="0.75" stroke-linecap="round" fill="none" opacity="0.85" />
-              <path d="M14,11 C12,9 10,8 7,8 M15,15 C12,14 10,13 7,13" stroke="#c79d72" stroke-width="0.55"
-                stroke-linecap="round" fill="none" opacity="0.9" />
+              <path
+                d="M21,15 C16,12 11,10 6,10 M21,15 C16,15 11,16 7,16 M21,15 C16,19 12,21 8,21"
+                stroke="#a87c53"
+                stroke-width="0.75"
+                stroke-linecap="round"
+                fill="none"
+                opacity="0.85"
+              />
+              <path
+                d="M14,11 C12,9 10,8 7,8 M15,15 C12,14 10,13 7,13"
+                stroke="#c79d72"
+                stroke-width="0.55"
+                stroke-linecap="round"
+                fill="none"
+                opacity="0.9"
+              />
             </g>
           </svg>
         </div>
@@ -245,8 +446,14 @@
             <path d="M20,14 C14,5 6,2 2,5 C-1,9 1,17 6,20 C12,22 17,18 20,16 Z" fill="#2c150a" />
             <path d="M19,14 C14,6 7,3 3,6 C1,10 3,16 7,19 C12,21 16,17 19,15 Z" fill="#673c21" />
             <path d="M18,13 C14,7 8,5 4,7 C2,10 4,15 8,18 C12,20 16,17 18,14 Z" fill="#ebd6bd" />
-            <path d="M18,13 C14,10 10,8 5,8 M18,13 C14,13 10,14 6,14 M18,13 C14,16 11,18 7,18" stroke="#a87c53"
-              stroke-width="0.7" stroke-linecap="round" fill="none" opacity="0.85" />
+            <path
+              d="M18,13 C14,10 10,8 5,8 M18,13 C14,13 10,14 6,14 M18,13 C14,16 11,18 7,18"
+              stroke="#a87c53"
+              stroke-width="0.7"
+              stroke-linecap="round"
+              fill="none"
+              opacity="0.85"
+            />
           </svg>
         </div>
         <!-- Center Body -->
@@ -254,8 +461,20 @@
           <svg viewBox="0 0 7 24" class="body-svg">
             <ellipse cx="3.5" cy="13" rx="1.3" ry="4.8" fill="#241107" />
             <circle cx="3.5" cy="7" r="1.1" fill="#3a1e0e" />
-            <path d="M3,6 C2,3 1,2 0,2.5" stroke="#ebd7be" stroke-width="0.6" stroke-linecap="round" fill="none" />
-            <path d="M4,6 C5,3 6,2 7,2.5" stroke="#ebd7be" stroke-width="0.6" stroke-linecap="round" fill="none" />
+            <path
+              d="M3,6 C2,3 1,2 0,2.5"
+              stroke="#ebd7be"
+              stroke-width="0.6"
+              stroke-linecap="round"
+              fill="none"
+            />
+            <path
+              d="M4,6 C5,3 6,2 7,2.5"
+              stroke="#ebd7be"
+              stroke-width="0.6"
+              stroke-linecap="round"
+              fill="none"
+            />
           </svg>
         </div>
         <!-- Right Wing (Solid Layered Paper with Organic Veins - NO HOLES) -->
@@ -265,8 +484,14 @@
               <path d="M20,14 C14,5 6,2 2,5 C-1,9 1,17 6,20 C12,22 17,18 20,16 Z" fill="#2c150a" />
               <path d="M19,14 C14,6 7,3 3,6 C1,10 3,16 7,19 C12,21 16,17 19,15 Z" fill="#673c21" />
               <path d="M18,13 C14,7 8,5 4,7 C2,10 4,15 8,18 C12,20 16,17 18,14 Z" fill="#ebd6bd" />
-              <path d="M18,13 C14,10 10,8 5,8 M18,13 C14,13 10,14 6,14 M18,13 C14,16 11,18 7,18" stroke="#a87c53"
-                stroke-width="0.7" stroke-linecap="round" fill="none" opacity="0.85" />
+              <path
+                d="M18,13 C14,10 10,8 5,8 M18,13 C14,13 10,14 6,14 M18,13 C14,16 11,18 7,18"
+                stroke="#a87c53"
+                stroke-width="0.7"
+                stroke-linecap="round"
+                fill="none"
+                opacity="0.85"
+              />
             </g>
           </svg>
         </div>
@@ -295,15 +520,36 @@
       </div>
 
       <!-- Simple Botanical Top Divider (4-Star Leaf Motif) -->
-      <svg class="botanical-divider top-divider" viewBox="0 0 200 20" fill="none" aria-hidden="true">
+      <svg
+        class="botanical-divider top-divider"
+        viewBox="0 0 200 20"
+        fill="none"
+        aria-hidden="true"
+      >
         <!-- Left Horizontal Stem & Leaf Accent -->
-        <line x1="24" y1="10" x2="86" y2="10" stroke="#b98552" stroke-width="0.9" stroke-linecap="round" />
+        <line
+          x1="24"
+          y1="10"
+          x2="86"
+          y2="10"
+          stroke="#b98552"
+          stroke-width="0.9"
+          stroke-linecap="round"
+        />
         <circle cx="24" cy="10" r="1.3" fill="#d9a566" />
         <path d="M54,10 C52,6.5 46,7.5 48,10 C46,12.5 52,13.5 54,10 Z" fill="#d8a465" />
         <path d="M72,10 C70,7.5 66,7.5 68,10 C66,12.5 70,12.5 72,10 Z" fill="#c49054" />
 
         <!-- Right Horizontal Stem & Leaf Accent -->
-        <line x1="114" y1="10" x2="176" y2="10" stroke="#b98552" stroke-width="0.9" stroke-linecap="round" />
+        <line
+          x1="114"
+          y1="10"
+          x2="176"
+          y2="10"
+          stroke="#b98552"
+          stroke-width="0.9"
+          stroke-linecap="round"
+        />
         <circle cx="176" cy="10" r="1.3" fill="#d9a566" />
         <path d="M146,10 C148,6.5 154,7.5 152,10 C154,12.5 148,13.5 146,10 Z" fill="#d8a465" />
         <path d="M128,10 C130,7.5 134,7.5 132,10 C134,12.5 130,12.5 128,10 Z" fill="#c49054" />
@@ -313,7 +559,8 @@
           <!-- Base Shadow Underlay -->
           <path
             d="M0,-8.5 C2.2,-3.5 3.5,-2.2 8.5,0 C3.5,2.2 2.2,3.5 0,8.5 C-2.2,3.5 -3.5,2.2 -8.5,0 C-3.5,-2.2 -2.2,-3.5 0,-8.5 Z"
-            fill="#271005" />
+            fill="#271005"
+          />
           <!-- 4 Curving Star Leaves -->
           <path d="M0,0 C-2.4,-3 -2.2,-6.5 0,-8 C2.2,-6.5 2.4,-3 0,0 Z" fill="#ebd2ad" />
           <path d="M0,0 C-2.4,3 -2.2,6.5 0,8 C2.2,6.5 2.4,3 0,0 Z" fill="#ebd2ad" />
@@ -330,14 +577,20 @@
         <span class="title-paper-letter name-first">{{ config().couple.partner2 }}</span>
         <div class="ampersand-separator" aria-hidden="true">
           <svg class="ampersand-flourish flourish-left" viewBox="0 0 46 12" fill="none">
-            <path d="M44,6 C34,6 25,1 17,5 C11,8 6,6 1,6 C11,6 17,11 26,7 C33,4 39,6 44,6 Z" fill="#d8a364"
-              opacity="0.88" />
+            <path
+              d="M44,6 C34,6 25,1 17,5 C11,8 6,6 1,6 C11,6 17,11 26,7 C33,4 39,6 44,6 Z"
+              fill="#d8a364"
+              opacity="0.88"
+            />
             <circle cx="2" cy="6" r="1.3" fill="#faeedb" />
           </svg>
           <span class="title-ampersand">&amp;</span>
           <svg class="ampersand-flourish flourish-right" viewBox="0 0 46 12" fill="none">
-            <path d="M2,6 C12,6 21,1 29,5 C35,8 40,6 45,6 C35,6 29,11 20,7 C13,4 7,6 2,6 Z" fill="#d8a364"
-              opacity="0.88" />
+            <path
+              d="M2,6 C12,6 21,1 29,5 C35,8 40,6 45,6 C35,6 29,11 20,7 C13,4 7,6 2,6 Z"
+              fill="#d8a364"
+              opacity="0.88"
+            />
             <circle cx="44" cy="6" r="1.3" fill="#faeedb" />
           </svg>
         </div>
@@ -345,21 +598,47 @@
       </h1>
 
       <!-- Simple Botanical Bottom Divider (Dandelion Motif) -->
-      <svg class="botanical-divider bottom-divider" viewBox="0 0 200 24" fill="none" aria-hidden="true">
+      <svg
+        class="botanical-divider bottom-divider"
+        viewBox="0 0 200 24"
+        fill="none"
+        aria-hidden="true"
+      >
         <!-- Left Horizontal Line -->
-        <line x1="24" y1="12" x2="86" y2="12" stroke="#b98552" stroke-width="0.85" stroke-linecap="round" />
+        <line
+          x1="24"
+          y1="12"
+          x2="86"
+          y2="12"
+          stroke="#b98552"
+          stroke-width="0.85"
+          stroke-linecap="round"
+        />
         <circle cx="24" cy="12" r="1.2" fill="#d9a566" />
         <circle cx="55" cy="12" r="0.9" fill="#c49054" />
 
         <!-- Right Horizontal Line -->
-        <line x1="126" y1="12" x2="176" y2="12" stroke="#b98552" stroke-width="0.85" stroke-linecap="round" />
+        <line
+          x1="126"
+          y1="12"
+          x2="176"
+          y2="12"
+          stroke="#b98552"
+          stroke-width="0.85"
+          stroke-linecap="round"
+        />
         <circle cx="176" cy="12" r="1.2" fill="#d9a566" />
         <circle cx="150" cy="12" r="0.9" fill="#c49054" />
 
         <!-- Center Simple Dandelion -->
         <g class="dandelion-center">
           <!-- Gentle Slender Stem -->
-          <path d="M98,23 C99,18 99.5,14 100,10.5" stroke="#683918" stroke-width="1.0" stroke-linecap="round" />
+          <path
+            d="M98,23 C99,18 99.5,14 100,10.5"
+            stroke="#683918"
+            stroke-width="1.0"
+            stroke-linecap="round"
+          />
 
           <!-- Seed Core -->
           <circle cx="100" cy="10.5" r="1.5" fill="#3d1d0b" />
@@ -458,19 +737,27 @@
 <canvas #particleCanvas class="particle-canvas" aria-hidden="true"></canvas>
 
 <!-- Sound / Music Toggle Button -->
-<button class="music-toggle-btn" (click)="toggleMusic(); $event.stopPropagation()" [class.playing]="isMusicPlaying()"
-  aria-label="Toggle background music">
+<button
+  class="music-toggle-btn"
+  (click)="toggleMusic(); $event.stopPropagation()"
+  [class.playing]="isMusicPlaying()"
+  aria-label="Toggle background music"
+>
   <span class="music-icon" aria-hidden="true">&#9835;</span>
 </button>
 
 <!-- Tactile Papercut Tap to Open Prompt -->
 @if (showTapPrompt()) {
-<button class="tap-prompt-container" (click)="openBook()" (keydown.enter)="openBook()"
-  aria-label="Tap to Open the wedding invitation book">
-  <div class="tap-paper-badge">
-    <span class="great-vibes tap-prompt-text">Chạm để mở</span>
-    <span class="tap-prompt-sub">Tap to Open</span>
-    <span class="tap-prompt-fleuron" aria-hidden="true">❦</span>
-  </div>
-</button>
+  <button
+    class="tap-prompt-container"
+    (click)="openBook()"
+    (keydown.enter)="openBook()"
+    aria-label="Tap to Open the wedding invitation book"
+  >
+    <div class="tap-paper-badge">
+      <span class="great-vibes tap-prompt-text">Chạm để mở</span>
+      <span class="tap-prompt-sub">Tap to Open</span>
+      <span class="tap-prompt-fleuron" aria-hidden="true">❦</span>
+    </div>
+  </button>
 }

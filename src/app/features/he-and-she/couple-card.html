@@ -1,0 +1,27 @@
+<div
+  class="card-shell"
+  #card
+  role="button"
+  tabindex="0"
+  (pointerdown)="onPointerDown($event)"
+  (pointerup)="onPointerUp($event)"
+  (click)="toggleFlip()"
+  (keydown)="onKeydown($event)"
+  [attr.aria-pressed]="flipped()"
+  [attr.aria-label]="flipped() ? introLabel() : photoLabel()"
+>
+  <div class="card-scene">
+    <div class="flip-inner">
+      <figure class="face face-front" [attr.aria-hidden]="flipped() ? 'true' : null">
+        <img [src]="profile().portraitUrl" [alt]="profile().alt" loading="lazy" decoding="async" />
+        <figcaption class="photo-name great-vibes">{{ profile().name }}</figcaption>
+        <span class="flip-hint">Chạm để lật</span>
+      </figure>
+      <div class="face face-back" [attr.aria-hidden]="flipped() ? null : 'true'">
+        <p class="back-name great-vibes">{{ profile().name }}</p>
+        <p class="back-intro">{{ profile().intro }}</p>
+        <p class="back-hint">Chạm để lật lại</p>
+      </div>
+    </div>
+  </div>
+</div>

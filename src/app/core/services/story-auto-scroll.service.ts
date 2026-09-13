@@ -13,6 +13,7 @@ import { Injectable } from '@angular/core';
 export class StoryAutoScrollService {
   private readonly sectionIds = [
     'introduction',
+    'he-and-she',
     'chapter-one',
     'timeline',
     'proposal',
@@ -23,6 +24,7 @@ export class StoryAutoScrollService {
 
   /** Dwell (s) at a section once arrived, so landmarks can breathe. */
   private readonly dwellAt: Readonly<Record<string, number>> = {
+    'he-and-she': 2.5,
     'wedding-info': 3,
     rsvp: 4,
   };
