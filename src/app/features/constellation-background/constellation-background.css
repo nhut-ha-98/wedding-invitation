@@ -1,6 +1,8 @@
 :host {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
   display: block;
   overflow: hidden;
@@ -8,12 +10,315 @@
   background: transparent;
 }
 
+/* Full Viewport Sky Background */
+.sky-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Morning: Warm Ivory Dawn Parchment */
+.sky-morning {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #fffcf5 0%, #fcf5e8 50%, #f5e8d0 100%);
+  opacity: 1;
+}
+
+/* Afternoon: Warm Golden Hour / Sunset */
+.sky-afternoon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #fae5c3 0%, #f4b875 35%, #de7e5d 70%, #6f3458 100%);
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* Night: Rich Celestial Dark Violet */
+.sky-night {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 40%, #2f1350 0%, #1c0936 50%, #0c0218 100%);
+  opacity: 0;
+  will-change: opacity;
+}
+
 .sky {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
+  overflow: visible;
 }
 
+/* Lines */
+.cl-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 1.3;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke 0.6s ease, stroke-width 0.6s ease, filter 0.6s ease;
+}
+
+.cl-line--aquarius {
+  stroke: #729ec4;
+  filter: drop-shadow(0 0 2px rgba(114, 158, 196, 0.45));
+}
+
+.cl-line--cancer {
+  stroke: #d4af37;
+  filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.45));
+}
+
+/* Stars */
 .star-host {
   opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.star-glyph {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: fill 0.5s ease, stroke 0.5s ease, filter 0.5s ease, transform 0.5s ease;
+}
+
+.star-host--aquarius .star-glyph {
+  fill: #dbe8f5;
+  stroke: #5a80a2;
+  stroke-width: 0.5;
+}
+
+.star-host--cancer .star-glyph {
+  fill: #faecc5;
+  stroke: #b8912e;
+  stroke-width: 0.5;
+}
+
+.halo {
+  opacity: 0.35;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
+}
+
+.halo--aquarius {
+  fill: url(#aq-halo-grad);
+}
+
+.halo--cancer {
+  fill: url(#cn-halo-grad);
+}
+
+.flash {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.flash--aquarius {
+  fill: #ffffff;
+}
+
+.flash--cancer {
+  fill: #fff9e6;
+}
+
+/* Diffraction Spikes for Bright Neon Effect */
+.neon-spikes {
+  opacity: 0;
+  transform: scale(0.2);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+
+/* Golden Comet Spark Trail */
+.comet-spark {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.spark--aquarius .spark-trail-outer {
+  fill: url(#aq-spark-glow);
+  opacity: 0.6;
+}
+
+.spark--aquarius .spark-outer {
+  fill: #aed5f7;
+  opacity: 0.9;
+}
+
+.spark--aquarius .spark-core,
+.spark--aquarius .spark-star {
+  fill: #ffffff;
+}
+
+.spark--cancer .spark-trail-outer {
+  fill: url(#cn-spark-glow);
+  opacity: 0.6;
+}
+
+.spark--cancer .spark-outer {
+  fill: #faecc5;
+  opacity: 0.92;
+}
+
+.spark--cancer .spark-core,
+.spark--cancer .spark-star {
+  fill: #ffffff;
+}
+
+/* ========================================================
+   SYNCHRONIZED DUAL CSS NEON BRIGHTENING
+   ======================================================== */
+
+/* Aquarius Connected: Electric Blue / Cyan Neon Glow on Dark Violet */
+.line-group--aquarius.is-connected .cl-line {
+  stroke: #e1f5fe;
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 7px #40c4ff) drop-shadow(0 0 16px #0091ea) drop-shadow(0 0 28px #0d47a1);
+}
+
+.star-group--aquarius.is-connected .star-glyph {
+  fill: #ffffff;
+  stroke: #b3e5fc;
+  stroke-width: 0.7;
+  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px #00e5ff) drop-shadow(0 0 18px #0091ea);
+  animation: neon-star-twinkle-aq 2.2s ease-in-out infinite alternate;
+}
+
+.star-group--aquarius.is-connected .halo {
+  opacity: 0.85;
+  transform: scale(2.2);
+  filter: drop-shadow(0 0 10px #00b0ff) drop-shadow(0 0 22px #0070e0);
+}
+
+.star-group--aquarius.is-connected .neon-spikes {
+  opacity: 0.95;
+  fill: #ffffff;
+  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px #00e5ff) drop-shadow(0 0 20px #0091ea);
+  animation: neon-spike-shimmer-aq 3s ease-in-out infinite alternate;
+}
+
+/* Cancer Connected: Radiant Warm Gold / Amber Neon Glow on Dark Violet */
+.line-group--cancer.is-connected .cl-line {
+  stroke: #fffde7;
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 7px #ffd700) drop-shadow(0 0 16px #ff9100) drop-shadow(0 0 28px #e65100);
+}
+
+.star-group--cancer.is-connected .star-glyph {
+  fill: #ffffff;
+  stroke: #fff59d;
+  stroke-width: 0.7;
+  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px #ffd600) drop-shadow(0 0 18px #ff6d00);
+  animation: neon-star-twinkle-cn 2.2s ease-in-out infinite alternate;
+}
+
+.star-group--cancer.is-connected .halo {
+  opacity: 0.85;
+  transform: scale(2.2);
+  filter: drop-shadow(0 0 10px #ffab00) drop-shadow(0 0 22px #ff6d00);
+}
+
+.star-group--cancer.is-connected .neon-spikes {
+  opacity: 0.95;
+  fill: #ffffff;
+  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px #ffd600) drop-shadow(0 0 20px #ff6d00);
+  animation: neon-spike-shimmer-cn 3s ease-in-out infinite alternate;
+}
+
+/* Neon Keyframe Animations */
+@keyframes neon-star-twinkle-aq {
+  0% {
+    filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 6px #00e5ff) drop-shadow(0 0 14px #0091ea);
+    transform: scale(1);
+  }
+  100% {
+    filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 12px #40c4ff) drop-shadow(0 0 26px #00b0ff);
+    transform: scale(1.2);
+  }
+}
+
+@keyframes neon-star-twinkle-cn {
+  0% {
+    filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 6px #ffd600) drop-shadow(0 0 14px #ff6d00);
+    transform: scale(1);
+  }
+  100% {
+    filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 12px #ffe57f) drop-shadow(0 0 26px #ffab00);
+    transform: scale(1.2);
+  }
+}
+
+@keyframes neon-spike-shimmer-aq {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.9) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.25) rotate(12deg);
+  }
+}
+
+@keyframes neon-spike-shimmer-cn {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.9) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.25) rotate(-12deg);
+  }
+}
+
+/* Completion Ring & Glint */
+.completion-ring {
+  fill: none;
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.ring--aquarius {
+  stroke: #40c4ff;
+  filter: drop-shadow(0 0 8px #00b0ff);
+}
+
+.ring--cancer {
+  stroke: #ffd700;
+  filter: drop-shadow(0 0 8px #ff9100);
+}
+
+.completion-glint {
+  opacity: 0;
+  fill: none;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.glint--aquarius {
+  fill: #ffffff;
+  filter: drop-shadow(0 0 12px #00e5ff);
+}
+
+.glint--cancer {
+  fill: #ffffff;
+  filter: drop-shadow(0 0 12px #ffd600);
 }

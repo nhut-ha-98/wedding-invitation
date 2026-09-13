@@ -3,8 +3,8 @@
     <div class="ending-divider">
       <svg
         class="ending-ornament"
-        width="26"
-        height="26"
+        width="32"
+        height="32"
         viewBox="0 0 24 24"
         fill="none"
         stroke="#d4af37"
@@ -19,23 +19,15 @@
       </svg>
     </div>
 
-    <div class="ending-quote-block">
-      <p class="ending-quote" appHandwrite>&#8220;{{ config().closingQuote }}&#8221;</p>
-      <p class="ending-author">&mdash; {{ config().closingQuoteAuthor }}</p>
+    <div class="thank-you-block">
+      <h2 class="thank-you-title great-vibes">Thank you</h2>
+      <p class="thank-you-subtitle">for being part of our story</p>
     </div>
 
-    <div class="close-cta">
-      <p class="close-text">Thank you for being part of our story.</p>
-      <button
-        class="close-btn"
-        (click)="onClose()"
-        (keydown.enter)="onClose()"
-        aria-label="Close the wedding invitation book"
-      >
-        Close Book
-      </button>
+    <div class="couple-monogram">
+      <span class="monogram-accent">&mdash; &#10022; &mdash;</span>
+      <p class="couple-names">{{ config().couple.partner1 }} & {{ config().couple.partner2 }}</p>
+      <p class="wedding-date">{{ config().date }}</p>
     </div>
-
-    <p class="footer-note">{{ config().couple.partner1 }} & {{ config().couple.partner2 }}</p>
   </section>
 </app-animated-section>

@@ -1,20 +1,13 @@
 /**
  * Constellation background data model.
  *
- * Stylised placement in a fixed logical space `0..1000 x 0..1600` (rendered
- * with `preserveAspectRatio="xMidYMid slice"`, so coordinates are stable
- * across viewport sizes — no re-measuring on resize).
+ * Full-width centered astronomical layout in `0..1000 x 0..1600`:
+ *   - Aquarius (upper sky: y 160..570, center: 510, 390)
+ *   - Open celestial clearing (center gap: y 570..1090, ~520px open space)
+ *   - Cancer (lower sky: y 1090..1410, center: 510, 1270)
  *
- * Two fully-populated constellations, deliberately separated:
- *   - `aquarius` (top half) — bride's sky, blue threads & stars
- *   - `cancer`   (bottom half) — groom's sky, yellow threads & stars
- *
- * They are never linked: each is its own complete story.
- * Each star/line carries a scroll-progress window: opacity (stars) and the
- * drawn length (lines) are interpolated with a smoothstep between start..end.
- * Aquarius connects during the first half of the scroll, Cancer during the
- * second — both only ever fully drawn at the very bottom of the page.
- * A star shines the moment one of its connecting threads begins.
+ * Scaled with `preserveAspectRatio="xMidYMid meet"`, preventing any clipping
+ * while opening a dedicated central clearing for the final Thank You scene.
  */
 
 export type ConstellationSet = 'aquarius' | 'cancer';
@@ -25,13 +18,8 @@ export interface ConstellationStar {
   y: number;
   r: number;
   set: ConstellationSet;
-  /** peak opacity */
   alpha: number;
-  /** progress at which the star starts appearing */
-  start: number;
-  /** progress at which it is fully lit */
-  end: number;
-  /** soft radial halo (static glow) */
+  trigger: number;
   halo?: boolean;
 }
 
@@ -39,10 +27,8 @@ export interface ConstellationLine {
   id: string;
   from: string;
   to: string;
-  /** line colour family: aquarius | cancer */
   set: ConstellationSet;
-  start: number;
-  end: number;
+  trigger: number;
 }
 
 interface StarSpec {
@@ -53,13 +39,54 @@ interface StarSpec {
   halo?: boolean;
 }
 
-/** Spread a group's appearance window across its stars for an organic stagger. */
-function spreadStars(
+// ── Aquarius (bride) — UPPER SKY (y: 160..570) ──
+const aquariusSpecs: StarSpec[] = [
+  { id: 'aq-01', x: 430, y: 280, r: 3.8, halo: true }, // Sadalmelik (α)
+  { id: 'aq-02', x: 300, y: 220, r: 3.6, halo: true }, // Sadalsuud (β)
+  { id: 'aq-03', x: 270, y: 160, r: 2.4, halo: true }, // Sadachbia (γ)
+  { id: 'aq-04', x: 340, y: 370, r: 2.8 },
+  { id: 'aq-05', x: 270, y: 440, r: 2.4 },
+  { id: 'aq-06', x: 220, y: 510, r: 2.4 },
+  { id: 'aq-07', x: 360, y: 520, r: 2.2 },
+  { id: 'aq-08', x: 540, y: 300, r: 3.4, halo: true },
+  { id: 'aq-09', x: 520, y: 390, r: 2.4 },
+  { id: 'aq-10', x: 520, y: 470, r: 2.3 },
+  { id: 'aq-11', x: 560, y: 540, r: 2.2 },
+  { id: 'aq-12', x: 680, y: 300, r: 3.4, halo: true },
+  { id: 'aq-13', x: 660, y: 390, r: 2.3 },
+  { id: 'aq-14', x: 760, y: 410, r: 2.6 },
+  { id: 'aq-15', x: 840, y: 350, r: 2.4 },
+  { id: 'aq-16', x: 890, y: 290, r: 2.2 },
+  { id: 'aq-17', x: 820, y: 520, r: 2.2 },
+  { id: 'aq-18', x: 740, y: 570, r: 2.0 },
+];
+
+// ── Cancer (groom) — LOWER SKY (y: 1090..1410) ──
+const cancerSpecs: StarSpec[] = [
+  { id: 'cn-01', x: 470, y: 1370, r: 3.8, halo: true }, // Altarf (β)
+  { id: 'cn-02', x: 430, y: 1200, r: 3.8, halo: true }, // Asellus Australis (δ)
+  { id: 'cn-03', x: 540, y: 1240, r: 3.4, halo: true }, // Asellus Borealis (γ)
+  { id: 'cn-04', x: 600, y: 1120, r: 2.4 },
+  { id: 'cn-05', x: 700, y: 1200, r: 2.4 },
+  { id: 'cn-06', x: 760, y: 1290, r: 2.3 },
+  { id: 'cn-07', x: 330, y: 1130, r: 2.4 },
+  { id: 'cn-08', x: 250, y: 1130, r: 2.2 },
+  { id: 'cn-09', x: 370, y: 1090, r: 2.2 },
+  { id: 'cn-10', x: 300, y: 1220, r: 2.2 },
+  { id: 'cn-11', x: 360, y: 1340, r: 2.4 },
+  { id: 'cn-12', x: 600, y: 1370, r: 2.4 },
+  { id: 'cn-13', x: 680, y: 1410, r: 2.2 },
+  { id: 'cn-14', x: 470, y: 1170, r: 1.9, halo: true }, // Beehive cluster (M44)
+  { id: 'cn-15', x: 510, y: 1200, r: 1.8 },
+  { id: 'cn-16', x: 450, y: 1220, r: 1.8 },
+  { id: 'cn-17', x: 560, y: 1390, r: 2.0 },
+  { id: 'cn-18', x: 800, y: 1150, r: 2.0 },
+];
+
+function buildStars(
   specs: StarSpec[],
-  startLo: number,
-  startHi: number,
-  endLo: number,
-  endHi: number,
+  startTrigger: number,
+  endTrigger: number,
   alpha: number,
   set: ConstellationSet,
 ): ConstellationStar[] {
@@ -70,83 +97,28 @@ function spreadStars(
       ...s,
       set,
       alpha,
-      start: startLo + (startHi - startLo) * f,
-      end: endLo + (endHi - endLo) * f,
+      trigger: startTrigger + (endTrigger - startTrigger) * f,
     };
   });
 }
 
-/** Stagger lines across a draw window so they connect one by one over scroll. */
-function spreadLines(
-  pairs: ReadonlyArray<readonly [string, string]>,
-  lo: number,
-  hi: number,
-  prefix: string,
-  set: ConstellationSet,
-): ConstellationLine[] {
-  const span = hi - lo;
-  return pairs.map(([from, to], i) => {
-    const f = pairs.length <= 1 ? 0.5 : i / (pairs.length - 1);
-    const start = lo + span * f;
-    return { id: `${prefix}-${i}`, from, to, set, start, end: Math.min(hi, start + span * 0.42) };
-  });
-}
+export const AQUARIUS_STARS: ConstellationStar[] = buildStars(
+  aquariusSpecs,
+  0.04,
+  0.18,
+  0.92,
+  'aquarius',
+);
 
-// ── Aquarius (bride) — TOP half, the water-bearer ──
-// Bright dipper (β Sadalsuud → α Sadalmelik → γ Sadachbia → δ Skat → ε Albali),
-// a pouring stream falling on the right.
+export const CANCER_STARS: ConstellationStar[] = buildStars(
+  cancerSpecs,
+  0.42,
+  0.58,
+  0.92,
+  'cancer',
+);
 
-const aquariusSpecs: StarSpec[] = [
-  { id: 'aq-01', x: 430, y: 590, r: 3.8, halo: true },
-  { id: 'aq-02', x: 300, y: 530, r: 3.4, halo: true },
-  { id: 'aq-03', x: 270, y: 470, r: 2.2 },
-  { id: 'aq-04', x: 340, y: 680, r: 2.8 },
-  { id: 'aq-05', x: 270, y: 750, r: 2.3 },
-  { id: 'aq-06', x: 220, y: 820, r: 2.2 },
-  { id: 'aq-07', x: 360, y: 830, r: 2.1 },
-  { id: 'aq-08', x: 540, y: 610, r: 3.2 },
-  { id: 'aq-09', x: 520, y: 700, r: 2.2 },
-  { id: 'aq-10', x: 520, y: 780, r: 2.1 },
-  { id: 'aq-11', x: 560, y: 850, r: 2.0 },
-  { id: 'aq-12', x: 680, y: 610, r: 3.2 },
-  { id: 'aq-13', x: 660, y: 700, r: 2.1 },
-  { id: 'aq-14', x: 760, y: 720, r: 2.4 },
-  { id: 'aq-15', x: 840, y: 660, r: 2.1 },
-  { id: 'aq-16', x: 890, y: 600, r: 2.0 },
-  { id: 'aq-17', x: 820, y: 830, r: 2.0 },
-  { id: 'aq-18', x: 740, y: 880, r: 1.9 },
-];
-
-// ── Cancer (groom) — BOTTOM half, the crab ──
-// Central γ–δ–β sickle (Asellus Borealis, Asellus Australis, Altarf),
-// antennae reaching up, legs falling right, and the M44 "Beehive" flake
-// cluster tucked against the sickle.
-
-const cancerSpecs: StarSpec[] = [
-  { id: 'cn-01', x: 470, y: 1180, r: 3.8, halo: true },
-  { id: 'cn-02', x: 430, y: 1010, r: 3.6, halo: true },
-  { id: 'cn-03', x: 540, y: 1050, r: 3.2 },
-  { id: 'cn-04', x: 600, y: 930, r: 2.2 },
-  { id: 'cn-05', x: 700, y: 1010, r: 2.2 },
-  { id: 'cn-06', x: 760, y: 1100, r: 2.1 },
-  { id: 'cn-07', x: 330, y: 940, r: 2.2 },
-  { id: 'cn-08', x: 250, y: 940, r: 2.0 },
-  { id: 'cn-09', x: 370, y: 900, r: 2.0 },
-  { id: 'cn-10', x: 300, y: 1030, r: 2.0 },
-  { id: 'cn-11', x: 360, y: 1150, r: 2.2 },
-  { id: 'cn-12', x: 600, y: 1180, r: 2.2 },
-  { id: 'cn-13', x: 680, y: 1220, r: 2.0 },
-  { id: 'cn-14', x: 470, y: 980, r: 1.8, halo: true },
-  { id: 'cn-15', x: 510, y: 1010, r: 1.6 },
-  { id: 'cn-16', x: 450, y: 1030, r: 1.6 },
-  { id: 'cn-17', x: 560, y: 1200, r: 1.9 },
-  { id: 'cn-18', x: 800, y: 960, r: 1.8 },
-];
-
-export const CONSTELLATION_STARS: ConstellationStar[] = [
-  ...spreadStars(aquariusSpecs, 0.22, 0.4, 0.5, 0.78, 0.62, 'aquarius'),
-  ...spreadStars(cancerSpecs, 0.5, 0.68, 0.74, 0.98, 0.62, 'cancer'),
-];
+export const CONSTELLATION_STARS: ConstellationStar[] = [...AQUARIUS_STARS, ...CANCER_STARS];
 
 const aquariusLinePairs: ReadonlyArray<readonly [string, string]> = [
   ['aq-02', 'aq-01'],
@@ -185,20 +157,49 @@ const cancerLinePairs: ReadonlyArray<readonly [string, string]> = [
   ['cn-16', 'cn-11'],
 ];
 
-export const CONSTELLATION_LINES: ConstellationLine[] = [
-  ...spreadLines(aquariusLinePairs, 0.3, 0.68, 'al', 'aquarius'),
-  ...spreadLines(cancerLinePairs, 0.62, 0.98, 'cl', 'cancer'),
-];
-
-function centroidOf(set: ConstellationSet): { x: number; y: number } {
-  const pts = CONSTELLATION_STARS.filter((s) => s.set === set);
-  const x = pts.reduce((acc, p) => acc + p.x, 0) / pts.length;
-  const y = pts.reduce((acc, p) => acc + p.y, 0) / pts.length;
-  return { x, y };
+function buildLines(
+  pairs: ReadonlyArray<readonly [string, string]>,
+  startTrigger: number,
+  endTrigger: number,
+  prefix: string,
+  set: ConstellationSet,
+): ConstellationLine[] {
+  const n = pairs.length;
+  return pairs.map(([from, to], i) => {
+    const f = n <= 1 ? 0.5 : i / (n - 1);
+    return {
+      id: `${prefix}-${i}`,
+      from,
+      to,
+      set,
+      trigger: startTrigger + (endTrigger - startTrigger) * f,
+    };
+  });
 }
 
-export const AQUARIUS_CENTRE = centroidOf('aquarius');
-export const CANCER_CENTRE = centroidOf('cancer');
+export const AQUARIUS_LINES: ConstellationLine[] = buildLines(
+  aquariusLinePairs,
+  0.08,
+  0.38,
+  'al',
+  'aquarius',
+);
+
+export const CANCER_LINES: ConstellationLine[] = buildLines(
+  cancerLinePairs,
+  0.46,
+  0.78,
+  'cl',
+  'cancer',
+);
+
+export const CONSTELLATION_LINES: ConstellationLine[] = [...AQUARIUS_LINES, ...CANCER_LINES];
+
+/** Both constellations connect completely before dual awakening */
+export const DUAL_AWAKENING_TRIGGER = 0.82;
+
+export const AQUARIUS_CENTRE = { x: 510, y: 390 };
+export const CANCER_CENTRE = { x: 510, y: 1270 };
 
 const BY_ID = new Map(CONSTELLATION_STARS.map((s) => [s.id, s]));
 
@@ -210,7 +211,6 @@ export function constellationStarById(id: string): ConstellationStar {
   return star;
 }
 
-/** Line `d` string from the two star coordinates. */
 export function constellationLineD(line: ConstellationLine): string {
   const from = constellationStarById(line.from);
   const to = constellationStarById(line.to);

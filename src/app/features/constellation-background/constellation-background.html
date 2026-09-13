@@ -1,120 +1,137 @@
+<div class="sky-background">
+  <div class="sky-morning"></div>
+  <div #afternoonLayer class="sky-afternoon"></div>
+  <div #nightLayer class="sky-night"></div>
+</div>
+
 <svg
   aria-hidden="true"
   class="sky"
-  [attr.viewBox]="viewBox"
-  [attr.style.opacity]="'1'"
-  preserveAspectRatio="xMidYMid slice"
+  viewBox="0 0 1000 1600"
+  preserveAspectRatio="xMidYMid meet"
 >
   <defs>
-    <style>
-      .cl-line {
-        fill: none;
-        stroke-linecap: round;
-        stroke-width: 1.1;
-        stroke-dasharray: 1;
-        stroke-dashoffset: 1;
-      }
-      .cl-line--aquarius {
-        stroke: #6b8fae;
-      }
-      .cl-line--cancer {
-        stroke: #d4af37;
-      }
-      .halo {
-        opacity: 0.32;
-        transform-box: fill-box;
-        transform-origin: center;
-      }
-      .star-glyph {
-        stroke-width: 0.5;
-      }
-      .star-host--aquarius .star-glyph {
-        fill: #c9d7e6;
-        stroke: #5b7d9c;
-      }
-      .star-host--cancer .star-glyph {
-        fill: #f0df9f;
-        stroke: #bc942e;
-      }
-      .star-host--aquarius .halo {
-        fill: #c9d7e6;
-      }
-      .star-host--cancer .halo {
-        fill: #f0df9f;
-      }
-      .flash {
-        opacity: 0;
-        transform-box: fill-box;
-        transform-origin: center;
-      }
-      .star-host--aquarius .flash {
-        fill: #eaf3fa;
-      }
-      .star-host--cancer .flash {
-        fill: #fdf0c8;
-      }
-      .ring {
-        fill: none;
-        stroke-width: 1.4;
-        opacity: 0;
-        transform-box: fill-box;
-        transform-origin: center;
-      }
-      .ring--aquarius {
-        stroke: #6b8fae;
-      }
-      .ring--cancer {
-        stroke: #d4af37;
-      }
-      .glint {
-        opacity: 0;
-        fill: none;
-        transform-box: fill-box;
-        transform-origin: center;
-      }
-      .glint--aquarius {
-        fill: #eaf3fa;
-      }
-      .glint--cancer {
-        fill: #fdf0c8;
-      }
-    </style>
+    <!-- Star & Glow Gradients -->
+    <radialGradient id="aq-halo-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d0ecff" stop-opacity="0.9" />
+      <stop offset="35%" stop-color="#6ec2ff" stop-opacity="0.5" />
+      <stop offset="70%" stop-color="#2a9bf8" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#0066cc" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="cn-halo-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff8d8" stop-opacity="0.95" />
+      <stop offset="35%" stop-color="#ffd54f" stop-opacity="0.55" />
+      <stop offset="70%" stop-color="#ff9800" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#e65100" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="aq-spark-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="45%" stop-color="#bfe0ff" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#6ea1cd" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="cn-spark-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="45%" stop-color="#fedc8c" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#d4af37" stop-opacity="0" />
+    </radialGradient>
   </defs>
 
-  <g #lineGroup>
-    @for (line2 of lines; track line2.id) {
-      <path class="cl-line cl-line--{{ line2.set }}" [attr.d]="lineD(line2)" pathLength="1" />
+  <!-- ================= AQUARIUS (Bride) ================= -->
+  <!-- Connecting Lines & Golden Comet Sparks -->
+  <g #aquariusLineGroup class="line-group line-group--aquarius">
+    @for (line of aquariusLines; track line.id) {
+      <g class="line-item" [attr.id]="'item-' + line.id">
+        <path
+          class="cl-line cl-line--aquarius"
+          [attr.d]="lineD(line)"
+          pathLength="1"
+        />
+        <g class="comet-spark spark--aquarius" [attr.id]="'spark-' + line.id">
+          <circle class="spark-trail-outer" r="9" />
+          <circle class="spark-outer" r="5" />
+          <circle class="spark-core" r="2.2" />
+          <path class="spark-star" [attr.d]="sparkStarD" />
+        </g>
+      </g>
     }
   </g>
 
-  <g #starGroup>
-    @for (star of stars; track star.id) {
+  <!-- Stars -->
+  <g #aquariusStarGroup class="star-group star-group--aquarius">
+    @for (star of aquariusStars; track star.id) {
       <g
-        class="star-host star-host--{{ star.set }}"
+        class="star-host star-host--aquarius"
+        [attr.id]="'star-' + star.id"
         [attr.transform]="'translate(' + star.x + ',' + star.y + ')'"
       >
-        <circle class="halo" [attr.r]="haloR" />
+        <circle class="halo halo--aquarius" [attr.r]="haloR" />
+        <path class="neon-spikes neon-spikes--aquarius" [attr.d]="neonSpikeD" />
         <path
           class="star-glyph"
           [attr.d]="starGlyphD"
           [attr.transform]="'scale(' + starScale + ')'"
         />
-        <circle class="flash" [attr.r]="flashR" />
+        <circle class="flash flash--aquarius" [attr.r]="flashR" />
       </g>
     }
   </g>
 
-  <g #effectsGroup>
-    @for (fx of effects; track fx.id) {
-      <g [attr.id]="fx.id" class="fx fx--{{ fx.set }}">
-        <circle class="ring ring--{{ fx.set }}" [attr.cx]="fx.x" [attr.cy]="fx.y" [attr.r]="fx.r" />
-        <g
-          class="glint glint--{{ fx.set }}"
-          [attr.transform]="'translate(' + fx.x + ',' + fx.y + ') scale(0.9)'"
-        >
-          <path [attr.d]="glintD" />
+  <!-- Aquarius Completion Pulse -->
+  <g #aquariusFxGroup class="fx-group fx-group--aquarius">
+    <circle cx="510" cy="390" r="180" class="completion-ring ring--aquarius" />
+    <g class="completion-glint glint--aquarius" transform="translate(510, 390)">
+      <path [attr.d]="glintD" />
+    </g>
+  </g>
+
+  <!-- ================= CANCER (Groom) ================= -->
+  <!-- Connecting Lines & Golden Comet Sparks -->
+  <g #cancerLineGroup class="line-group line-group--cancer">
+    @for (line of cancerLines; track line.id) {
+      <g class="line-item" [attr.id]="'item-' + line.id">
+        <path
+          class="cl-line cl-line--cancer"
+          [attr.d]="lineD(line)"
+          pathLength="1"
+        />
+        <g class="comet-spark spark--cancer" [attr.id]="'spark-' + line.id">
+          <circle class="spark-trail-outer" r="9" />
+          <circle class="spark-outer" r="5" />
+          <circle class="spark-core" r="2.2" />
+          <path class="spark-star" [attr.d]="sparkStarD" />
         </g>
       </g>
     }
+  </g>
+
+  <!-- Stars -->
+  <g #cancerStarGroup class="star-group star-group--cancer">
+    @for (star of cancerStars; track star.id) {
+      <g
+        class="star-host star-host--cancer"
+        [attr.id]="'star-' + star.id"
+        [attr.transform]="'translate(' + star.x + ',' + star.y + ')'"
+      >
+        <circle class="halo halo--cancer" [attr.r]="haloR" />
+        <path class="neon-spikes neon-spikes--cancer" [attr.d]="neonSpikeD" />
+        <path
+          class="star-glyph"
+          [attr.d]="starGlyphD"
+          [attr.transform]="'scale(' + starScale + ')'"
+        />
+        <circle class="flash flash--cancer" [attr.r]="flashR" />
+      </g>
+    }
+  </g>
+
+  <!-- Cancer Completion Pulse -->
+  <g #cancerFxGroup class="fx-group fx-group--cancer">
+    <circle cx="510" cy="1270" r="180" class="completion-ring ring--cancer" />
+    <g class="completion-glint glint--cancer" transform="translate(510, 1270)">
+      <path [attr.d]="glintD" />
+    </g>
   </g>
 </svg>

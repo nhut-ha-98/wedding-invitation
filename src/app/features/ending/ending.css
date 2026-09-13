@@ -5,72 +5,75 @@
 .ending-section {
   max-width: 640px;
   margin: 0 auto;
-  padding: 4rem 1.5rem 6rem;
+  padding: 6rem 1.5rem 10rem;
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
 .ending-divider {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .ending-ornament {
-  opacity: 0.6;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
 }
 
-.ending-quote-block {
+.thank-you-block {
   margin-bottom: 2.5rem;
 }
 
-.ending-quote {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.375rem;
-  font-style: italic;
-  color: #4a2c1a;
-  line-height: 1.6;
-  margin: 0 0 0.75rem;
+.thank-you-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3.5rem, 8vw, 5.5rem);
+  color: #fff8e7;
+  text-shadow: 0 0 12px rgba(255, 230, 160, 0.6), 0 0 24px rgba(212, 175, 55, 0.4);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  letter-spacing: 1px;
 }
 
-.ending-author {
-  font-size: 0.875rem;
-  color: #8b7355;
+.thank-you-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  color: #faecc5;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
   margin: 0;
 }
 
-.close-cta {
-  margin-bottom: 3rem;
+.couple-monogram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.close-text {
+.monogram-accent {
+  color: #d4af37;
+  font-size: 1.1rem;
+  letter-spacing: 0.3em;
+  opacity: 0.8;
+}
+
+.couple-names {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  color: #fdf3d0;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 0;
+  text-shadow: 0 0 10px rgba(255, 215, 100, 0.35);
+}
+
+.wedding-date {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1rem;
-  color: #5c4033;
-  font-style: italic;
-  margin: 0 0 1.5rem;
-}
-
-.close-btn {
-  font-family: 'Playfair Display', serif;
-  font-size: 0.9rem;
-  color: #f5e6d3;
-  background: #2c1810;
-  border: none;
-  padding: 0.75rem 2rem;
-  cursor: pointer;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  transition: background 0.3s ease;
-}
-
-.close-btn:hover,
-.close-btn:focus-visible {
-  background: #4a2c1a;
-  outline: 2px solid #d4af37;
-  outline-offset: 2px;
-}
-
-.footer-note {
-  font-family: 'Great Vibes', cursive;
-  font-size: 1.5rem;
-  color: #d4af37;
+  color: #caa038;
+  letter-spacing: 0.15em;
   margin: 0;
+  opacity: 0.9;
 }
