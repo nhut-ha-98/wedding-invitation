@@ -1,474 +1,139 @@
-# COVER PAGE SPECIFICATION
+# BOOK COVER SPECIFICATION & DOCUMENTATION
 
-## Purpose
+## 1. Overview & Artistic Vision
 
-The cover page is the most important visual element of the entire wedding website.
+The cover serves as the opening gateway to the wedding storybook. Designed as an authentic **early 20th-century European Art Nouveau fairy-tale book cover**, it is handcrafted entirely as a **layered paper-cut artwork**.
 
-Users should immediately feel that they are holding an old fairytale book rather than opening a modern website.
+Every element evokes the tactile warmth of antique bookmaking—multi-tiered textured cardstock, cut parchment borders, embossed gold-leaf lettering, and delicate filigree—crafted purely with modern web technologies (HTML5, SVG, CSS3, Angular 22).
 
-The cover must create curiosity and emotional anticipation before revealing the story.
-
-The cover occupies 100% of the viewport height and width.
-
-Mobile-first design is mandatory.
-
----
-
-# Visual Concept
-
-Imagine:
-
-* An old leather-bound storybook
-* Slightly worn by time
-* Gold foil embossing
-* Handmade craftsmanship
-* Warm candlelight atmosphere
-* Vintage fairytale aesthetic
-
-Visual inspiration:
-
-* Antique storybooks
-* Fairytale collections
-* Old family photo albums
-* Vintage journals
-* Leather-bound novels
-
-The cover should feel luxurious and timeless.
-
-Not rustic.
-
-Not boho.
-
-Not cartoonish.
-
-Not fantasy game UI.
+- **Theme**: Romantic Fairytale, Vintage Art Nouveau, Handcrafted Layered Paper-Cut.
+- **Tone**: Warm, intimate, nostalgic, and magical.
+- **Assets**: 100% vector SVG and CSS gradients. **Zero raster images/photos** on the cover.
+- **Color Rule**: **No pure white text (`#fff`)**. All text and highlights use warm ivory, champagne, and aged parchment tones.
 
 ---
 
-# Layout Structure
+## 2. Color Palette & Materiality
 
-The cover is vertically centered.
+The color system reflects aged parchment, deep bookcloth, burnished leather, and gilded foil:
 
-Overall composition:
-
-TOP
-↓
-Book Title
-↓
-Decorative Ornament
-↓
-Couple Names
-↓
-Wedding Date
-↓
-Decorative Ornament
-↓
-Tap To Open
-↓
-BOTTOM
-
-Everything is aligned center.
+| Swatch Name | Hex Code | Usage |
+|---|---|---|
+| **Deep Chocolate Shadow** | `#150904`, `#220e06` | Cover background, base cutouts, deep shadow underlays |
+| **Warm Sepia / Coffee** | `#3a1c0c`, `#4a2511` | Cardstock bevels, frame groove deboss, paper veins |
+| **Antique Caramel / Tan** | `#915826`, `#ba8044` | Midtone gilded layers, secondary stems, ampersand accents |
+| **Warm Luminous Gold** | `#dba463`, `#dfa868` | Title foil gradient, star sparkles, leaf highlights |
+| **Aged Parchment / Ivory** | `#edd1a8`, `#faeedb` | Title highlight stops, dandelion fluff, inner mat layer |
 
 ---
 
-# Cover Background
+## 3. Structural Layout & Composition
 
-The entire cover represents a single physical book.
+The cover is vertically centered within the book stage:
 
-The book should not fill the entire screen width.
-
-Recommended:
-
-Mobile Width:
-80% - 90%
-
-Mobile Height:
-85% - 95%
-
-The remaining area around the book acts as stage/background.
-
----
-
-# Outer Environment
-
-Background behind the book:
-
-Very dark brown
-
-Not black.
-
-Example feeling:
-
-* dim library
-* candlelit room
-* old wooden desk
-
-Use subtle vignette.
-
-Corners should be darker.
-
-Center slightly brighter.
-
-No visible furniture.
-
-No realistic desk textures.
-
-The focus must remain on the book.
+```
+┌────────────────────────────────────────────────────────┐
+│  [Audio Toggle]                                        │
+│                                                        │
+│   ┌────────────────────────────────────────────────┐   │
+│   │ [3D Butterfly 1]            [3D Butterfly 2]   │   │
+│   │                                                │   │
+│   │            ∼ A NEW CHAPTER ∼                   │   │
+│   │                                                │   │
+│   │        ───✦── [4-STAR LEAF DIVIDER] ──✦───      │   │
+│   │                                                │   │
+│   │               HOA HA                           │   │
+│   │               ❧ & ❧                            │   │
+│   │               NHUT HA                          │   │
+│   │                                                │   │
+│   │        ─────── [DANDELION DIVIDER] ───────     │   │
+│   │                                                │   │
+│   │            NOVEMBER 1, 2026                    │   │
+│   │                                                │   │
+│   │              [3D Butterfly 3]                  │   │
+│   └────────────────────────────────────────────────┘   │
+│                                                        │
+│            [Tap To Open Storybook Badge]               │
+└────────────────────────────────────────────────────────┘
+```
 
 ---
 
-# Book Material
+## 4. Visual Components
 
-The cover uses aged leather.
+### 4.1 Multi-Layer Paper Mat Borders
+The cover features a three-tier recessed mat border simulating thick cut cardstock:
+1. **Outer Mat (`.mat-outer`)**: Deep leather brown with `inset` deboss shadow.
+2. **Middle Mat (`.mat-middle`)**: Warm caramel cardstock with 1px deckle edge highlight.
+3. **Inner Mat (`.mat-inner`)**: Deep coffee background with SVG noise texture overlay.
+4. **SVG Filter `#handcut-deckle`**: Generates organic rough deckle edges on paper layers.
 
-Characteristics:
+### 4.2 Art Nouveau Botanical Frame
+- A custom SVG vector frame (`.art-nouveau-frame-svg`) with four symmetrical corner acanthus vine flourishes.
+- Dual concentric border rules with grooved deboss simulation.
+- Organic botanical leaf vein lines scored into the paper.
 
-* deep brown
-* subtle texture
-* visible grain
-* slightly worn edges
+### 4.3 3D Folding Papercut Butterflies
+Three butterflies (`.butterfly-1`, `.butterfly-2`, `.butterfly-3`) arranged around the layout:
+- **Safe Margins**: Inset well away from borders to avoid crowding.
+- **3-Tier Solid Cardstock**: Base silhouette (`#2c150a`), middle wing (`#673c21`), forefront ivory wing (`#ebd6bd`) with embossed vein lines. **No hole-like cutouts**.
+- **3D Flapping Animation**: Wings rotate along the Y-axis (`rotateY()`) in `preserve-3d` space with asynchronous floating (`translateY`) and breathing drop shadows.
 
-Not cracked leather.
+### 4.4 Simplified Botanical Dividers
+- **Top Divider (4-Star Leaf)**:
+  - Centerpiece: Handcrafted **4-star leaf** (`✦`) with 4 organic teardrop-star cardstock blades, dark underlay shadow (`#271005`), gilded blades (`#ebd2ad` / `#d9a566`), and center pearl bead.
+  - Flanked by delicate horizontal vine rules with small leaf pairs and terminal beads.
+- **Bottom Divider (Dandelion)**:
+  - Centerpiece: Minimal **dandelion** motif with slender curved stem, dark seed core (`#3d1d0b`), and radiating filaments with delicate cream fluff (`#faeedb`).
+  - 2 drifting floating seeds drifting into the breeze to the right.
+  - Flanked by clean horizontal lines with graduated dot accents.
 
-Not damaged.
+### 4.5 Centerpiece Title: Couple Names
+- **Hierarchy**: The dominant visual centerpiece of the cover.
+- **Typography**: `Cinzel Decorative`, weight 700, uppercase with `0.08em` tracking.
+- **Color**: Luminous antique gilded caramel gradient:
+  ```css
+  background: linear-gradient(180deg, #faeedb 0%, #edd1a8 22%, #dba463 52%, #be8044 80%, #925826 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  ```
+- **3D Paper Cut Relief**: 5-tier drop-shadow bevel simulating thick mounted cardstock:
+  ```css
+  filter:
+    drop-shadow(0 1px 0px #5e3317)
+    drop-shadow(0 2px 0px #3d1d0a)
+    drop-shadow(0 3px 1px #220e04)
+    drop-shadow(0 5px 8px rgba(10, 4, 1, 0.88))
+    drop-shadow(0 10px 18px rgba(5, 2, 1, 0.7));
+  ```
+- **Ampersand Row**: Separator row featuring a gilded Art Nouveau ampersand flanked by twin horizontal scroll flourish wings.
 
-Not dirty.
-
-Premium vintage.
-
-The leather should have depth and richness.
-
----
-
-# Book Border
-
-Around the edges is a gold embossed frame.
-
-Frame thickness:
-
-4px–8px visual weight.
-
-Distance from edge:
-
-16px–24px.
-
-Style:
-
-Victorian
-Elegant
-Symmetrical
-
-No excessive ornamentation.
-
-The frame should communicate luxury.
-
----
-
-# Corner Decorations
-
-All four corners contain gold flourishes.
-
-Purpose:
-
-To reinforce the fairytale book appearance.
-
-Characteristics:
-
-* delicate
-* symmetrical
-* thin line art
-
-Not floral overload.
-
-Not baroque.
-
-Not gothic.
+### 4.6 Sub-Typography & Date
+- **Chapter Tagline**: "∼ A NEW CHAPTER ∼" in `Playfair Display`, uppercase, tracking `0.32em`.
+- **Wedding Date**: Refined Roman serif (`Marcellus`), tracking `0.3em`, warm caramel tone (`#d1ab7f`).
 
 ---
 
-# Spine
+## 5. Interaction & Animation Architecture
 
-The left side of the cover contains a visible book spine.
+### 5.1 Entrance Timeline
+1. **0–600ms**: Cover and frame fade in with subtle scale settling.
+2. **550–750ms**: Chapter tagline and top divider reveal.
+3. **750–1100ms**: Couple names hero reveal with upward 3D paper lift.
+4. **1100–1400ms**: Bottom divider, wedding date, and tap badge slide up.
+5. **Continuous**: Idle wing flapping, gentle butterfly hovering, and star twinkling.
 
-Width:
-
-8%–12% of book width.
-
-The spine should include:
-
-* vertical decorative lines
-* slight shadows
-* subtle raised leather sections
-
-The spine must create depth.
-
-Users should immediately recognize this as a real book.
+### 5.2 Page Turning (StPageFlip)
+- **Library**: `page-flip` (StPageFlip) configured for hard cover pages (`data-density="hard"`).
+- **Trigger**: Tapping the cover or the "Chạm để mở sách" badge triggers `pageFlip.flipNext()`.
+- **Audio Feedback**: `AudioService` plays ambient music and page-turn sound effects on interaction.
+- **Inside Page**: Reveals Page 2 (hard inside transition page) with animated canvas dandelion fluff particles before entering the storytelling scroll chapter.
 
 ---
 
-# Book Title
-
-Primary headline:
-
-A NEW CHAPTER
-
-Uppercase.
-
-Two lines preferred:
-
-A NEW
-CHAPTER
-
-Typography:
-
-Playfair Display
-or
-Cormorant Garamond
-
-Weight:
-
-SemiBold
-
-Color:
-
-Gold
-
----
-
-# Title Effects
-
-The title is embossed.
-
-Visual characteristics:
-
-* subtle highlights
-* subtle shadows
-* metallic appearance
-
-Avoid:
-
-* shiny chrome
-* animated sparkle
-* excessive glow
-
-Luxury is achieved through restraint.
-
----
-
-# Decorative Divider
-
-Below title:
-
-Small elegant ornament.
-
-Width:
-
-80px–120px
-
-Gold.
-
-Symmetrical.
-
-Thin.
-
-Purpose:
-
-Separate title and names.
-
----
-
-# Couple Names
-
-Largest emotional element.
-
-Example:
-
-Minh
-&
-Lan
-
-Typography:
-
-Great Vibes
-
-or
-
-Allura
-
-Gold color.
-
-Names are larger than date.
-
-Smaller than title.
-
----
-
-# Wedding Date
-
-Position:
-
-Below names.
-
-Example:
-
-15 • 11 • 2026
-
-Typography:
-
-Elegant serif.
-
-Gold.
-
-Letter spacing slightly increased.
-
----
-
-# Bottom Instruction
-
-Near bottom center.
-
-Text:
-
-Tap to Open
-
-or
-
-Chạm để mở
-
-Typography:
-
-Small.
-
-Subtle.
-
-Semi-transparent gold.
-
-Purpose:
-
-Guide user interaction.
-
-Never compete with the title.
-
----
-
-# Lighting
-
-Primary light source:
-
-Top center.
-
-Creates:
-
-* gentle highlights
-* embossed depth
-* premium look
-
-No dramatic reflections.
-
-No lens flares.
-
-No artificial glow.
-
----
-
-# Motion Design
-
-When page loads:
-
-0ms–300ms
-Book fades in.
-
-300ms–800ms
-Gold details become visible.
-
-800ms–1200ms
-Title gently appears.
-
-1200ms–1500ms
-Names fade in.
-
-1500ms–1800ms
-Tap to Open appears.
-
----
-
-# Idle Animation
-
-Extremely subtle.
-
-Every 8–12 seconds:
-
-* slight light shift
-* tiny shadow movement
-
-Maximum movement:
-2px
-
-User should barely notice.
-
----
-
-# Opening Interaction
-
-When user taps cover:
-
-Step 1
-
-Book slightly scales down:
-
-scale(0.98)
-
-Duration:
-150ms
-
----
-
-Step 2
-
-Front cover rotates around spine.
-
-Transform Origin:
-
-left center
-
-Rotation:
-
--165deg
-
-Duration:
-
-900ms
-
-Ease:
-
-power3.inOut
-
----
-
-Step 3
-
-Reveal first story page underneath.
-
-Page already exists behind cover.
-
-No white flash.
-
-No route transition.
-
-No reload.
-
-Must feel like a physical book opening.
-
----
-
-# Emotional Goal
-
-User reaction should be:
-
-"This feels like opening an old storybook."
-
-Not:
-
-"This is a website with a book animation."
-
-The illusion of a real book is more important than visual complexity.
+## 6. Accessibility & Technical Standards
+
+- **WCAG AA Compliance**: High contrast ratios maintained against dark chocolate background using warm ivory and champagne highlights.
+- **Reduced Motion**: Full `@media (prefers-reduced-motion: reduce)` rules disable 3D flaps, floating transforms, and entrance staggers.
+- **Semantic HTML**: Accessible headings (`h1` with `aria-label`), SVG decorative elements flagged with `aria-hidden="true"`.
+- **Performance**: Zero external image HTTP requests; instant vector rendering under 60 FPS.
