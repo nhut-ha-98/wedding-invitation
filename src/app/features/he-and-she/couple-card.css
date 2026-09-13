@@ -1,0 +1,157 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.card-shell {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.card-shell:focus-visible {
+  outline: 3px solid var(--color-gold, #d4af37);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.card-scene {
+  perspective: 900px;
+}
+
+.flip-inner {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.face-front {
+  margin: 0;
+  padding: 10px;
+  background: var(--color-ivory, #f5e6d3);
+  border: 1px solid rgba(44, 24, 16, 0.25);
+  border-radius: 4px;
+  box-shadow:
+    0 10px 24px rgba(44, 24, 16, 0.22),
+    0 2px 6px rgba(44, 24, 16, 0.12);
+  overflow: hidden;
+}
+
+.face-front img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.photo-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 2.2rem 1rem 0.9rem;
+  text-align: center;
+  font-size: 1.9rem;
+  color: var(--color-parchment, #fdf8f0);
+  background: linear-gradient(to top, rgba(44, 24, 16, 0.72), transparent);
+  pointer-events: none;
+}
+
+.flip-hint,
+.back-hint {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.875rem;
+  letter-spacing: 2px;
+  color: var(--color-gold, #d4af37);
+  pointer-events: none;
+}
+
+.flip-hint {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(44, 24, 16, 0.55);
+}
+
+.face-back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  background: var(--color-parchment, #fdf8f0);
+  border: 1px solid rgba(44, 24, 16, 0.25);
+  border-radius: 4px;
+  box-shadow:
+    0 10px 24px rgba(44, 24, 16, 0.18),
+    inset 0 0 0 4px var(--color-ivory, #f5e6d3);
+  overflow-y: auto;
+  text-align: center;
+}
+
+.back-name {
+  margin: 0;
+  font-size: 1.7rem;
+  color: var(--color-gold, #d4af37);
+}
+
+.back-intro {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #5c4033;
+}
+
+.back-hint {
+  margin-top: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-shell {
+    cursor: default;
+  }
+
+  .card-scene {
+    perspective: none;
+  }
+
+  .flip-inner {
+    position: static;
+    aspect-ratio: auto;
+    transform-style: initial;
+    will-change: auto;
+  }
+
+  .face {
+    position: static;
+    backface-visibility: visible;
+    transform: none;
+  }
+
+  .face-back {
+    margin-top: 1.5rem;
+  }
+
+  .flip-hint,
+  .back-hint {
+    display: none;
+  }
+}

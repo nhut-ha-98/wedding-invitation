@@ -55,8 +55,7 @@ export class ConstellationBackground {
 
   readonly starGlyphD =
     'M0 -1 L0.265 -0.364 L0.951 -0.309 L0.428 0.139 L0.588 0.809 L0 0.45 L-0.588 0.809 L-0.428 0.139 L-0.951 -0.309 L-0.265 -0.364 Z';
-  readonly sparkStarD =
-    'M0 -4.5 L0.9 -0.9 L4.5 0 L0.9 0.9 L0 4.5 L-0.9 0.9 L-4.5 0 L-0.9 -0.9 Z';
+  readonly sparkStarD = 'M0 -4.5 L0.9 -0.9 L4.5 0 L0.9 0.9 L0 4.5 L-0.9 0.9 L-4.5 0 L-0.9 -0.9 Z';
   readonly neonSpikeD =
     'M0 -15 L1.5 -2.5 L15 0 L1.5 2.5 L0 15 L-1.5 2.5 L-15 0 L-1.5 -2.5 Z M-6 -6 L-1 -1.5 L0 0 L-1.5 -1 L-6 -6 Z M6 -6 L1.5 -1 L0 0 L1 -1.5 L6 -6 Z M6 6 L1 -1.5 L0 0 L1.5 1 L6 6 Z M-6 6 L-1.5 1 L0 0 L-1 1.5 L-6 6 Z';
   readonly glintD = 'M0 -1 L0.25 -0.25 L1 0 L0.25 0.25 L0 1 L-0.25 0.25 L-1 0 L-0.25 -0.25 Z';
@@ -194,11 +193,7 @@ export class ConstellationBackground {
     update(0);
   }
 
-  private animateStarVisibility(
-    star: ConstellationStar,
-    el: SVGGElement,
-    visible: boolean,
-  ): void {
+  private animateStarVisibility(star: ConstellationStar, el: SVGGElement, visible: boolean): void {
     if (visible) {
       gsap.to(el, {
         opacity: star.alpha,

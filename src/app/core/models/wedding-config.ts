@@ -20,6 +20,10 @@ export interface WeddingConfig {
     photoAlt: string;
     narrative: string;
   };
+  heAndShe: {
+    he: CoupleProfile;
+    she: CoupleProfile;
+  };
   timeline: TimelineEvent[];
   proposalStory: string;
   closingQuote: string;
@@ -32,6 +36,13 @@ export interface TimelineEvent {
   description: string;
   image?: string;
   icon?: string;
+}
+
+export interface CoupleProfile {
+  name: string;
+  portraitUrl: string;
+  alt: string;
+  intro: string;
 }
 
 export const WEDDING_CONFIG = new InjectionToken<WeddingConfig>('WEDDING_CONFIG');
@@ -49,26 +60,40 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     mapUrl: 'https://maps.google.com',
   },
   dressCode: 'Formal attire',
-  openingQuote:
-    'A great marriage is not when the perfect couple come together. It is when an imperfect couple learns to enjoy their differences.',
-  openingQuoteAuthor: 'Dave Meurer',
+  openingQuote: 'Mỗi câu chuyện đều có một khởi đầu',
+  openingQuoteAuthor: '',
   introduction:
-    'We first met on a crisp autumn morning, both reaching for the same book at a small coffee shop. What started as a shared love for literature blossomed into a beautiful journey of friendship, adventure, and love. Today, we invite you to celebrate with us as we begin our greatest chapter yet.',
+    'Câu chuyện của chúng mình bắt đầu từ một lời chào, lớn lên qua năm tháng, và hôm nay mở sang một chương mới.',
   chapterOne: {
-    photoAlt: 'A couple sharing a quiet moment in a sunlit library',
-    narrative:
-      'Our story began in the most unexpected way. Alex, an architect with a passion for vintage bookstores, and Jamie, a musician who found inspiration in the pages of old novels. We discovered that our favorite authors overlapped, our dreams aligned, and our hearts spoke the same language. Through long walks in the rain, countless cups of tea, and conversations that stretched into the dawn, we built a friendship that would become the foundation of our love.',
+    photoAlt: 'Một cặp đôi chia sẻ khoảnh khắc yên tĩnh trong thư viện ngập nắng',
+    narrative: 'Câu chuyện của chúng mình bắt đầu một cách bất ngờ.',
+  },
+  heAndShe: {
+    he: {
+      name: 'Nhut Ha',
+      portraitUrl: 'medallion_afternoon.jpg',
+      alt: 'Huy hiệu vẽ tay của chú rể (ảnh mẫu)',
+      intro:
+        'Người kiến trúc cho thế giới nhỏ của chúng mình. Anh ấy phác hoạ những giấc mơ bằng mực, tin rằng mỗi câu chuyện tình yêu đều cần một khởi đầu thật nhẹ. Người viết nên những bản nhạc riêng, người giữ lời hứa, và là người luôn mở cửa cho em dù trời không mưa.',
+    },
+    she: {
+      name: 'Hoa Ha',
+      portraitUrl: 'medallion_moon.jpg',
+      alt: 'Huy hiệu vẽ tay của cô dâu (ảnh mẫu)',
+      intro:
+        'Người giữ kệ thơ chung của hai đứa. Chị ấy ngân nga khi đọc sách, nhớ từng ngày kỷ niệm nhỏ, và tin rằng những câu chuyện hay nhất phải kể thật chậm. Tiếng cười của chị là nhạc nền của tổ ấm mình, và trái tim chị là nơi cả hai cùng ở.',
+    },
   },
   timeline: [
     {
-      year: '2019',
+      year: '2016',
       title: 'First Meeting',
       description:
         'Bumped into each other at The Cozy Nook Bookshop. Bonded over a shared love for old poetry.',
       icon: '📖',
     },
     {
-      year: '2020',
+      year: '2017',
       title: 'First Trip',
       description:
         'A spontaneous weekend trip to the mountains. We watched the sunrise from the peak and knew this was forever.',
@@ -78,7 +103,7 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       year: '2024',
       title: 'The Proposal',
       description:
-        'Under the same oak tree where we had our first picnic, Alex got down on one knee.',
+        'Under the same oak tree where we had our first picnic, Nhut got down on one knee.',
       icon: '💍',
     },
     {
@@ -89,7 +114,7 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     },
   ],
   proposalStory:
-    'It was a golden autumn afternoon. Alex had planned a picnic at our favorite spot by the lake — the place where we had our first real conversation about the future. The trees were painted in shades of amber and crimson, and the air carried the scent of fallen leaves. After a quiet lunch, Alex pulled out a worn copy of our favorite poetry collection. Tucked between the pages was a simple velvet box. With trembling hands and a heart full of hope, Alex asked the question that would change everything.',
+    'Chúng mình đã đi qua những ngày rất đỗi bình thường, để rồi nhận ra chính những ngày ấy đã làm nên câu chuyện đẹp nhất của đời mình.',
   closingQuote:
     'Love is not about how many days, months, or years you have been together. Love is about how much you love each other every single day.',
   closingQuoteAuthor: 'Unknown',

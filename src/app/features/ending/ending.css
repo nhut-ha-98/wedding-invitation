@@ -16,20 +16,24 @@
   align-items: center;
 }
 
-.ending-divider {}
+.ending-divider {
+}
 
 .ending-ornament {
   opacity: 0.85;
   filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
 }
 
-.thank-you-block {}
+.thank-you-block {
+}
 
 .thank-you-title {
   font-family: 'Great Vibes', cursive;
   font-size: clamp(3.5rem, 8vw, 5.5rem);
   color: #fff8e7;
-  text-shadow: 0 0 12px rgba(255, 230, 160, 0.6), 0 0 24px rgba(212, 175, 55, 0.4);
+  text-shadow:
+    0 0 12px rgba(255, 230, 160, 0.6),
+    0 0 24px rgba(212, 175, 55, 0.4);
   line-height: 1.1;
   margin: 0 0 0.5rem;
   letter-spacing: 1px;
@@ -76,12 +80,14 @@
   font-weight: 700;
   text-align: center;
 
-  background: linear-gradient(110deg,
-      #8f6d38 20%,
-      #caa038 40%,
-      #f0d889 50%,
-      #caa038 60%,
-      #8f6d38 80%);
+  background: linear-gradient(
+    110deg,
+    #8f6d38 20%,
+    #caa038 40%,
+    #f0d889 50%,
+    #caa038 60%,
+    #8f6d38 80%
+  );
 
   background-size: 250% 100%;
   background-clip: text;

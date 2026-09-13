@@ -1,14 +1,14 @@
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  computed,
+  inject,
   input,
   output,
   signal,
-  computed,
-  inject,
-  ElementRef,
-  DestroyRef,
-  afterNextRender,
 } from '@angular/core';
 
 export interface ChapterSection {
@@ -96,18 +96,24 @@ export interface TimelineMilestone {
 
       .stage--noon .breadcrumb-btn {
         border-color: #f59e0b;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), 0 0 14px rgba(245, 158, 11, 0.35);
+        box-shadow:
+          0 6px 20px rgba(0, 0, 0, 0.45),
+          0 0 14px rgba(245, 158, 11, 0.35);
       }
 
       .stage--afternoon .breadcrumb-btn {
         border-color: #f97316;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), 0 0 14px rgba(249, 115, 22, 0.35);
+        box-shadow:
+          0 6px 20px rgba(0, 0, 0, 0.45),
+          0 0 14px rgba(249, 115, 22, 0.35);
       }
 
       .stage--moon .breadcrumb-btn {
         border-color: #c084fc;
         background: #130724;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 14px rgba(192, 132, 252, 0.35);
+        box-shadow:
+          0 6px 20px rgba(0, 0, 0, 0.5),
+          0 0 14px rgba(192, 132, 252, 0.35);
       }
 
       /* Simple celestial vector art inside button */
@@ -142,7 +148,9 @@ export interface TimelineMilestone {
         stroke: #d4af37;
         stroke-width: 2.5;
         stroke-linecap: round;
-        transition: stroke-dashoffset 0.25s ease, stroke 0.4s ease;
+        transition:
+          stroke-dashoffset 0.25s ease,
+          stroke 0.4s ease;
       }
 
       .stage--noon .progress-ring-fill {
@@ -488,16 +496,88 @@ export interface TimelineMilestone {
               <circle cx="50" cy="50" r="44" fill="#231309" />
               <!-- Morning Sun Core -->
               <circle cx="50" cy="50" r="16" fill="url(#morningSunGlow)" />
-              <circle cx="50" cy="50" r="17" fill="none" stroke="#fef3c7" stroke-width="1.2" opacity="0.75" />
+              <circle
+                cx="50"
+                cy="50"
+                r="17"
+                fill="none"
+                stroke="#fef3c7"
+                stroke-width="1.2"
+                opacity="0.75"
+              />
               <!-- 8 Clean Rays -->
-              <line x1="50" y1="18" x2="50" y2="28" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="50" y1="72" x2="50" y2="82" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="18" y1="50" x2="28" y2="50" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="72" y1="50" x2="82" y2="50" stroke="#fde68a" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="28" y1="28" x2="35" y2="35" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" />
-              <line x1="72" y1="28" x2="65" y2="35" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" />
-              <line x1="28" y1="72" x2="35" y2="65" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" />
-              <line x1="72" y1="72" x2="65" y2="65" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" />
+              <line
+                x1="50"
+                y1="18"
+                x2="50"
+                y2="28"
+                stroke="#fde68a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="50"
+                y1="72"
+                x2="50"
+                y2="82"
+                stroke="#fde68a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="18"
+                y1="50"
+                x2="28"
+                y2="50"
+                stroke="#fde68a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="72"
+                y1="50"
+                x2="82"
+                y2="50"
+                stroke="#fde68a"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="28"
+                y1="28"
+                x2="35"
+                y2="35"
+                stroke="#f59e0b"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="72"
+                y1="28"
+                x2="65"
+                y2="35"
+                stroke="#f59e0b"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="28"
+                y1="72"
+                x2="35"
+                y2="65"
+                stroke="#f59e0b"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="72"
+                y1="72"
+                x2="65"
+                y2="65"
+                stroke="#f59e0b"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
             </svg>
           }
           @case ('noon') {
@@ -545,17 +625,76 @@ export interface TimelineMilestone {
               </defs>
               <circle cx="50" cy="50" r="44" fill="url(#afternoonSkyGrad)" />
               <!-- Upward twilight rays -->
-              <line x1="50" y1="20" x2="50" y2="34" stroke="#fdba74" stroke-width="2.5" stroke-linecap="round" />
-              <line x1="32" y1="26" x2="39" y2="38" stroke="#fb923c" stroke-width="2" stroke-linecap="round" />
-              <line x1="68" y1="26" x2="61" y2="38" stroke="#fb923c" stroke-width="2" stroke-linecap="round" />
-              <line x1="20" y1="42" x2="32" y2="47" stroke="#f97316" stroke-width="2" stroke-linecap="round" />
-              <line x1="80" y1="42" x2="68" y2="47" stroke="#f97316" stroke-width="2" stroke-linecap="round" />
+              <line
+                x1="50"
+                y1="20"
+                x2="50"
+                y2="34"
+                stroke="#fdba74"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="32"
+                y1="26"
+                x2="39"
+                y2="38"
+                stroke="#fb923c"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="68"
+                y1="26"
+                x2="61"
+                y2="38"
+                stroke="#fb923c"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="20"
+                y1="42"
+                x2="32"
+                y2="47"
+                stroke="#f97316"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="80"
+                y1="42"
+                x2="68"
+                y2="47"
+                stroke="#f97316"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
               <!-- Dipping sun -->
               <circle cx="50" cy="50" r="17" fill="url(#sunsetDisc)" />
               <!-- Horizon contours -->
-              <path d="M18,54 Q34,50 50,54 T82,54" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" />
-              <path d="M24,62 Q37,59 50,62 T76,62" fill="none" stroke="#c2410c" stroke-width="2" stroke-linecap="round" />
-              <path d="M32,70 Q41,68 50,70 T68,70" fill="none" stroke="#9a3412" stroke-width="1.5" stroke-linecap="round" opacity="0.8" />
+              <path
+                d="M18,54 Q34,50 50,54 T82,54"
+                fill="none"
+                stroke="#ea580c"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <path
+                d="M24,62 Q37,59 50,62 T76,62"
+                fill="none"
+                stroke="#c2410c"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M32,70 Q41,68 50,70 T68,70"
+                fill="none"
+                stroke="#9a3412"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                opacity="0.8"
+              />
             </svg>
           }
           @case ('moon') {
@@ -573,9 +712,15 @@ export interface TimelineMilestone {
               </defs>
               <circle cx="50" cy="50" r="44" fill="url(#nightSkyCircle)" />
               <!-- Crisp Crescent Moon -->
-              <path d="M52,22 C34,22 22,35 22,50 C22,65 34,78 52,78 C42,70 37,59 37,50 C37,41 42,30 52,22 Z" fill="url(#crescentGold)" />
+              <path
+                d="M52,22 C34,22 22,35 22,50 C22,65 34,78 52,78 C42,70 37,59 37,50 C37,41 42,30 52,22 Z"
+                fill="url(#crescentGold)"
+              />
               <!-- Diamond Star -->
-              <path d="M68,36 Q68,43 64,45 Q68,47 68,54 Q68,47 72,45 Q68,43 68,36 Z" fill="#e9d5ff" />
+              <path
+                d="M68,36 Q68,43 64,45 Q68,47 68,54 Q68,47 72,45 Q68,43 68,36 Z"
+                fill="#e9d5ff"
+              />
               <circle cx="68" cy="45" r="1.5" fill="#ffffff" />
               <!-- Subtle sparkles -->
               <circle cx="60" cy="28" r="1.2" fill="#c084fc" opacity="0.9" />
@@ -612,15 +757,9 @@ export interface TimelineMilestone {
         <!-- Background Orbital Track Lines -->
         <svg class="orbital-svg" viewBox="0 0 380 380" aria-hidden="true">
           <!-- Inner Orbit Arc (Timeline) -->
-          <path
-            class="orbit-path-inner"
-            d="M 115 0 A 115 115 0 0 1 0 115"
-          />
+          <path class="orbit-path-inner" d="M 115 0 A 115 115 0 0 1 0 115" />
           <!-- Outer Orbit Arc (Sections) -->
-          <path
-            class="orbit-path-outer"
-            d="M 205 0 A 205 205 0 0 1 0 205"
-          />
+          <path class="orbit-path-outer" d="M 205 0 A 205 205 0 0 1 0 205" />
         </svg>
 
         <!-- INNER CIRCLE: TIMELINE MILESTONES -->
@@ -701,9 +840,7 @@ export class ChapterBreadcrumb {
   /** Active milestone based on current section */
   readonly activeMilestoneId = computed(() => {
     const page = this.activePageNumber();
-    const found = this.timelineMilestones.find(
-      (m) => page >= m.pageMin && page <= m.pageMax
-    );
+    const found = this.timelineMilestones.find((m) => page >= m.pageMin && page <= m.pageMax);
     return found?.id ?? 'ruoc-dau';
   });
 
@@ -740,9 +877,7 @@ export class ChapterBreadcrumb {
     return positions.map((pos, i) => {
       const delay = open ? `${i * 30}ms` : `${(positions.length - 1 - i) * 20}ms`;
       return {
-        transform: open
-          ? `translate(${pos.x}px, ${pos.y}px)`
-          : 'translate(0px, 0px)',
+        transform: open ? `translate(${pos.x}px, ${pos.y}px)` : 'translate(0px, 0px)',
         opacity: open ? 1 : 0,
         transitionDelay: delay,
       };
@@ -754,7 +889,7 @@ export class ChapterBreadcrumb {
      Spread: 8° to 82°
      ------------------------------------------------------------- */
   private readonly outerRadius = 205;
-  private readonly outerAngles = [8, 20.3, 32.7, 45, 57.3, 69.7, 82];
+  private readonly outerAngles = [8, 20.3, 32.7, 45, 57.3, 69.7, 82, 90];
 
   readonly sectionPositions = computed(() => {
     return this.outerAngles.map((deg) => {
@@ -773,9 +908,7 @@ export class ChapterBreadcrumb {
     return positions.map((pos, i) => {
       const delay = open ? `${(i + 2) * 25}ms` : `${(positions.length - 1 - i) * 15}ms`;
       return {
-        transform: open
-          ? `translate(${pos.x}px, ${pos.y}px)`
-          : 'translate(0px, 0px)',
+        transform: open ? `translate(${pos.x}px, ${pos.y}px)` : 'translate(0px, 0px)',
         opacity: open ? 1 : 0,
         transitionDelay: delay,
       };

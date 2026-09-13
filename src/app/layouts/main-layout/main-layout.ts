@@ -1,30 +1,31 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
   afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
   DestroyRef,
-  viewChild,
   ElementRef,
+  inject,
   signal,
+  viewChild,
 } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { BookStateService } from '../../core/services/book-state.service';
 import { DEFAULT_WEDDING_CONFIG } from '../../core/models/wedding-config';
-import { Cover } from '../../features/cover/cover';
-import { Introduction } from '../../features/introduction/introduction';
-import { ChapterOne } from '../../features/chapter-one/chapter-one';
-import { Timeline } from '../../features/timeline/timeline';
-import { Proposal } from '../../features/proposal/proposal';
-import { WeddingInfo } from '../../features/wedding-info/wedding-info';
-import { Rsvp } from '../../features/rsvp/rsvp';
-import { Ending } from '../../features/ending/ending';
-import { ChapterBreadcrumb } from '../../shared/components/chapter-breadcrumb';
-import type { ChapterSection } from '../../shared/components/chapter-breadcrumb';
-import { DandelionTransition } from '../../shared/components/dandelion-transition';
-import { ConstellationBackground } from '../../features/constellation-background/constellation-background';
+import { BookStateService } from '../../core/services/book-state.service';
 import { StoryAutoScrollService } from '../../core/services/story-auto-scroll.service';
+import { ChapterOne } from '../../features/chapter-one/chapter-one';
+import { ConstellationBackground } from '../../features/constellation-background/constellation-background';
+import { Cover } from '../../features/cover/cover';
+import { Ending } from '../../features/ending/ending';
+import { HeAndShe } from '../../features/he-and-she/he-and-she';
+import { Introduction } from '../../features/introduction/introduction';
+import { Proposal } from '../../features/proposal/proposal';
+import { Rsvp } from '../../features/rsvp/rsvp';
+import { Timeline } from '../../features/timeline/timeline';
+import { WeddingInfo } from '../../features/wedding-info/wedding-info';
+import type { ChapterSection } from '../../shared/components/chapter-breadcrumb';
+import { ChapterBreadcrumb } from '../../shared/components/chapter-breadcrumb';
+import { DandelionTransition } from '../../shared/components/dandelion-transition';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,6 +34,7 @@ gsap.registerPlugin(ScrollTrigger);
   imports: [
     Cover,
     Introduction,
+    HeAndShe,
     ChapterOne,
     Timeline,
     Proposal,
@@ -55,6 +57,7 @@ export class MainLayout {
   private currentHash = '';
   private readonly sectionIds = [
     'introduction',
+    'he-and-she',
     'chapter-one',
     'timeline',
     'proposal',
@@ -71,12 +74,13 @@ export class MainLayout {
 
   readonly breadcrumbSections: ChapterSection[] = [
     { id: 'introduction', number: 1, label: 'Introduction' },
-    { id: 'chapter-one', number: 2, label: 'Chapter One' },
-    { id: 'timeline', number: 3, label: 'Timeline' },
-    { id: 'proposal', number: 4, label: 'Proposal' },
-    { id: 'wedding-info', number: 5, label: 'Wedding Info' },
-    { id: 'rsvp', number: 6, label: 'RSVP' },
-    { id: 'ending', number: 7, label: 'Ending' },
+    { id: 'he-and-she', number: 2, label: 'Couple' },
+    { id: 'chapter-one', number: 3, label: 'Chapter One' },
+    { id: 'timeline', number: 4, label: 'Timeline' },
+    { id: 'proposal', number: 5, label: 'Proposal' },
+    { id: 'wedding-info', number: 6, label: 'Wedding Info' },
+    { id: 'rsvp', number: 7, label: 'RSVP' },
+    { id: 'ending', number: 8, label: 'Ending' },
   ];
 
   private scrollContainer = viewChild.required<ElementRef<HTMLElement>>('scrollContent');

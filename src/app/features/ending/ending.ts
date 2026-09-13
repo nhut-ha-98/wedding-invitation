@@ -44,9 +44,23 @@ export class Ending {
         },
       });
 
-      tl.fromTo(title, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
-        .fromTo(subtitle, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4')
-        .fromTo(monogram, { opacity: 0 }, { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.2');
+      tl.fromTo(
+        title,
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+      )
+        .fromTo(
+          subtitle,
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+          '-=0.4',
+        )
+        .fromTo(
+          monogram,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.7, ease: 'power2.out' },
+          '-=0.2',
+        );
 
       this.destroyRef.onDestroy(() => {
         tl.kill();
