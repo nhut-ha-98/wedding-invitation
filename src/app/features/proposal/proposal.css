@@ -32,14 +32,13 @@
   background: #fff;
   padding: 8px 8px 32px;
   box-shadow: 0 4px 12px rgba(44, 24, 16, 0.15);
-  transform: rotate(var(--rotate, 0deg));
-  transition: transform 0.3s ease;
   max-width: 200px;
   flex: 1 1 140px;
 }
 
 .polaroid:hover {
-  transform: rotate(0deg) scale(1.03);
+  transform: rotate(0deg) scale(1.03) !important;
+  transition: transform 0.3s ease;
 }
 
 .polaroid-photo {
