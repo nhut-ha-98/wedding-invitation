@@ -181,7 +181,7 @@ export class Cover {
     afterNextRender(() => {
       this.initPageFlip();
       this.initParticles();
-      this.startAmbientWind();
+      this.startAmbientAudio();
       setTimeout(() => {
         this.showTapPrompt.set(true);
       }, 1500);
@@ -280,15 +280,20 @@ export class Cover {
     animate();
   }
 
-  private startAmbientWind(): void {
-    // Play sound on first click/hover event to satisfy browser autoplay
+  private startAmbientAudio(): void {
+    // Start wind + music on first interaction to satisfy browser autoplay
     const triggerAudio = () => {
       this.audioService.playWind();
+      this.audioService.playMusic();
       window.removeEventListener('click', triggerAudio);
       window.removeEventListener('touchstart', triggerAudio);
     };
     window.addEventListener('click', triggerAudio);
     window.addEventListener('touchstart', triggerAudio);
+    this.destroyRef.onDestroy(() => {
+      window.removeEventListener('click', triggerAudio);
+      window.removeEventListener('touchstart', triggerAudio);
+    });
   }
 
   toggleMusic(): void {

@@ -400,11 +400,20 @@
   box-shadow:
     0 0 18px rgba(212, 175, 55, 0.5),
     0 0 0 1px rgba(212, 175, 55, 0.5);
-  animation: spinSlow 6s linear infinite;
+  animation: musicPulse 1.8s ease-in-out infinite;
 }
-@keyframes spinSlow {
-  to {
-    transform: rotate(360deg);
+@keyframes musicPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .music-toggle-btn.playing {
+    animation: none;
   }
 }
 
