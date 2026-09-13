@@ -1,0 +1,21 @@
+/* Accessibility: Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .book-container,
+  .cover-page,
+  .art-nouveau-frame-svg,
+  .butterfly-1,
+  .butterfly-2,
+  .butterfly-3,
+  .butterfly-wing,
+  .butterfly-shadow,
+  .paper-star,
+  .music-toggle-btn.playing,
+  .tap-prompt-container,
+  .tap-prompt-fleuron,
+  .chapter-tagline-container,
+  .main-wedding-title,
+  .date-capsule {
+    animation: none !important;
+    transition: none !important;
+  }
+}
