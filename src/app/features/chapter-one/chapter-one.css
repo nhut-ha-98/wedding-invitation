@@ -30,22 +30,17 @@
   overflow: hidden;
 }
 
+.photo-placeholder app-papercut-art {
+  position: absolute;
+  inset: 0;
+  height: auto;
+}
+
 .photo-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, #2c1810 0%, transparent 50%);
   z-index: 1;
-}
-
-.photo-icon {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #d4af37;
-  opacity: 0.5;
-  z-index: 2;
 }
 
 .chapter-body p {

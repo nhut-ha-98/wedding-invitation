@@ -195,12 +195,7 @@ export interface ChapterSection {
       aria-label="Navigate to chapter"
     >
       <svg class="progress-ring" viewBox="0 0 100 100" aria-hidden="true">
-        <circle
-          class="progress-ring-track"
-          cx="50"
-          cy="50"
-          r="44"
-        />
+        <circle class="progress-ring-track" cx="50" cy="50" r="44" />
         <circle
           class="progress-ring-fill"
           cx="50"
@@ -210,7 +205,7 @@ export interface ChapterSection {
           [attr.stroke-dashoffset]="ringCircumference * (1 - scrollProgress())"
         />
       </svg>
-      <span class="chapter-number">{{ (sections()[currentIndex()]?.number ?? 1) }}</span>
+      <span class="chapter-number">{{ sections()[currentIndex()]?.number ?? 1 }}</span>
     </button>
 
     <div class="menu-items">
@@ -236,10 +231,7 @@ export interface ChapterSection {
           >
             {{ item.number }}
           </span>
-          <span
-            class="item-label"
-            [class.current]="i === currentIndex()"
-          >
+          <span class="item-label" [class.current]="i === currentIndex()">
             {{ item.label }}
           </span>
         </div>

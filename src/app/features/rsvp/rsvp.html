@@ -1,106 +1,108 @@
 <app-animated-section>
   <section class="rsvp-section">
-    <div class="rsvp-card">
-      <p class="rsvp-label">RSVP</p>
-      <h2 class="rsvp-title">Will you join us?</h2>
-      <p class="rsvp-subtitle">Please respond by June 1, 2026</p>
+    <div class="torn-paper">
+      <div class="rsvp-card torn-paper__sheet">
+        <p class="rsvp-label">RSVP</p>
+        <h2 class="rsvp-title">Will you join us?</h2>
+        <p class="rsvp-subtitle">Please respond by June 1, 2026</p>
 
-      @if (status() === 'success' || submitted()) {
-        <div class="success-message">
-          <div class="success-icon">
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#d4af37"
-              stroke-width="1.5"
-            >
-              <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-              <path d="M22 4L12 14.01l-3-3" />
-            </svg>
-          </div>
-          <p class="success-title">Thank You!</p>
-          <p class="success-text">Your response has been received.</p>
-          <button class="reset-btn" (click)="resetForm()">Submit Another</button>
-        </div>
-      } @else {
-        <form class="rsvp-form" (submit)="onSubmit()" novalidate>
-          <div class="field">
-            <label class="field-label" for="rsvp-name">Your Name</label>
-            <input
-              id="rsvp-name"
-              class="field-input"
-              type="text"
-              [formControl]="form.controls.name"
-              placeholder="e.g. Jane Smith"
-              [class.field-error]="form.controls.name.touched && form.controls.name.invalid"
-            />
-            @if (form.controls.name.touched && form.controls.name.invalid) {
-              <p class="error-msg">Please enter your name</p>
-            }
-          </div>
-
-          <div class="field">
-            <label class="field-label">Will you attend?</label>
-            <div class="radio-group">
-              <label class="radio-option">
-                <input type="radio" [value]="true" [formControl]="form.controls.attending" />
-                <span>Joyfully Accept</span>
-              </label>
-              <label class="radio-option">
-                <input type="radio" [value]="false" [formControl]="form.controls.attending" />
-                <span>Regretfully Decline</span>
-              </label>
+        @if (status() === 'success' || submitted()) {
+          <div class="success-message">
+            <div class="success-icon">
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#d4af37"
+                stroke-width="1.5"
+              >
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                <path d="M22 4L12 14.01l-3-3" />
+              </svg>
             </div>
+            <p class="success-title">Thank You!</p>
+            <p class="success-text">Your response has been received.</p>
+            <button class="reset-btn" (click)="resetForm()">Submit Another</button>
           </div>
-
-          @if (form.controls.attending.value) {
+        } @else {
+          <form class="rsvp-form" (submit)="onSubmit()" novalidate>
             <div class="field">
-              <label class="field-label" for="rsvp-guests">Number of Guests</label>
+              <label class="field-label" for="rsvp-name">Your Name</label>
               <input
-                id="rsvp-guests"
+                id="rsvp-name"
                 class="field-input"
-                type="number"
-                min="1"
-                max="10"
-                [formControl]="form.controls.guests"
-                [class.field-error]="form.controls.guests.touched && form.controls.guests.invalid"
+                type="text"
+                [formControl]="form.controls.name"
+                placeholder="e.g. Jane Smith"
+                [class.field-error]="form.controls.name.touched && form.controls.name.invalid"
               />
-              @if (form.controls.guests.touched && form.controls.guests.invalid) {
-                <p class="error-msg">Enter a number between 1 and 10</p>
+              @if (form.controls.name.touched && form.controls.name.invalid) {
+                <p class="error-msg">Please enter your name</p>
               }
             </div>
-          }
 
-          <div class="field">
-            <label class="field-label" for="rsvp-notes">Notes or Dietary Restrictions</label>
-            <textarea
-              id="rsvp-notes"
-              class="field-input field-textarea"
-              rows="3"
-              [formControl]="form.controls.notes"
-              placeholder="Optional"
-            ></textarea>
-          </div>
+            <div class="field">
+              <label class="field-label">Will you attend?</label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" [value]="true" [formControl]="form.controls.attending" />
+                  <span>Joyfully Accept</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" [value]="false" [formControl]="form.controls.attending" />
+                  <span>Regretfully Decline</span>
+                </label>
+              </div>
+            </div>
 
-          <button
-            class="submit-btn"
-            type="submit"
-            [disabled]="form.invalid || status() === 'submitting'"
-          >
-            @if (status() === 'submitting') {
-              Sending...
-            } @else {
-              Send Response
+            @if (form.controls.attending.value) {
+              <div class="field">
+                <label class="field-label" for="rsvp-guests">Number of Guests</label>
+                <input
+                  id="rsvp-guests"
+                  class="field-input"
+                  type="number"
+                  min="1"
+                  max="10"
+                  [formControl]="form.controls.guests"
+                  [class.field-error]="form.controls.guests.touched && form.controls.guests.invalid"
+                />
+                @if (form.controls.guests.touched && form.controls.guests.invalid) {
+                  <p class="error-msg">Enter a number between 1 and 10</p>
+                }
+              </div>
             }
-          </button>
 
-          @if (status() === 'error') {
-            <p class="error-msg error-banner">Something went wrong. Please try again.</p>
-          }
-        </form>
-      }
+            <div class="field">
+              <label class="field-label" for="rsvp-notes">Notes or Dietary Restrictions</label>
+              <textarea
+                id="rsvp-notes"
+                class="field-input field-textarea"
+                rows="3"
+                [formControl]="form.controls.notes"
+                placeholder="Optional"
+              ></textarea>
+            </div>
+
+            <button
+              class="submit-btn"
+              type="submit"
+              [disabled]="form.invalid || status() === 'submitting'"
+            >
+              @if (status() === 'submitting') {
+                Sending...
+              } @else {
+                Send Response
+              }
+            </button>
+
+            @if (status() === 'error') {
+              <p class="error-msg error-banner">Something went wrong. Please try again.</p>
+            }
+          </form>
+        }
+      </div>
     </div>
   </section>
 </app-animated-section>

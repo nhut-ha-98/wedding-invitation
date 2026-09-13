@@ -10,19 +10,26 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatedSection } from '../../shared/components/animated-section';
+import { PapercutArt, PapercutVariant } from '../../shared/components/papercut-art';
 import { WeddingConfig } from '../../core/models/wedding-config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-timeline',
-  imports: [AnimatedSection],
+  imports: [AnimatedSection, PapercutArt],
   templateUrl: './timeline.html',
   styleUrl: './timeline.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Timeline {
   config = input.required<WeddingConfig>();
+
+  private readonly arts: PapercutVariant[] = ['branch', 'dandelion', 'blossom'];
+
+  timelineArt(idx: number): PapercutVariant {
+    return this.arts[idx % this.arts.length];
+  }
 
   private el = inject<ElementRef<HTMLElement>>(ElementRef);
   private destroyRef = inject(DestroyRef);

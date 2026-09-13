@@ -33,21 +33,77 @@ import { gsap } from 'gsap';
     <svg #svg xmlns="http://www.w3.org/2000/svg">
       <defs>
         <g id="dandelion">
-          <line x1="0" y1="0" x2="0" y2="-18" stroke="#f5e6d3" stroke-width="0.8" stroke-linecap="round"/>
-          <line x1="0" y1="-18" x2="-5" y2="-24" stroke="#f5e6d3" stroke-width="0.5" stroke-linecap="round"/>
-          <line x1="0" y1="-18" x2="5" y2="-24" stroke="#f5e6d3" stroke-width="0.5" stroke-linecap="round"/>
-          <line x1="0" y1="-18" x2="-3" y2="-26" stroke="#f5e6d3" stroke-width="0.5" stroke-linecap="round"/>
-          <line x1="0" y1="-18" x2="3" y2="-26" stroke="#f5e6d3" stroke-width="0.5" stroke-linecap="round"/>
-          <line x1="0" y1="-18" x2="0" y2="-27" stroke="#f5e6d3" stroke-width="0.5" stroke-linecap="round"/>
-          <circle cx="0" cy="0" r="1.2" fill="#d4af37" opacity="0.7"/>
+          <line
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="-18"
+            stroke="#f5e6d3"
+            stroke-width="0.8"
+            stroke-linecap="round"
+          />
+          <line
+            x1="0"
+            y1="-18"
+            x2="-5"
+            y2="-24"
+            stroke="#f5e6d3"
+            stroke-width="0.5"
+            stroke-linecap="round"
+          />
+          <line
+            x1="0"
+            y1="-18"
+            x2="5"
+            y2="-24"
+            stroke="#f5e6d3"
+            stroke-width="0.5"
+            stroke-linecap="round"
+          />
+          <line
+            x1="0"
+            y1="-18"
+            x2="-3"
+            y2="-26"
+            stroke="#f5e6d3"
+            stroke-width="0.5"
+            stroke-linecap="round"
+          />
+          <line
+            x1="0"
+            y1="-18"
+            x2="3"
+            y2="-26"
+            stroke="#f5e6d3"
+            stroke-width="0.5"
+            stroke-linecap="round"
+          />
+          <line
+            x1="0"
+            y1="-18"
+            x2="0"
+            y2="-27"
+            stroke="#f5e6d3"
+            stroke-width="0.5"
+            stroke-linecap="round"
+          />
+          <circle cx="0" cy="0" r="1.2" fill="#d4af37" opacity="0.7" />
         </g>
         <g id="star">
-          <path d="M0,-8 L2,-2 L8,-2 L3,2 L5,8 L0,4 L-5,8 L-3,2 L-8,-2 L-2,-2 Z"
-                fill="none" stroke="#d4af37" stroke-width="0.8" stroke-linejoin="round"/>
+          <path
+            d="M0,-8 L2,-2 L8,-2 L3,2 L5,8 L0,4 L-5,8 L-3,2 L-8,-2 L-2,-2 Z"
+            fill="none"
+            stroke="#d4af37"
+            stroke-width="0.8"
+            stroke-linejoin="round"
+          />
         </g>
         <g id="tiny-star">
-          <path d="M0,-5 L1.2,-1.2 L5,-1.2 L2,1 L3,5 L0,2.5 L-3,5 L-2,1 L-5,-1.2 L-1.2,-1.2 Z"
-                fill="#d4af37" opacity="0.5"/>
+          <path
+            d="M0,-5 L1.2,-1.2 L5,-1.2 L2,1 L3,5 L0,2.5 L-3,5 L-2,1 L-5,-1.2 L-1.2,-1.2 Z"
+            fill="#d4af37"
+            opacity="0.5"
+          />
         </g>
       </defs>
       <g #container></g>

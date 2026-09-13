@@ -6,10 +6,7 @@
   <app-dandelion-transition (complete)="onTransitionComplete()" />
 }
 
-<div
-  class="scroll-stage"
-  #scrollContent
->
+<div class="scroll-stage" #scrollContent>
   <app-introduction id="introduction" [config]="config" />
   <app-chapter-one id="chapter-one" [config]="config" />
   <app-timeline id="timeline" [config]="config" />
