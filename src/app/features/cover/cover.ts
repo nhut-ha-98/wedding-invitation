@@ -69,7 +69,7 @@ class DandelionParticle {
     ctx.lineTo(0, this.size);
     ctx.stroke();
 
-    ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+    ctx.fillStyle = `rgba(216, 180, 135, ${this.opacity})`;
     ctx.beginPath();
     ctx.arc(0, this.size, 1.0, 0, Math.PI * 2);
     ctx.fill();
@@ -111,7 +111,7 @@ class GlowingDust {
     this.speedX = Math.random() * 0.3 - 0.15;
     this.speedY = Math.random() * 0.25 - 0.2;
     this.opacity = init ? Math.random() * 0.4 : 0;
-    this.maxOpacity = Math.random() * 0.5 + 0.15;
+    this.maxOpacity = Math.random() * 0.45 + 0.15;
     this.fadeSpeed = Math.random() * 0.004 + 0.001;
   }
 
@@ -135,8 +135,8 @@ class GlowingDust {
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
     const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2.2);
-    grad.addColorStop(0, `rgba(212, 175, 55, ${this.opacity})`);
-    grad.addColorStop(1, `rgba(212, 175, 55, 0)`);
+    grad.addColorStop(0, `rgba(216, 180, 135, ${this.opacity})`);
+    grad.addColorStop(1, `rgba(216, 180, 135, 0)`);
     ctx.fillStyle = grad;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size * 2.2, 0, Math.PI * 2);
@@ -164,7 +164,7 @@ export class Cover {
       const d = String(date.getDate()).padStart(2, '0');
       const m = String(date.getMonth() + 1).padStart(2, '0');
       const y = date.getFullYear();
-      return `${d} • ${m} • ${y}`;
+      return `${d} · ${m} · ${y}`;
     } catch {
       return this.config().date;
     }
