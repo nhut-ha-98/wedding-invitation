@@ -1,4 +1,4 @@
-<div class="cover-stage">
+<div class="cover-stage" [style.display]="bookStateSig() === 'open' ? 'none' : 'block'">
   <app-cover #coverComponent [config]="config" (opened)="onCoverOpened()" />
 </div>
 

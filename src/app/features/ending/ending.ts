@@ -10,14 +10,12 @@ import {
 } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { AnimatedSection } from '../../shared/components/animated-section';
 import { WeddingConfig } from '../../core/models/wedding-config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-ending',
-  imports: [AnimatedSection],
   templateUrl: './ending.html',
   styleUrl: './ending.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,30 +39,31 @@ export class Ending {
           trigger: root,
           start: 'top 75%',
           toggleActions: 'play none none none',
+          once: true,
         },
       });
 
       tl.fromTo(
         title,
-        { opacity: 0, y: 25 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+        { opacity: 0, y: 20, force3D: true },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
       )
         .fromTo(
           subtitle,
-          { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-          '-=0.4',
+          { opacity: 0, y: 15, force3D: true },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+          '-=0.3',
         )
         .fromTo(
           monogram,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.7, ease: 'power2.out' },
+          { opacity: 0, force3D: true },
+          { opacity: 1, duration: 0.5, ease: 'power2.out' },
           '-=0.2',
         );
 
       this.destroyRef.onDestroy(() => {
+        tl.scrollTrigger?.kill();
         tl.kill();
-        ScrollTrigger.getAll().forEach((st) => st.kill());
       });
     });
   }
@@ -73,3 +72,4 @@ export class Ending {
     this.closeBook.emit();
   }
 }
+

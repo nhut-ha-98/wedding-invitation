@@ -109,6 +109,9 @@ export class MainLayout {
         this.startScrollProgressTracking();
         this.storyAutoScroll.startTour();
         this.scrollToInitialHash();
+        requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+        });
       };
 
       if (coverEl && scrollEl) {
@@ -124,6 +127,7 @@ export class MainLayout {
           delay: 0.3,
           ease: 'power2.out',
           onComplete: () => {
+            gsap.set(coverEl, { display: 'none' });
             gsap.set(scrollEl, { clearProps: 'all' });
             finalize();
           },
@@ -180,6 +184,7 @@ export class MainLayout {
     });
 
     if (coverEl) {
+      gsap.set(coverEl, { display: 'block', opacity: 0 });
       gsap.to(coverEl, {
         opacity: 1,
         duration: 0.5,

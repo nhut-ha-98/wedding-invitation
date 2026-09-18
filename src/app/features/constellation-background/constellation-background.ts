@@ -281,11 +281,11 @@ export class ConstellationBackground {
       this.pulseCompletion('cancer');
 
       // Cascade star flash across both constellations simultaneously
-      [...this.aquariusStars, ...this.cancerStars].forEach((s, idx) => {
-        setTimeout(() => {
-          this.shine(s.id, 1.0);
-        }, idx * 18);
-      });
+      // [...this.aquariusStars, ...this.cancerStars].forEach((s, idx) => {
+      //   setTimeout(() => {
+      //     this.shine(s.id, 1.0);
+      //   }, idx * 18);
+      // });
     } else {
       aqStarEl.classList.remove('is-connected');
       aqLineEl.classList.remove('is-connected');
