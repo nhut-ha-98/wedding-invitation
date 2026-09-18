@@ -1,0 +1,62 @@
+/* ─── Page 2: Inside Storybook Transition Page ─── */
+.transition-page {
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(184, 143, 98, 0.12);
+  background: #ebdcc6;
+  /* Warm antique parchment paper */
+  background-image:
+    radial-gradient(rgba(58, 32, 17, 0.05) 1px, transparent 0),
+    radial-gradient(rgba(58, 32, 17, 0.05) 1px, transparent 0);
+  background-size: 8px 8px;
+  background-position:
+    0 0,
+    4px 4px;
+  color: #3b2011;
+  /* Deep sepia brown text - No white */
+  position: relative;
+  border-radius: 5px 14px 14px 5px;
+}
+
+.transition-page::before {
+  content: '';
+  position: absolute;
+  inset: 16px;
+  border: 1px dashed rgba(88, 48, 26, 0.25);
+  pointer-events: none;
+}
+
+.transition-inner {
+  text-align: center;
+  padding: 2.5rem;
+  z-index: 2;
+}
+
+.transition-text {
+  font-size: 1.85rem;
+  color: #432414;
+  /* Deep sepia */
+  letter-spacing: 2px;
+  text-shadow: 0 1px 1px rgba(235, 220, 198, 0.45);
+  position: relative;
+}
+
+.transition-text::after {
+  content: '✦';
+  display: block;
+  font-size: 1rem;
+  color: #b88f62;
+  margin-top: 0.75rem;
+}
+
+.dandelion {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.dandelion svg {
+  width: 80px;
+  height: auto;
+  opacity: 0.85;
+}

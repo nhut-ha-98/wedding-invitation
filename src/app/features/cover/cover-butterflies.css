@@ -1,0 +1,367 @@
+/* ─── Handcrafted 3D Papercut Butterflies (Folding Paper Wings) ─── */
+.papercut-butterfly {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.butterfly-3d-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 360px;
+  transform-style: preserve-3d;
+}
+
+.butterfly-wing {
+  display: inline-block;
+  flex: 1;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  filter: drop-shadow(0 2px 3.5px rgba(16, 7, 3, 0.75));
+}
+
+.wing-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.butterfly-body {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18%;
+  height: 90%;
+  z-index: 5;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(10, 4, 2, 0.85));
+}
+
+.body-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.butterfly-shadow {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 45%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(14, 6, 2, 0.68) 0%, transparent 75%);
+  filter: blur(2.8px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Butterfly 1: Upper right field - Well inside frame */
+.butterfly-1 {
+  top: 84px;
+  right: 66px;
+  width: clamp(42px, 10.5vw, 54px);
+  height: auto;
+  transform: rotate(15deg);
+  animation:
+    butterflyReveal 900ms ease 900ms both,
+    butterflyFloat1 4.5s ease-in-out infinite alternate 1.8s;
+}
+
+.butterfly-1 .wing-left {
+  transform-origin: 100% 50%;
+  animation: flapLeft1 3.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.butterfly-1 .wing-right {
+  transform-origin: 0% 50%;
+  animation: flapRight1 3.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.butterfly-1 .butterfly-shadow {
+  animation: shadowFlap1 3.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Butterfly 2: Mid-left field - Inset away from spine and frame */
+.butterfly-2 {
+  top: 36%;
+  left: 58px;
+  width: clamp(34px, 8.5vw, 44px);
+  height: auto;
+  transform: rotate(-16deg);
+  animation:
+    butterflyReveal 900ms ease 1100ms both,
+    butterflyFloat2 5s ease-in-out infinite alternate 2s;
+}
+
+.butterfly-2 .wing-left {
+  transform-origin: 100% 50%;
+  animation: flapLeft2 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.7s;
+}
+
+.butterfly-2 .wing-right {
+  transform-origin: 0% 50%;
+  animation: flapRight2 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.7s;
+}
+
+.butterfly-2 .butterfly-shadow {
+  animation: shadowFlap2 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.7s;
+}
+
+/* Butterfly 3: Lower right field - Inset away from borders */
+.butterfly-3 {
+  bottom: 118px;
+  right: 64px;
+  width: clamp(28px, 7vw, 36px);
+  height: auto;
+  transform: rotate(12deg);
+  animation:
+    butterflyReveal 900ms ease 1300ms both,
+    butterflyFloat3 4s ease-in-out infinite alternate 2.2s;
+}
+
+.butterfly-3 .wing-left {
+  transform-origin: 100% 50%;
+  animation: flapLeft3 3s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.3s;
+}
+
+.butterfly-3 .wing-right {
+  transform-origin: 0% 50%;
+  animation: flapRight3 3s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.3s;
+}
+
+.butterfly-3 .butterfly-shadow {
+  animation: shadowFlap3 3s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.3s;
+}
+
+/* ─── 3D Flip-Flap Wing Keyframe Animations ─── */
+@keyframes flapLeft1 {
+  0%,
+  65%,
+  100% {
+    transform: rotateY(12deg);
+  }
+  14% {
+    transform: rotateY(56deg);
+  }
+  24% {
+    transform: rotateY(6deg);
+  }
+  34% {
+    transform: rotateY(50deg);
+  }
+  44% {
+    transform: rotateY(8deg);
+  }
+  54% {
+    transform: rotateY(22deg);
+  }
+}
+
+@keyframes flapRight1 {
+  0%,
+  65%,
+  100% {
+    transform: rotateY(-12deg);
+  }
+  14% {
+    transform: rotateY(-56deg);
+  }
+  24% {
+    transform: rotateY(-6deg);
+  }
+  34% {
+    transform: rotateY(-50deg);
+  }
+  44% {
+    transform: rotateY(-8deg);
+  }
+  54% {
+    transform: rotateY(-22deg);
+  }
+}
+
+@keyframes shadowFlap1 {
+  0%,
+  65%,
+  100% {
+    transform: translate(-50%, -50%) scale(1, 1);
+    opacity: 0.65;
+  }
+  14%,
+  34% {
+    transform: translate(-50%, -50%) scale(0.55, 0.88);
+    opacity: 0.35;
+  }
+  24%,
+  44% {
+    transform: translate(-50%, -50%) scale(0.95, 0.98);
+    opacity: 0.6;
+  }
+}
+
+@keyframes flapLeft2 {
+  0%,
+  60%,
+  100% {
+    transform: rotateY(10deg);
+  }
+  12% {
+    transform: rotateY(52deg);
+  }
+  22% {
+    transform: rotateY(4deg);
+  }
+  32% {
+    transform: rotateY(46deg);
+  }
+  42% {
+    transform: rotateY(10deg);
+  }
+}
+
+@keyframes flapRight2 {
+  0%,
+  60%,
+  100% {
+    transform: rotateY(-10deg);
+  }
+  12% {
+    transform: rotateY(-52deg);
+  }
+  22% {
+    transform: rotateY(-4deg);
+  }
+  32% {
+    transform: rotateY(-46deg);
+  }
+  42% {
+    transform: rotateY(-10deg);
+  }
+}
+
+@keyframes shadowFlap2 {
+  0%,
+  60%,
+  100% {
+    transform: translate(-50%, -50%) scale(1, 1);
+    opacity: 0.6;
+  }
+  12%,
+  32% {
+    transform: translate(-50%, -50%) scale(0.58, 0.9);
+    opacity: 0.32;
+  }
+}
+
+@keyframes flapLeft3 {
+  0%,
+  68%,
+  100% {
+    transform: rotateY(14deg);
+  }
+  15% {
+    transform: rotateY(58deg);
+  }
+  26% {
+    transform: rotateY(5deg);
+  }
+  38% {
+    transform: rotateY(48deg);
+  }
+  48% {
+    transform: rotateY(12deg);
+  }
+}
+
+@keyframes flapRight3 {
+  0%,
+  68%,
+  100% {
+    transform: rotateY(-14deg);
+  }
+  15% {
+    transform: rotateY(-58deg);
+  }
+  26% {
+    transform: rotateY(-5deg);
+  }
+  38% {
+    transform: rotateY(-48deg);
+  }
+  48% {
+    transform: rotateY(-12deg);
+  }
+}
+
+@keyframes shadowFlap3 {
+  0%,
+  68%,
+  100% {
+    transform: translate(-50%, -50%) scale(1, 1);
+    opacity: 0.6;
+  }
+  15%,
+  38% {
+    transform: translate(-50%, -50%) scale(0.52, 0.85);
+    opacity: 0.3;
+  }
+}
+
+@keyframes butterflyReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.7) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes butterflyFloat1 {
+  0% {
+    transform: rotate(15deg) translateY(0) translateX(0);
+  }
+
+  50% {
+    transform: rotate(19deg) translateY(-4px) translateX(2px);
+  }
+
+  100% {
+    transform: rotate(13deg) translateY(-2px) translateX(-2px);
+  }
+}
+
+@keyframes butterflyFloat2 {
+  0% {
+    transform: rotate(-16deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(-12deg) translateY(-3.5px) translateX(2px);
+  }
+
+  100% {
+    transform: rotate(-18deg) translateY(-1.5px) translateX(-1.5px);
+  }
+}
+
+@keyframes butterflyFloat3 {
+  0% {
+    transform: rotate(12deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(8deg) translateY(-3px) translateX(-1.5px);
+  }
+
+  100% {
+    transform: rotate(15deg) translateY(-1px) translateX(1px);
+  }
+}

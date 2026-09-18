@@ -1,0 +1,191 @@
+/* ─── Central Typography & Storybook Content ─── */
+.cover-content {
+  text-align: center;
+  padding: 3.2rem 1.8rem 2.8rem 2.2rem;
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* ─── Chapter Tagline (Secondary / Understated) ─── */
+.chapter-tagline-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+  animation: taglineReveal 750ms ease 550ms both;
+}
+
+.tagline-ornament {
+  font-size: 0.85rem;
+  color: #bfa079;
+  opacity: 0.75;
+}
+
+.chapter-tagline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(0.7rem, 2.4vw, 0.92rem);
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #cfab7e;
+  /* Warm caramel paper tone - No white */
+  text-shadow:
+    0 1px 0 #3a1d0d,
+    0 2px 3px rgba(12, 5, 2, 0.75);
+}
+
+@keyframes taglineReveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botanical Dividers */
+.botanical-divider {
+  display: block;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 1.5px 2px rgba(10, 4, 1, 0.7));
+}
+
+.top-divider {
+  width: clamp(140px, 36vw, 195px);
+  margin: 0.25rem auto 0.65rem;
+  animation: detailsReveal 650ms cubic-bezier(0.16, 1, 0.3, 1) 750ms both;
+}
+
+.bottom-divider {
+  width: clamp(145px, 38vw, 200px);
+  margin: 0.65rem auto 0.35rem;
+  animation: detailsReveal 650ms cubic-bezier(0.16, 1, 0.3, 1) 1200ms both;
+}
+
+/* ─── MAIN TITLE: NHUT HA & HOA HA (The Dominant Visual Centerpiece) ─── */
+.main-wedding-title {
+  margin: 0.2rem 0 0.15rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  animation: titleHeroReveal 850ms cubic-bezier(0.16, 1, 0.3, 1) 900ms both;
+}
+
+@keyframes titleHeroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Layered Papercut Title Letterforms */
+.title-paper-letter {
+  display: block;
+  font-family: 'Cinzel Decorative', 'Cinzel', 'Marcellus', serif;
+  font-size: clamp(1.95rem, 6.6vw, 3.05rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* Luminous Gilded Caramel & Antique Parchment Gradient */
+  background: linear-gradient(
+    180deg,
+    #faeedb 0%,
+    #edd1a8 22%,
+    #dba463 52%,
+    #be8044 80%,
+    #925826 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #edd1a8;
+  /* Multi-level papercut drop-shadow: simulates thick cut-paper letters mounted on background */
+  filter: drop-shadow(0 1px 0px #5e3317) drop-shadow(0 2px 0px #3d1d0a)
+    drop-shadow(0 3px 1px #220e04) drop-shadow(0 5px 8px rgba(10, 4, 1, 0.88))
+    drop-shadow(0 10px 18px rgba(5, 2, 1, 0.7));
+  position: relative;
+  white-space: nowrap;
+}
+
+/* Graceful Art Nouveau Ampersand Separator Row */
+.ampersand-separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin: 0.1rem 0;
+  width: 100%;
+}
+
+.ampersand-flourish {
+  width: clamp(34px, 9vw, 50px);
+  height: auto;
+  opacity: 0.88;
+  filter: drop-shadow(0 1px 2px rgba(10, 4, 1, 0.75));
+}
+
+.title-ampersand {
+  font-family: 'Cinzel Decorative', 'Great Vibes', serif;
+  font-size: clamp(1.45rem, 5vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1;
+  display: inline-block;
+  background: linear-gradient(180deg, #faeedb 0%, #e0a765 52%, #9f6129 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #e0a765;
+  filter: drop-shadow(0 1px 0px #5e3317) drop-shadow(0 2px 4px rgba(8, 3, 1, 0.85));
+}
+
+/* ─── Wedding Date Capsule ─── */
+.date-capsule {
+  margin-top: 0.2rem;
+  animation: dateReveal 700ms ease 1300ms both;
+}
+
+.wedding-date {
+  font-family: 'Marcellus', 'Cormorant Garamond', serif;
+  font-size: clamp(0.76rem, 2.6vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: #d1ab7f;
+  /* Warm tan caramel - No white */
+  margin: 0;
+  text-shadow:
+    0 1px 0 #3b1d0c,
+    0 2px 4px rgba(10, 4, 2, 0.85);
+}
+
+@keyframes dateReveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
