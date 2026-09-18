@@ -201,103 +201,105 @@
 /* Aquarius Connected: Electric Blue / Cyan Neon Glow on Dark Violet */
 .line-group--aquarius.is-connected .cl-line {
   stroke: #e1f5fe;
-  stroke-width: 2.2;
-  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 7px #40c4ff) drop-shadow(0 0 16px #0091ea)
-    drop-shadow(0 0 28px #0d47a1);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px #40c4ff);
 }
 
 .star-group--aquarius.is-connected .star-glyph {
   fill: #ffffff;
   stroke: #b3e5fc;
   stroke-width: 0.7;
-  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px #00e5ff) drop-shadow(0 0 18px #0091ea);
+  filter: drop-shadow(0 0 6px #00e5ff);
   animation: neon-star-twinkle-aq 2.2s ease-in-out infinite alternate;
 }
 
 .star-group--aquarius.is-connected .halo {
   opacity: 0.85;
   transform: scale(2.2);
-  filter: drop-shadow(0 0 10px #00b0ff) drop-shadow(0 0 22px #0070e0);
+  filter: drop-shadow(0 0 10px #00b0ff);
 }
 
 .star-group--aquarius.is-connected .neon-spikes {
   opacity: 0.95;
   fill: #ffffff;
-  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px #00e5ff) drop-shadow(0 0 20px #0091ea);
+  filter: drop-shadow(0 0 6px #00e5ff);
   animation: neon-spike-shimmer-aq 3s ease-in-out infinite alternate;
 }
 
 /* Cancer Connected: Radiant Warm Gold / Amber Neon Glow on Dark Violet */
 .line-group--cancer.is-connected .cl-line {
   stroke: #fffde7;
-  stroke-width: 2.2;
-  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 7px #ffd700) drop-shadow(0 0 16px #ff9100)
-    drop-shadow(0 0 28px #e65100);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px #ffd700);
 }
 
 .star-group--cancer.is-connected .star-glyph {
   fill: #ffffff;
   stroke: #fff59d;
   stroke-width: 0.7;
-  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px #ffd600) drop-shadow(0 0 18px #ff6d00);
+  filter: drop-shadow(0 0 6px #ffd600);
   animation: neon-star-twinkle-cn 2.2s ease-in-out infinite alternate;
 }
 
 .star-group--cancer.is-connected .halo {
   opacity: 0.85;
   transform: scale(2.2);
-  filter: drop-shadow(0 0 10px #ffab00) drop-shadow(0 0 22px #ff6d00);
+  filter: drop-shadow(0 0 10px #ffab00);
 }
 
 .star-group--cancer.is-connected .neon-spikes {
   opacity: 0.95;
   fill: #ffffff;
-  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px #ffd600) drop-shadow(0 0 20px #ff6d00);
+  filter: drop-shadow(0 0 6px #ffd600);
   animation: neon-spike-shimmer-cn 3s ease-in-out infinite alternate;
 }
 
 /* Neon Keyframe Animations */
 @keyframes neon-star-twinkle-aq {
   0% {
-    filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 6px #00e5ff) drop-shadow(0 0 14px #0091ea);
+    opacity: 0.8;
     transform: scale(1);
   }
+
   100% {
-    filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 12px #40c4ff) drop-shadow(0 0 26px #00b0ff);
-    transform: scale(1.2);
+    opacity: 1;
+    transform: scale(1.15);
   }
 }
 
 @keyframes neon-star-twinkle-cn {
   0% {
-    filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 6px #ffd600) drop-shadow(0 0 14px #ff6d00);
+    opacity: 0.8;
     transform: scale(1);
   }
+
   100% {
-    filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 12px #ffe57f) drop-shadow(0 0 26px #ffab00);
-    transform: scale(1.2);
+    opacity: 1;
+    transform: scale(1.15);
   }
 }
 
 @keyframes neon-spike-shimmer-aq {
   0% {
-    opacity: 0.8;
-    transform: scale(0.9) rotate(0deg);
+    opacity: 0.75;
+    transform: scale(0.95) rotate(0deg);
   }
+
   100% {
     opacity: 1;
-    transform: scale(1.25) rotate(12deg);
+    transform: scale(1.15) rotate(12deg);
   }
 }
 
 @keyframes neon-spike-shimmer-cn {
   0% {
-    opacity: 0.8;
-    transform: scale(0.9) rotate(0deg);
+    opacity: 0.75;
+    transform: scale(0.95) rotate(0deg);
   }
+
   100% {
     opacity: 1;
-    transform: scale(1.25) rotate(-12deg);
+    transform: scale(1.15) rotate(-12deg);
   }
 }
 
