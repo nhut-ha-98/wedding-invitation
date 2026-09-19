@@ -71,14 +71,14 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   heAndShe: {
     he: {
       name: 'Nhut Ha',
-      portraitUrl: 'he.jpg',
+      portraitUrl: 'he.webp',
       alt: 'Huy hiệu vẽ tay của chú rể (ảnh mẫu)',
       intro:
         'Người kiến trúc cho thế giới nhỏ của chúng mình. Anh ấy phác hoạ những giấc mơ bằng mực, tin rằng mỗi câu chuyện tình yêu đều cần một khởi đầu thật nhẹ. Người viết nên những bản nhạc riêng, người giữ lời hứa, và là người luôn mở cửa cho em dù trời không mưa.',
     },
     she: {
       name: 'Hoa Ha',
-      portraitUrl: 'she.jpg',
+      portraitUrl: 'she.webp',
       alt: 'Huy hiệu vẽ tay của cô dâu (ảnh mẫu)',
       intro:
         'Người giữ kệ thơ chung của hai đứa. Chị ấy ngân nga khi đọc sách, nhớ từng ngày kỷ niệm nhỏ, và tin rằng những câu chuyện hay nhất phải kể thật chậm. Tiếng cười của chị là nhạc nền của tổ ấm mình, và trái tim chị là nơi cả hai cùng ở.',

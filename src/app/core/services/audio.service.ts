@@ -1,5 +1,5 @@
 import { DestroyRef, Injectable, inject } from '@angular/core';
-import { DEFAULT_MELODY } from './music';
+import { CANT_HELP_FALLING_IN_LOVE_MELODY, CANT_HELP_FALLING_IN_LOVE_MELODY2, DEFAULT_MELODY, DIGIMON_BUTTERFLY_MELODY, riverFlowsMelody } from './music';
 
 @Injectable({ providedIn: 'root' })
 export class AudioService {
@@ -80,14 +80,14 @@ export class AudioService {
       try {
         this.windSource.stop();
         this.windSource.disconnect();
-      } catch {}
+      } catch { }
       this.windSource = null;
     }
     if (this.windOsc) {
       try {
         this.windOsc.stop();
         this.windOsc.disconnect();
-      } catch {}
+      } catch { }
       this.windOsc = null;
     }
     if (this.windNode) {
@@ -233,6 +233,7 @@ export class AudioService {
   }
 
   private midiToFreq(note: number): number {
+    // return note;
     return 440 * Math.pow(2, (note - 69) / 12);
   }
 
