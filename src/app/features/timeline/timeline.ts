@@ -40,7 +40,6 @@ export class Timeline {
       const root = this.el.nativeElement;
       const line = root.querySelector<HTMLElement>('.timeline-line');
       const items = root.querySelectorAll<HTMLElement>('.timeline-item');
-      const scheduleRows = root.querySelectorAll<HTMLElement>('.schedule-row');
 
       if (!line || !items.length) return;
 
@@ -54,7 +53,6 @@ export class Timeline {
           if (card) gsap.set(card, { opacity: 1, y: 0 });
           if (polaroid) gsap.set(polaroid, { opacity: 1, y: 0 });
         });
-        scheduleRows.forEach((row) => gsap.set(row, { opacity: 1, y: 0 }));
         return;
       }
 
@@ -122,26 +120,6 @@ export class Timeline {
           });
         }
       });
-
-      const scheduleCard = root.querySelector<HTMLElement>('.schedule-card');
-      if (scheduleCard) {
-        gsap.fromTo(
-          scheduleRows,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            stagger: 0.12,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: scheduleCard,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
-            },
-          },
-        );
-      }
 
       this.destroyRef.onDestroy(() => {
         ScrollTrigger.getAll().forEach((st) => st.kill());

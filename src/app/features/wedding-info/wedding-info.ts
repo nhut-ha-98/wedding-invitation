@@ -31,6 +31,7 @@ export class WeddingInfo {
     afterNextRender(() => {
       const root = this.el.nativeElement;
       const card = root.querySelector('.info-card');
+      const scheduleRows = root.querySelectorAll<HTMLElement>('.schedule-row');
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -45,6 +46,15 @@ export class WeddingInfo {
         { opacity: 0, scale: 0.9, y: 30 },
         { opacity: 1, scale: 1, y: 0, duration: 0.9, ease: 'power2.out' },
       );
+
+      if (scheduleRows.length) {
+        tl.fromTo(
+          scheduleRows,
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: 'power2.out' },
+          '-=0.4',
+        );
+      }
 
       this.destroyRef.onDestroy(() => {
         tl.kill();
