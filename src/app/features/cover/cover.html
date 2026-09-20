@@ -2,7 +2,7 @@
   #bookContainer
   class="book-container"
   role="application"
-  aria-label="Wedding invitation storybook cover"
+  aria-label="Bìa truyện thiệp mời đám cưới"
 >
   <div class="page cover-page" data-density="hard">
     <!-- SVG Filters for tactile papercut depth and fiber -->
@@ -515,7 +515,7 @@
       <!-- Tagline / Chapter Heading (Secondary, Delicate) -->
       <div class="chapter-tagline-container">
         <span class="tagline-ornament">∼</span>
-        <span class="chapter-tagline">A NEW CHAPTER</span>
+        <span class="chapter-tagline">MỘT CHƯƠNG MỚI</span>
         <span class="tagline-ornament">∼</span>
       </div>
 
@@ -573,7 +573,7 @@
       </svg>
 
       <!-- ─── MAIN TITLE: COUPLE NAMES (Visual Centerpiece) ─── -->
-      <h1 class="main-wedding-title" aria-label="Nhut Ha and Hoa Ha Wedding">
+      <h1 class="main-wedding-title" aria-label="Đám cưới Nhut Ha và Hoa Ha">
         <span class="title-paper-letter name-first">{{ config().couple.partner2 }}</span>
         <div class="ampersand-separator" aria-hidden="true">
           <svg class="ampersand-flourish flourish-left" viewBox="0 0 46 12" fill="none">
@@ -741,7 +741,7 @@
   class="music-toggle-btn"
   (click)="toggleMusic(); $event.stopPropagation()"
   [class.playing]="isMusicPlaying()"
-  aria-label="Toggle background music"
+  aria-label="Bật tắt nhạc nền"
 >
   <span class="music-icon" aria-hidden="true">&#9835;</span>
 </button>
@@ -752,7 +752,7 @@
     class="tap-prompt-container"
     (click)="openBook()"
     (keydown.enter)="openBook()"
-    aria-label="Tap to Open the wedding invitation book"
+    aria-label="Chạm để mở sổ thiệp mời"
   >
     <div class="tap-paper-badge">
       <span class="great-vibes tap-prompt-text">Chạm để mở</span>

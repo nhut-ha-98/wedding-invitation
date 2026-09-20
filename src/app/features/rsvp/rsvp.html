@@ -3,8 +3,8 @@
     <div class="torn-paper">
       <div class="rsvp-card torn-paper__sheet">
         <p class="rsvp-label">RSVP</p>
-        <h2 class="rsvp-title">Will you join us?</h2>
-        <p class="rsvp-subtitle">Please respond by June 1, 2026</p>
+        <h2 class="rsvp-title">Bạn sẽ đến chứ?</h2>
+        <p class="rsvp-subtitle">Vui lòng xác nhận trước ngày 1/6/2026</p>
 
         @if (status() === 'success' || submitted()) {
           <div class="success-message">
@@ -21,44 +21,44 @@
                 <path d="M22 4L12 14.01l-3-3" />
               </svg>
             </div>
-            <p class="success-title">Thank You!</p>
-            <p class="success-text">Your response has been received.</p>
-            <button class="reset-btn" (click)="resetForm()">Submit Another</button>
+            <p class="success-title">Cảm ơn bạn!</p>
+            <p class="success-text">Đã nhận được phản hồi của bạn.</p>
+            <button class="reset-btn" (click)="resetForm()">Gửi phản hồi khác</button>
           </div>
         } @else {
           <form class="rsvp-form" (submit)="onSubmit()" novalidate>
             <div class="field">
-              <label class="field-label" for="rsvp-name">Your Name</label>
+              <label class="field-label" for="rsvp-name">Tên của bạn</label>
               <input
                 id="rsvp-name"
                 class="field-input"
                 type="text"
                 [formControl]="form.controls.name"
-                placeholder="e.g. Jane Smith"
+                placeholder="VD: Nguyễn Văn A"
                 [class.field-error]="form.controls.name.touched && form.controls.name.invalid"
               />
               @if (form.controls.name.touched && form.controls.name.invalid) {
-                <p class="error-msg">Please enter your name</p>
+                <p class="error-msg">Vui lòng nhập tên</p>
               }
             </div>
 
             <div class="field">
-              <label class="field-label">Will you attend?</label>
+              <label class="field-label">Bạn có tham dự không?</label>
               <div class="radio-group">
                 <label class="radio-option">
                   <input type="radio" [value]="true" [formControl]="form.controls.attending" />
-                  <span>Joyfully Accept</span>
+                  <span>Vui lòng xác nhận</span>
                 </label>
                 <label class="radio-option">
                   <input type="radio" [value]="false" [formControl]="form.controls.attending" />
-                  <span>Regretfully Decline</span>
+                  <span>Tiếc là không thể</span>
                 </label>
               </div>
             </div>
 
             @if (form.controls.attending.value) {
               <div class="field">
-                <label class="field-label" for="rsvp-guests">Number of Guests</label>
+                <label class="field-label" for="rsvp-guests">Số khách</label>
                 <input
                   id="rsvp-guests"
                   class="field-input"
@@ -69,19 +69,19 @@
                   [class.field-error]="form.controls.guests.touched && form.controls.guests.invalid"
                 />
                 @if (form.controls.guests.touched && form.controls.guests.invalid) {
-                  <p class="error-msg">Enter a number between 1 and 10</p>
+                  <p class="error-msg">Nhập số từ 1 đến 10</p>
                 }
               </div>
             }
 
             <div class="field">
-              <label class="field-label" for="rsvp-notes">Notes or Dietary Restrictions</label>
+              <label class="field-label" for="rsvp-notes">Ghi chú hoặc yêu cầu ăn kiêng</label>
               <textarea
                 id="rsvp-notes"
                 class="field-input field-textarea"
                 rows="3"
                 [formControl]="form.controls.notes"
-                placeholder="Optional"
+                placeholder="Tùy chọn"
               ></textarea>
             </div>
 
@@ -91,14 +91,14 @@
               [disabled]="form.invalid || status() === 'submitting'"
             >
               @if (status() === 'submitting') {
-                Sending...
+                Đang gửi...
               } @else {
-                Send Response
+                Gửi Phản Hồi
               }
             </button>
 
             @if (status() === 'error') {
-              <p class="error-msg error-banner">Something went wrong. Please try again.</p>
+              <p class="error-msg error-banner">Đã xảy ra lỗi. Vui lòng thử lại.</p>
             }
           </form>
         }
