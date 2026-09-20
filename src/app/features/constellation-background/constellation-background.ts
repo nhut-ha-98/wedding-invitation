@@ -12,11 +12,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BookStateService } from '../../core/services/book-state.service';
 import {
-  AQUARIUS_STARS,
-  CANCER_STARS,
-  AQUARIUS_LINES,
-  CANCER_LINES,
-  DUAL_AWAKENING_TRIGGER,
+  LOGO_STARS,
+  LOGO_LINES,
+  LOGO_REVEAL_TRIGGER,
   constellationLineD,
   constellationStarById,
   ConstellationLine,
@@ -43,10 +41,8 @@ function prefersReducedMotion(): boolean {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConstellationBackground {
-  readonly aquariusStars = AQUARIUS_STARS;
-  readonly cancerStars = CANCER_STARS;
-  readonly aquariusLines = AQUARIUS_LINES;
-  readonly cancerLines = CANCER_LINES;
+  readonly stars = LOGO_STARS;
+  readonly lines = LOGO_LINES;
   readonly lineD = constellationLineD;
 
   readonly starScale = STAR_SCALE;
@@ -66,12 +62,9 @@ export class ConstellationBackground {
 
   private afternoonLayer = viewChild.required<ElementRef<HTMLElement>>('afternoonLayer');
   private nightLayer = viewChild.required<ElementRef<HTMLElement>>('nightLayer');
-  private aquariusStarGroup = viewChild.required<ElementRef<SVGGElement>>('aquariusStarGroup');
-  private cancerStarGroup = viewChild.required<ElementRef<SVGGElement>>('cancerStarGroup');
-  private aquariusLineGroup = viewChild.required<ElementRef<SVGGElement>>('aquariusLineGroup');
-  private cancerLineGroup = viewChild.required<ElementRef<SVGGElement>>('cancerLineGroup');
-  private aquariusFxGroup = viewChild.required<ElementRef<SVGGElement>>('aquariusFxGroup');
-  private cancerFxGroup = viewChild.required<ElementRef<SVGGElement>>('cancerFxGroup');
+  private logoStarGroup = viewChild.required<ElementRef<SVGGElement>>('logoStarGroup');
+  private logoLineGroup = viewChild.required<ElementRef<SVGGElement>>('logoLineGroup');
+  private logoFxGroup = viewChild.required<ElementRef<SVGGElement>>('logoFxGroup');
 
   private starElMap = new Map<string, SVGGElement>();
   private lineElMap = new Map<string, { path: SVGPathElement; spark: SVGGElement }>();
@@ -88,36 +81,17 @@ export class ConstellationBackground {
   }
 
   private init(): void {
-    // Map Aquarius stars & lines
-    const aqStarNodes = Array.from(
-      this.aquariusStarGroup().nativeElement.children,
-    ) as SVGGElement[];
-    this.aquariusStars.forEach((s, i) => {
-      this.starElMap.set(s.id, aqStarNodes[i]);
+    // Map Logo stars & lines
+    const lgStarNodes = Array.from(this.logoStarGroup().nativeElement.children) as SVGGElement[];
+    this.stars.forEach((s, i) => {
+      this.starElMap.set(s.id, lgStarNodes[i]);
       this.starVisibleMap.set(s.id, false);
     });
 
-    const aqLineNodes = Array.from(
-      this.aquariusLineGroup().nativeElement.children,
-    ) as SVGGElement[];
-    this.aquariusLines.forEach((l, i) => {
-      const path = aqLineNodes[i].querySelector('.cl-line') as SVGPathElement;
-      const spark = aqLineNodes[i].querySelector('.comet-spark') as SVGGElement;
-      this.lineElMap.set(l.id, { path, spark });
-      this.lineDrawnMap.set(l.id, false);
-    });
-
-    // Map Cancer stars & lines
-    const cnStarNodes = Array.from(this.cancerStarGroup().nativeElement.children) as SVGGElement[];
-    this.cancerStars.forEach((s, i) => {
-      this.starElMap.set(s.id, cnStarNodes[i]);
-      this.starVisibleMap.set(s.id, false);
-    });
-
-    const cnLineNodes = Array.from(this.cancerLineGroup().nativeElement.children) as SVGGElement[];
-    this.cancerLines.forEach((l, i) => {
-      const path = cnLineNodes[i].querySelector('.cl-line') as SVGPathElement;
-      const spark = cnLineNodes[i].querySelector('.comet-spark') as SVGGElement;
+    const lgLineNodes = Array.from(this.logoLineGroup().nativeElement.children) as SVGGElement[];
+    this.lines.forEach((l, i) => {
+      const path = lgLineNodes[i].querySelector('.cl-line') as SVGPathElement;
+      const spark = lgLineNodes[i].querySelector('.comet-spark') as SVGGElement;
       this.lineElMap.set(l.id, { path, spark });
       this.lineDrawnMap.set(l.id, false);
     });
@@ -148,8 +122,7 @@ export class ConstellationBackground {
       this.nightLayer().nativeElement.style.opacity = String(smoothNight);
 
       // 2. Check all stars
-      const allStars = [...this.aquariusStars, ...this.cancerStars];
-      for (const star of allStars) {
+      for (const star of this.stars) {
         const isVisible = this.starVisibleMap.get(star.id) ?? false;
         const shouldBeVisible = p >= star.trigger;
         if (shouldBeVisible !== isVisible) {
@@ -162,8 +135,7 @@ export class ConstellationBackground {
       }
 
       // 3. Check all lines
-      const allLines = [...this.aquariusLines, ...this.cancerLines];
-      for (const line of allLines) {
+      for (const line of this.lines) {
         const isDrawn = this.lineDrawnMap.get(line.id) ?? false;
         const shouldBeDrawn = p >= line.trigger;
         if (shouldBeDrawn !== isDrawn) {
@@ -175,11 +147,11 @@ export class ConstellationBackground {
         }
       }
 
-      // 4. Synchronized Dual Awakening: Only shine when BOTH constellations are fully connected
-      const shouldBothConnect = p >= DUAL_AWAKENING_TRIGGER;
+      // 4. Synchronized Golden Awakening: Only shine when the logo is fully connected
+      const shouldBothConnect = p >= LOGO_REVEAL_TRIGGER;
       if (shouldBothConnect !== this.bothConnected) {
         this.bothConnected = shouldBothConnect;
-        this.setDualAwakening(shouldBothConnect);
+        this.setLogoAwakening(shouldBothConnect);
       }
     };
 
@@ -264,41 +236,24 @@ export class ConstellationBackground {
     }
   }
 
-  /** Triggers the neon brightening effect simultaneously across BOTH constellations */
-  private setDualAwakening(connected: boolean): void {
-    const aqStarEl = this.aquariusStarGroup().nativeElement;
-    const aqLineEl = this.aquariusLineGroup().nativeElement;
-    const cnStarEl = this.cancerStarGroup().nativeElement;
-    const cnLineEl = this.cancerLineGroup().nativeElement;
+  /** Triggers the neon brightening effect across the full logo silhouette */
+  private setLogoAwakening(connected: boolean): void {
+    const starEl = this.logoStarGroup().nativeElement;
+    const lineEl = this.logoLineGroup().nativeElement;
 
     if (connected) {
-      aqStarEl.classList.add('is-connected');
-      aqLineEl.classList.add('is-connected');
-      cnStarEl.classList.add('is-connected');
-      cnLineEl.classList.add('is-connected');
+      starEl.classList.add('is-connected');
+      lineEl.classList.add('is-connected');
 
-      this.pulseCompletion('aquarius');
-      this.pulseCompletion('cancer');
-
-      // Cascade star flash across both constellations simultaneously
-      // [...this.aquariusStars, ...this.cancerStars].forEach((s, idx) => {
-      //   setTimeout(() => {
-      //     this.shine(s.id, 1.0);
-      //   }, idx * 18);
-      // });
+      this.pulseCompletion();
     } else {
-      aqStarEl.classList.remove('is-connected');
-      aqLineEl.classList.remove('is-connected');
-      cnStarEl.classList.remove('is-connected');
-      cnLineEl.classList.remove('is-connected');
+      starEl.classList.remove('is-connected');
+      lineEl.classList.remove('is-connected');
     }
   }
 
-  private pulseCompletion(set: 'aquarius' | 'cancer'): void {
-    const fxGroup =
-      set === 'aquarius'
-        ? this.aquariusFxGroup().nativeElement
-        : this.cancerFxGroup().nativeElement;
+  private pulseCompletion(): void {
+    const fxGroup = this.logoFxGroup().nativeElement;
 
     const ring = fxGroup.querySelector('.completion-ring') as SVGCircleElement | null;
     const glint = fxGroup.querySelector('.completion-glint') as SVGGElement | null;
@@ -365,7 +320,7 @@ export class ConstellationBackground {
   private renderStatic(): void {
     this.afternoonLayer().nativeElement.style.opacity = '0';
     this.nightLayer().nativeElement.style.opacity = '1';
-    for (const star of [...this.aquariusStars, ...this.cancerStars]) {
+    for (const star of this.stars) {
       const el = this.starElMap.get(star.id);
       if (el) el.style.opacity = String(star.alpha * 0.7);
     }
