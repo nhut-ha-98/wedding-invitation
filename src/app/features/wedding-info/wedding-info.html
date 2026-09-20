@@ -1,7 +1,8 @@
 <app-animated-section>
   <section class="info-section">
     <div class="torn-paper">
-      <div class="info-card torn-paper__sheet">
+      <div class="info-card torn-paper__sheet paper-grain">
+        <p class="info-label">Thiệp Mời</p>
         <h2 class="info-title">
           {{ config().couple.partner1 }}
           <span class="ampersand">&</span>
@@ -9,51 +10,77 @@
         </h2>
         <p class="info-subtitle">Trân trọng kính mời sự có mặt của bạn</p>
 
-        <div class="info-details">
-          <div class="detail-row">
-            <span class="detail-icon">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <rect x="3" y="4" width="18" height="18" rx="2" />
-                <path d="M3 10h18" />
-              </svg>
-            </span>
-            <div>
-              <p class="detail-label">Thời gian</p>
-              <p class="detail-value">{{ config().date }} lúc {{ config().time }}</p>
-            </div>
-          </div>
+        <app-papercut-art class="info-emblem" variant="blossom" />
 
-          <div class="detail-row">
-            <span class="detail-icon">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-            </span>
-            <div>
-              <p class="detail-label">Địa Điểm</p>
-              <p class="detail-value">Nhà hàng {{ config().venue.name }}</p>
-              <p class="detail-sub">{{ config().venue.address }}</p>
-            </div>
-          </div>
+        <div class="stitch-divider" aria-hidden="true"></div>
+
+        <div class="detail-deck">
+          <figure class="detail-note detail-note--date paper-grain">
+            <svg
+              class="note-clip"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"
+              />
+            </svg>
+            <span class="note-label">Ngày</span>
+            <span class="note-value note-value--gold">{{ config().date }}</span>
+          </figure>
+
+          <figure class="detail-note detail-note--time paper-grain">
+            <svg
+              class="note-clip"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"
+              />
+            </svg>
+            <span class="note-label">Giờ</span>
+            <span class="note-value note-value--gold">{{ config().time }}</span>
+          </figure>
+
+          <figure class="detail-note detail-note--venue paper-grain">
+            <svg
+              class="note-clip"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"
+              />
+            </svg>
+            <span class="note-label">Địa điểm</span>
+            <span class="note-value">Nhà hàng {{ config().venue.name }}</span>
+            <span class="note-sub">{{ config().venue.address }}</span>
+          </figure>
         </div>
 
+        <div class="stitch-divider" aria-hidden="true"></div>
+
         <div class="info-schedule">
-          <h3 class="info-schedule-title">Chương Trình Hôn Lễ</h3>
+          <h3 class="info-schedule-title">Chương Trình</h3>
           @for (event of config().schedule; track event.time; let idx = $index) {
             <div class="schedule-row">
               <span class="schedule-time">{{ event.time }}</span>
@@ -66,16 +93,19 @@
         </div>
 
         <div class="info-map">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d627.5717676725598!2d106.72647823768665!3d10.803723828209852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527a1a0aaa48d%3A0xd6639369f7ba36d8!2zTEFDQVNBIC0gMzAgTmd1eeG7hW4gVsSDbiBIxrDhu59uZw!5e1!3m2!1svi!2s!4v1789894716589!5m2!1svi!2s"
-            width="600"
-            height="450"
-            style="border: 0"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-            title="Bản đồ {{ config().venue.name }}"
-          ></iframe>
+          <div class="info-map-photo">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d627.5717676725598!2d106.72647823768665!3d10.803723828209852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527a1a0aaa48d%3A0xd6639369f7ba36d8!2zTEFDQVNBIC0gMzAgTmd1eeG7hW4gVsSDbiBIxrDhu59uZw!5e1!3m2!1svi!2s!4v1789894716589!5m2!1svi!2s"
+              width="600"
+              height="450"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              title="Bản đồ {{ config().venue.name }}"
+            ></iframe>
+            <p class="info-map-caption">Nhà hàng {{ config().venue.name }}</p>
+          </div>
         </div>
 
         <a class="map-btn" [href]="config().venue.mapUrl" target="_blank" rel="noopener noreferrer">
