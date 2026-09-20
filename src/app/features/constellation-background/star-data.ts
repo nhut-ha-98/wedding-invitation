@@ -83,6 +83,104 @@ const cancerSpecs: StarSpec[] = [
   { id: 'cn-18', x: 800, y: 1150, r: 2.0 },
 ];
 
+// ── Logo Silhouette (Groom, Bride & Calligraphy) ──
+const logoSpecs: StarSpec[] = [
+  // Outer Circle Frame
+  { id: 'lg-c1', x: 500, y: 100, r: 2.2 },
+  { id: 'lg-c2', x: 783, y: 217, r: 2.0 },
+  { id: 'lg-c3', x: 900, y: 500, r: 2.2 },
+  { id: 'lg-c4', x: 783, y: 783, r: 2.0 },
+  { id: 'lg-c5', x: 500, y: 900, r: 2.2 },
+  { id: 'lg-c6', x: 217, y: 783, r: 2.0 },
+  { id: 'lg-c7', x: 100, y: 500, r: 2.2 },
+  { id: 'lg-c8', x: 217, y: 217, r: 2.0 },
+
+  // Groom Silhouette (Left)
+  { id: 'lg-g1', x: 390, y: 200, r: 3.4, halo: true }, // Head top
+  { id: 'lg-g2', x: 430, y: 230, r: 2.4 }, // Face profile
+  { id: 'lg-g3', x: 410, y: 280, r: 2.2 }, // Chin/Neck
+  { id: 'lg-g4', x: 330, y: 320, r: 2.8 }, // Back shoulder
+  { id: 'lg-g5', x: 360, y: 450, r: 2.2 }, // Mid back
+  { id: 'lg-g6', x: 400, y: 340, r: 2.4 }, // Chest
+  { id: 'lg-g7', x: 410, y: 460, r: 2.2 }, // Mid front
+  { id: 'lg-g8', x: 330, y: 750, r: 3.0, halo: true }, // Base left
+  { id: 'lg-g9', x: 440, y: 750, r: 3.0, halo: true }, // Base right
+  { id: 'lg-g10', x: 360, y: 600, r: 2.0 }, // Leg back
+  { id: 'lg-g11', x: 410, y: 600, r: 2.0 }, // Leg front
+
+  // Bride Silhouette (Right)
+  { id: 'lg-b1', x: 480, y: 220, r: 3.4, halo: true }, // Head top
+  { id: 'lg-b2', x: 450, y: 260, r: 2.4 }, // Face profile
+  { id: 'lg-b3', x: 470, y: 300, r: 2.2 }, // Neck
+  { id: 'lg-b4', x: 450, y: 390, r: 2.4 }, // Chest
+  { id: 'lg-b5', x: 480, y: 480, r: 2.6 }, // Waist front
+  { id: 'lg-b6', x: 520, y: 250, r: 2.8 }, // Veil top back
+  { id: 'lg-b7', x: 590, y: 340, r: 2.4 }, // Veil flow mid
+  { id: 'lg-b8', x: 610, y: 420, r: 2.6 }, // Veil flow right
+  { id: 'lg-b9', x: 560, y: 470, r: 2.2 }, // Veil flow bottom
+  { id: 'lg-b10', x: 520, y: 450, r: 2.2 }, // Waist back
+
+  // Calligraphy Sweeps
+  { id: 'lg-s1', x: 280, y: 620, r: 2.8, halo: true }, // Left swirl tail
+  { id: 'lg-s2', x: 350, y: 490, r: 2.4 }, // Left arch peak
+  { id: 'lg-s3', x: 510, y: 600, r: 2.6, halo: true }, // Center cross intersection
+  { id: 'lg-s4', x: 650, y: 540, r: 2.8, halo: true }, // Right arch peak
+  { id: 'lg-s5', x: 690, y: 700, r: 2.4 }, // Right sweep dip
+  { id: 'lg-s6', x: 750, y: 680, r: 3.0, halo: true }, // Right swirl tail end
+  { id: 'lg-s7', x: 570, y: 560, r: 2.0 }, // Inner loop top
+  { id: 'lg-s8', x: 610, y: 720, r: 2.2 }, // Inner loop bottom
+  { id: 'lg-s9', x: 550, y: 660, r: 2.0 }, // Inner loop left
+];
+
+const logoLinePairs: ReadonlyArray<readonly [string, string]> = [
+  // Outer Circle
+  ['lg-c1', 'lg-c2'],
+  ['lg-c2', 'lg-c3'],
+  ['lg-c3', 'lg-c4'],
+  ['lg-c4', 'lg-c5'],
+  ['lg-c5', 'lg-c6'],
+  ['lg-c6', 'lg-c7'],
+  ['lg-c7', 'lg-c8'],
+  ['lg-c8', 'lg-c1'],
+
+  // Groom Body
+  ['lg-g1', 'lg-g2'],
+  ['lg-g2', 'lg-g3'],
+  ['lg-g3', 'lg-g6'],
+  ['lg-g6', 'lg-g7'],
+  ['lg-g7', 'lg-g11'],
+  ['lg-g11', 'lg-g9'],
+  ['lg-g9', 'lg-g8'],
+  ['lg-g8', 'lg-g10'],
+  ['lg-g10', 'lg-g5'],
+  ['lg-g5', 'lg-g4'],
+  ['lg-g4', 'lg-g1'],
+
+  // Bride Body & Veil
+  ['lg-b1', 'lg-b2'],
+  ['lg-b2', 'lg-b3'],
+  ['lg-b3', 'lg-b4'],
+  ['lg-b4', 'lg-b5'],
+  ['lg-b1', 'lg-b6'],
+  ['lg-b6', 'lg-b7'],
+  ['lg-b7', 'lg-b8'],
+  ['lg-b8', 'lg-b9'],
+  ['lg-b9', 'lg-b10'],
+  ['lg-b10', 'lg-b5'],
+
+  // Calligraphy Sweeps
+  ['lg-s1', 'lg-s2'],
+  ['lg-s2', 'lg-s3'],
+  ['lg-s3', 'lg-s4'],
+  ['lg-s4', 'lg-s6'],  // Outer connecting sweep
+  ['lg-s3', 'lg-s9'],  // Inner 'a' loop setup
+  ['lg-s9', 'lg-s8'],
+  ['lg-s8', 'lg-s5'],
+  ['lg-s5', 'lg-s6'],
+  ['lg-s5', 'lg-s7'],
+  ['lg-s7', 'lg-s4']
+];
+
 function buildStars(
   specs: StarSpec[],
   startTrigger: number,

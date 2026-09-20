@@ -55,3 +55,40 @@
     </div>
   </section>
 </app-animated-section>
+
+<app-animated-section>
+  <section class="schedule-section">
+    <div class="timeline-header">
+      <div class="timeline-divider">
+        <svg
+          class="timeline-divider-ornament"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#d4af37"
+          stroke-width="1.2"
+          aria-hidden="true"
+        >
+          <path d="M2 12 C 7 10, 11 6, 12 2" />
+          <path d="M22 12 C 17 10, 13 6, 12 2" />
+          <path d="M12 2 L12 9" />
+          <path d="M4 19 C 8 17, 16 17, 20 19" />
+        </svg>
+      </div>
+      <h2 class="timeline-title">Chương Trình Hôn Lễ</h2>
+      <p class="timeline-subtitle">Lịch trình trong ngày trọng đại</p>
+    </div>
+    <div class="schedule-card paper-grain">
+      @for (event of config().schedule; track event.time; let idx = $index) {
+        <div class="schedule-row">
+          <span class="schedule-time">{{ event.time }}</span>
+          <span class="schedule-label">{{ event.label }}</span>
+          @if (idx < config().schedule.length - 1) {
+            <div class="schedule-separator" aria-hidden="true"></div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+</app-animated-section>

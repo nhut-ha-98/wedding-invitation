@@ -25,6 +25,7 @@ export interface WeddingConfig {
     she: CoupleProfile;
   };
   timeline: TimelineEvent[];
+  schedule: ScheduleEvent[];
   proposalStory: string;
   closingQuote: string;
   closingQuoteAuthor: string;
@@ -36,6 +37,11 @@ export interface TimelineEvent {
   description: string;
   image?: string;
   icon?: string;
+}
+
+export interface ScheduleEvent {
+  time: string;
+  label: string;
 }
 
 export interface CoupleProfile {
@@ -53,7 +59,7 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     partner2: 'Hoa Ha',
   },
   date: '01.11.2026',
-  time: '18:00',
+  time: '17:30',
   venue: {
     name: 'The Lacasa',
     address: 'Nguyen Van Huong, Thao Dien',
@@ -112,6 +118,11 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       description: 'Surrounded by our loved ones, we will say "I do" and begin our forever.',
       icon: '🥂',
     },
+  ],
+  schedule: [
+    { time: '16:45', label: 'LỄ VOW' },
+    { time: '17:30', label: 'ĐÓN KHÁCH' },
+    { time: '19:30', label: 'LỄ CHÍNH' },
   ],
   proposalStory:
     'Chúng mình đã đi qua những ngày rất đỗi bình thường, để rồi nhận ra chính những ngày ấy đã làm nên câu chuyện đẹp nhất của đời mình.',
