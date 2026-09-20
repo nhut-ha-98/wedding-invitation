@@ -10,8 +10,6 @@
         </h2>
         <p class="info-subtitle">Trân trọng kính mời sự có mặt của bạn</p>
 
-        <app-papercut-art class="info-emblem" variant="blossom" />
-
         <div class="stitch-divider" aria-hidden="true"></div>
 
         <div class="detail-deck">
@@ -74,43 +72,47 @@
             <span class="note-label">Địa điểm</span>
             <span class="note-value">Nhà hàng {{ config().venue.name }}</span>
             <span class="note-sub">{{ config().venue.address }}</span>
+            <span class="note-map">
+              <span class="note-map-photo">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d627.5717676725598!2d106.72647823768665!3d10.803723828209852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527a1a0aaa48d%3A0xd6639369f7ba36d8!2zTEFDQVNBIC0gMzAgTmd1eeG7hW4gVsSDbiBIxrDhu59uZw!5e1!3m2!1svi!2s!4v1789894716589!5m2!1svi!2s"
+                  width="600"
+                  height="450"
+                  style="border: 0"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  title="Bản đồ {{ config().venue.name }}"
+                ></iframe>
+                <span class="note-map-caption">{{ config().venue.name }}</span>
+              </span>
+              <a
+                class="map-btn"
+                [href]="config().venue.mapUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Xem Bản Đồ
+              </a>
+            </span>
           </figure>
         </div>
 
-        <div class="stitch-divider" aria-hidden="true"></div>
-
         <div class="info-schedule">
           <h3 class="info-schedule-title">Chương Trình</h3>
-          @for (event of config().schedule; track event.time; let idx = $index) {
-            <div class="schedule-row">
-              <span class="schedule-time">{{ event.time }}</span>
-              <span class="schedule-label">{{ event.label }}</span>
+          <div class="program-card paper-grain">
+            <span class="program-spark" aria-hidden="true">✦</span>
+            @for (event of config().schedule; track event.time; let idx = $index) {
+              <div class="program-stub">
+                <span class="program-time">{{ event.time }}</span>
+                <span class="program-label">{{ event.label }}</span>
+              </div>
               @if (idx < config().schedule.length - 1) {
-                <div class="schedule-separator" aria-hidden="true"></div>
+                <div class="program-sep" aria-hidden="true"></div>
               }
-            </div>
-          }
-        </div>
-
-        <div class="info-map">
-          <div class="info-map-photo">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d627.5717676725598!2d106.72647823768665!3d10.803723828209852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527a1a0aaa48d%3A0xd6639369f7ba36d8!2zTEFDQVNBIC0gMzAgTmd1eeG7hW4gVsSDbiBIxrDhu59uZw!5e1!3m2!1svi!2s!4v1789894716589!5m2!1svi!2s"
-              width="600"
-              height="450"
-              style="border: 0"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="strict-origin-when-cross-origin"
-              title="Bản đồ {{ config().venue.name }}"
-            ></iframe>
-            <p class="info-map-caption">Nhà hàng {{ config().venue.name }}</p>
+            }
           </div>
         </div>
-
-        <a class="map-btn" [href]="config().venue.mapUrl" target="_blank" rel="noopener noreferrer">
-          Xem Bản Đồ
-        </a>
       </div>
     </div>
   </section>

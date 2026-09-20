@@ -196,6 +196,9 @@
 }
 
 .info-schedule-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
   font-family: 'Playfair Display', serif;
   font-size: 1.125rem;
   font-weight: 600;
@@ -207,74 +210,113 @@
 
 .info-schedule-title::before,
 .info-schedule-title::after {
-  content: '✦';
-  display: inline-block;
-  font-size: 0.7em;
-  color: #d4af37;
-  opacity: 0.7;
-  vertical-align: middle;
-  margin: 0 0.55rem;
+  content: '';
+  width: 32px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.65) 0 6px,
+    transparent 6px 12px
+  );
 }
 
-.schedule-row {
+.program-card {
+  position: relative;
+  margin: 0 auto;
+  max-width: 400px;
+  padding: 1.1rem 1rem 1.25rem;
+  background: linear-gradient(135deg, #f7e9d3 0%, #efe0c8 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(212, 175, 55, 0.4),
+    inset 0 0 0 6px #f0dfc6,
+    inset 0 0 0 7px rgba(44, 24, 16, 0.12),
+    0 6px 16px rgba(44, 24, 16, 0.15),
+    0 2px 4px rgba(44, 24, 16, 0.08);
+  border-radius: 4px;
+  transform: rotate(-0.6deg);
+}
+
+.program-spark {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.75rem;
+  font-size: 0.7rem;
+  color: #d4af37;
+  opacity: 0.75;
+}
+
+.program-stub {
   position: relative;
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
-  padding: 1.1rem 0.25rem;
-  text-align: left;
+  padding: 0.9rem 0.25rem;
 }
 
-.schedule-time {
+.program-stub:nth-child(even) {
+  transform: rotate(-0.4deg);
+}
+
+.program-stub:nth-child(4n) {
+  transform: rotate(0.4deg);
+}
+
+.program-time {
+  flex: none;
+  width: 76px;
+  text-align: center;
   font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  color: #d4af37;
-  letter-spacing: 1px;
+  font-size: 1.25rem;
   font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #2c1810;
+  background: rgba(212, 175, 55, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.5);
+  border-radius: 2px;
+  padding: 0.35rem 0.15rem;
 }
 
-.schedule-label {
+.program-label {
+  flex: 1;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
-  color: #2c1810;
+  font-size: 0.95rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  text-align: right;
+  color: #2c1810;
+  line-height: 1.35;
+  text-align: left;
+  padding-left: 1rem;
+  margin-left: 0.4rem;
+  border-left: 2px dashed rgba(212, 175, 55, 0.55);
 }
 
-.schedule-separator {
-  position: absolute;
-  left: 0.25rem;
-  right: 0.25rem;
-  bottom: 0;
-  height: 2px;
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(212, 175, 55, 0.55) 0 7px,
-    transparent 7px 14px
-  );
-  background-repeat: no-repeat;
-  background-size: 100% 1px;
-  background-position: top center;
+.program-sep {
+  height: 12px;
+  margin: 0.05rem 0.5rem 0.2rem;
+  background-image: radial-gradient(circle, rgba(44, 24, 16, 0.22) 1.4px, transparent 1.5px);
+  background-size: 13px 16px;
+  background-position: center 3px;
+  background-repeat: repeat-x;
 }
 
-/* ── Map ── */
-
-.info-map {
-  margin: 0 0 1.75rem;
+.note-map {
+  display: block;
+  margin: 1.1rem 0 0;
+  padding-top: 1.1rem;
+  border-top: 1px dashed rgba(212, 175, 55, 0.55);
 }
 
-.info-map-photo {
+.note-map-photo {
+  display: block;
   background: linear-gradient(135deg, #fdf8f0 0%, #f5e6d3 100%);
-  padding: 10px 10px 0;
+  padding: 8px 8px 0;
   box-shadow:
     0 4px 12px rgba(44, 24, 16, 0.18),
     0 2px 4px rgba(44, 24, 16, 0.08);
-  transform: rotate(-0.5deg);
+  transform: rotate(-0.4deg);
 }
 
-.info-map-photo iframe {
+.note-map-photo iframe {
   display: block;
   width: 100%;
   height: auto;
@@ -283,12 +325,18 @@
   filter: sepia(0.14) saturate(0.88);
 }
 
-.info-map-caption {
+.note-map-caption {
+  display: block;
   font-family: 'Pinyon Script', cursive;
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   line-height: 1.2;
   color: #6b3f24;
-  margin: 0.55rem 0;
+  margin: 0.45rem 0;
+}
+
+.note-map .map-btn {
+  display: inline-block;
+  margin: 1rem 0 0.25rem;
 }
 
 /* ── Button ── */
@@ -330,16 +378,13 @@
     font-size: 1.3rem;
   }
 
-  .schedule-row {
-    padding: 0.95rem 0.25rem;
+  .program-time {
+    width: 68px;
+    font-size: 1.1rem;
   }
 
-  .schedule-time {
-    font-size: 1.35rem;
-  }
-
-  .schedule-label {
-    font-size: 1rem;
+  .program-label {
+    font-size: 0.88rem;
     letter-spacing: 1.5px;
   }
 }

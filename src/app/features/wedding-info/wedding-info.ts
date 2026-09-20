@@ -33,14 +33,14 @@ export class WeddingInfo {
       const root = this.el.nativeElement;
       const card = root.querySelector<HTMLElement>('.info-card');
       const notes = root.querySelectorAll<HTMLElement>('.detail-note');
-      const scheduleRows = root.querySelectorAll<HTMLElement>('.schedule-row');
-      const map = root.querySelector<HTMLElement>('.info-map');
+      const programStubs = root.querySelectorAll<HTMLElement>('.program-stub');
+      const map = root.querySelector<HTMLElement>('.note-map');
       const btn = root.querySelector<HTMLElement>('.map-btn');
 
       if (!card) return;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        gsap.set([card, ...notes, ...scheduleRows, map, btn].filter(Boolean), {
+        gsap.set([card, ...notes, ...programStubs, map, btn].filter(Boolean), {
           opacity: 1,
           scale: 1,
           y: 0,
@@ -71,9 +71,9 @@ export class WeddingInfo {
         );
       }
 
-      if (scheduleRows.length) {
+      if (programStubs.length) {
         tl.fromTo(
-          scheduleRows,
+          programStubs,
           { opacity: 0, y: 12 },
           { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' },
           '-=0.35',
