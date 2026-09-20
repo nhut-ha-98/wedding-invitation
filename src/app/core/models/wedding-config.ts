@@ -61,9 +61,9 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   date: '01.11.2026',
   time: '17:30',
   venue: {
-    name: 'The Lacasa',
-    address: 'Nguyen Van Huong, Thao Dien',
-    mapUrl: 'https://maps.google.com',
+    name: 'Lacasa',
+    address: '30 Nguyễn Văn Hưởng, An Khánh',
+    mapUrl: 'https://maps.app.goo.gl/PHCvCBcgiyN7i56w8',
   },
   dressCode: 'Trang phục lịch sự',
   openingQuote: 'Mỗi câu chuyện đều có một khởi đầu',

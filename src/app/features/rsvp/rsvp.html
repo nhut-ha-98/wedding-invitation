@@ -2,105 +2,78 @@
   <section class="rsvp-section">
     <div class="torn-paper">
       <div class="rsvp-card torn-paper__sheet">
-        <p class="rsvp-label">RSVP</p>
-        <h2 class="rsvp-title">Bạn sẽ đến chứ?</h2>
-        <p class="rsvp-subtitle">Vui lòng xác nhận trước ngày 1/6/2026</p>
+        <h2 class="rsvp-title">Xác nhận tham dự</h2>
+        <p class="rsvp-subtitle">Hãy xác nhận sự có mặt của bạn để chúng mình chuẩn bị tốt nhất nhé
+        </p>
 
         @if (status() === 'success' || submitted()) {
-          <div class="success-message">
-            <div class="success-icon">
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#d4af37"
-                stroke-width="1.5"
-              >
-                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                <path d="M22 4L12 14.01l-3-3" />
-              </svg>
-            </div>
-            <p class="success-title">Cảm ơn bạn!</p>
-            <p class="success-text">Đã nhận được phản hồi của bạn.</p>
-            <button class="reset-btn" (click)="resetForm()">Gửi phản hồi khác</button>
+        <div class="success-message">
+          <div class="success-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.5">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+              <path d="M22 4L12 14.01l-3-3" />
+            </svg>
           </div>
+          <p class="success-title">Cảm ơn bạn!</p>
+          <p class="success-text">Đã nhận được phản hồi của bạn.</p>
+          <button class="reset-btn" (click)="resetForm()">Gửi phản hồi khác</button>
+        </div>
         } @else {
-          <form class="rsvp-form" (submit)="onSubmit()" novalidate>
-            <div class="field">
-              <label class="field-label" for="rsvp-name">Tên của bạn</label>
-              <input
-                id="rsvp-name"
-                class="field-input"
-                type="text"
-                [formControl]="form.controls.name"
-                placeholder="VD: Nguyễn Văn A"
-                [class.field-error]="form.controls.name.touched && form.controls.name.invalid"
-              />
-              @if (form.controls.name.touched && form.controls.name.invalid) {
-                <p class="error-msg">Vui lòng nhập tên</p>
-              }
-            </div>
-
-            <div class="field">
-              <label class="field-label">Bạn có tham dự không?</label>
-              <div class="radio-group">
-                <label class="radio-option">
-                  <input type="radio" [value]="true" [formControl]="form.controls.attending" />
-                  <span>Vui lòng xác nhận</span>
-                </label>
-                <label class="radio-option">
-                  <input type="radio" [value]="false" [formControl]="form.controls.attending" />
-                  <span>Tiếc là không thể</span>
-                </label>
-              </div>
-            </div>
-
-            @if (form.controls.attending.value) {
-              <div class="field">
-                <label class="field-label" for="rsvp-guests">Số khách</label>
-                <input
-                  id="rsvp-guests"
-                  class="field-input"
-                  type="number"
-                  min="1"
-                  max="10"
-                  [formControl]="form.controls.guests"
-                  [class.field-error]="form.controls.guests.touched && form.controls.guests.invalid"
-                />
-                @if (form.controls.guests.touched && form.controls.guests.invalid) {
-                  <p class="error-msg">Nhập số từ 1 đến 10</p>
-                }
-              </div>
+        <form class="rsvp-form" (submit)="onSubmit()" novalidate>
+          <div class="field">
+            <label class="field-label" for="rsvp-name">Tên của bạn</label>
+            <input id="rsvp-name" class="field-input" type="text" [formControl]="form.controls.name"
+              placeholder="VD: Nguyễn Văn A"
+              [class.field-error]="form.controls.name.touched && form.controls.name.invalid" />
+            @if (form.controls.name.touched && form.controls.name.invalid) {
+            <p class="error-msg">Vui lòng nhập tên</p>
             }
+          </div>
 
-            <div class="field">
-              <label class="field-label" for="rsvp-notes">Ghi chú hoặc yêu cầu ăn kiêng</label>
-              <textarea
-                id="rsvp-notes"
-                class="field-input field-textarea"
-                rows="3"
-                [formControl]="form.controls.notes"
-                placeholder="Tùy chọn"
-              ></textarea>
+          <div class="field">
+            <label class="field-label">Bạn có tham dự không?</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" [value]="true" [formControl]="form.controls.attending" />
+                <span>Vui lòng xác nhận</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" [value]="false" [formControl]="form.controls.attending" />
+                <span>Tiếc là không thể</span>
+              </label>
             </div>
+          </div>
 
-            <button
-              class="submit-btn"
-              type="submit"
-              [disabled]="form.invalid || status() === 'submitting'"
-            >
-              @if (status() === 'submitting') {
-                Đang gửi...
-              } @else {
-                Gửi Phản Hồi
-              }
-            </button>
-
-            @if (status() === 'error') {
-              <p class="error-msg error-banner">Đã xảy ra lỗi. Vui lòng thử lại.</p>
+          @if (form.controls.attending.value) {
+          <div class="field">
+            <label class="field-label" for="rsvp-guests">Số khách</label>
+            <input id="rsvp-guests" class="field-input" type="number" min="1" max="10"
+              [formControl]="form.controls.guests"
+              [class.field-error]="form.controls.guests.touched && form.controls.guests.invalid" />
+            @if (form.controls.guests.touched && form.controls.guests.invalid) {
+            <p class="error-msg">Nhập số từ 1 đến 10</p>
             }
-          </form>
+          </div>
+          }
+
+          <div class="field">
+            <label class="field-label" for="rsvp-notes">Ghi chú hoặc yêu cầu ăn kiêng</label>
+            <textarea id="rsvp-notes" class="field-input field-textarea" rows="3" [formControl]="form.controls.notes"
+              placeholder="Tùy chọn"></textarea>
+          </div>
+
+          <button class="submit-btn" type="submit" [disabled]="form.invalid || status() === 'submitting'">
+            @if (status() === 'submitting') {
+            Đang gửi...
+            } @else {
+            Gửi Phản Hồi
+            }
+          </button>
+
+          @if (status() === 'error') {
+          <p class="error-msg error-banner">Đã xảy ra lỗi. Vui lòng thử lại.</p>
+          }
+        </form>
         }
       </div>
     </div>
