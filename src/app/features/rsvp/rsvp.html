@@ -6,15 +6,17 @@
         <div class="postcard-stamp-wrap" aria-hidden="true">
           <div class="postcard-stamp">
             <svg class="stamp-icon" viewBox="0 0 24 24" fill="none" stroke="#b8860b" stroke-width="1.5">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
             <span class="stamp-text">LOVE</span>
           </div>
           <div class="postcard-postmark">
             <svg viewBox="0 0 70 70" class="postmark-svg">
-              <circle cx="35" cy="35" r="32" fill="none" stroke="#8b7355" stroke-width="1" stroke-dasharray="3 2" opacity="0.6"/>
-              <circle cx="35" cy="35" r="24" fill="none" stroke="#8b7355" stroke-width="0.8" opacity="0.6"/>
-              <path id="curve" d="M 16 35 A 19 19 0 0 1 54 35" fill="transparent"/>
+              <circle cx="35" cy="35" r="32" fill="none" stroke="#8b7355" stroke-width="1" stroke-dasharray="3 2"
+                opacity="0.6" />
+              <circle cx="35" cy="35" r="24" fill="none" stroke="#8b7355" stroke-width="0.8" opacity="0.6" />
+              <path id="curve" d="M 16 35 A 19 19 0 0 1 54 35" fill="transparent" />
               <text font-size="6" fill="#8b7355" opacity="0.75" letter-spacing="1.5">
                 <textPath href="#curve" startOffset="50%" text-anchor="middle">WEDDING RSVP</textPath>
               </text>
@@ -23,109 +25,88 @@
           </div>
         </div>
 
-        <p class="rsvp-label">✦ CARTE DE RÉPONSE ✦</p>
-        <h2 class="rsvp-title">Xác Nhận Tham Dự</h2>
+        <p class="rsvp-label">✦ Xác Nhận Tham Dự ✦</p>
         <p class="rsvp-subtitle">
-          Hãy cho chúng mình biết sự hiện diện của bạn trước ngày 20.10.2026 nhé
+          Hãy cho chúng mình biết sự tham dự của bạn nhé
         </p>
 
         @if (status() === 'success' || submitted()) {
-          <div class="success-message">
-            <div class="success-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.5">
-                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                <path d="M22 4L12 14.01l-3-3" />
-              </svg>
-            </div>
-            <p class="success-title">Cảm ơn bạn!</p>
-            <p class="success-text">Đã nhận được phản hồi của bạn. Hẹn gặp lại bạn trong ngày vui!</p>
-            <button class="reset-btn" (click)="resetForm()">Gửi phản hồi khác</button>
+        <div class="success-message">
+          <div class="success-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.5">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+              <path d="M22 4L12 14.01l-3-3" />
+            </svg>
           </div>
+          <p class="success-title">Cảm ơn bạn!</p>
+          <p class="success-text">Đã nhận được phản hồi của bạn. Hẹn gặp lại bạn trong ngày vui!</p>
+          <button class="reset-btn" (click)="resetForm()">Gửi phản hồi khác</button>
+        </div>
         } @else {
-          <form class="rsvp-form" (submit)="onSubmit()" novalidate>
-            <div class="field">
-              <label class="field-label" for="rsvp-name">Tên của bạn</label>
-              <div class="input-line-wrap">
-                <input
-                  id="rsvp-name"
-                  class="field-input"
-                  type="text"
-                  [formControl]="form.controls.name"
-                  placeholder="VD: Nguyễn Văn A"
-                  [class.field-error]="form.controls.name.touched && form.controls.name.invalid"
-                />
-              </div>
-              @if (form.controls.name.touched && form.controls.name.invalid) {
-                <p class="error-msg">Vui lòng nhập tên của bạn</p>
-              }
+        <form class="rsvp-form" (submit)="onSubmit()" novalidate>
+          <div class="field">
+            <label class="field-label" for="rsvp-name">Tên của bạn</label>
+            <div class="input-line-wrap">
+              <input id="rsvp-name" class="field-input" type="text" [formControl]="form.controls.name"
+                placeholder="VD: Nguyễn Văn A"
+                [class.field-error]="form.controls.name.touched && form.controls.name.invalid" />
             </div>
-
-            <div class="field">
-              <label class="field-label">Sự hiện diện của bạn</label>
-              <div class="attendance-options">
-                <label class="attendance-btn" [class.is-selected]="form.controls.attending.value === true">
-                  <input type="radio" [value]="true" [formControl]="form.controls.attending" class="sr-only" />
-                  <span class="btn-check">✦</span>
-                  <span class="btn-text">Hân hạnh tham dự</span>
-                </label>
-                <label class="attendance-btn" [class.is-selected]="form.controls.attending.value === false">
-                  <input type="radio" [value]="false" [formControl]="form.controls.attending" class="sr-only" />
-                  <span class="btn-check">✕</span>
-                  <span class="btn-text">Tiếc là không thể</span>
-                </label>
-              </div>
-            </div>
-
-            @if (form.controls.attending.value) {
-              <div class="field">
-                <label class="field-label" for="rsvp-guests">Số lượng khách</label>
-                <div class="guest-selector">
-                  <input
-                    id="rsvp-guests"
-                    class="field-input guest-input"
-                    type="number"
-                    min="1"
-                    max="10"
-                    [formControl]="form.controls.guests"
-                    [class.field-error]="form.controls.guests.touched && form.controls.guests.invalid"
-                  />
-                  <span class="guest-unit">người</span>
-                </div>
-                @if (form.controls.guests.touched && form.controls.guests.invalid) {
-                  <p class="error-msg">Nhập số từ 1 đến 10</p>
-                }
-              </div>
+            @if (form.controls.name.touched && form.controls.name.invalid) {
+            <p class="error-msg">Vui lòng nhập tên của bạn</p>
             }
+          </div>
 
-            <div class="field">
-              <label class="field-label" for="rsvp-notes">Lời chúc & Ghi chú</label>
-              <textarea
-                id="rsvp-notes"
-                class="field-input field-textarea"
-                rows="3"
-                [formControl]="form.controls.notes"
-                placeholder="Gửi lời chúc hoặc yêu cầu ăn kiêng đặc biệt..."
-              ></textarea>
+          <div class="field">
+            <label class="field-label">Sự hiện diện của bạn</label>
+            <div class="attendance-options">
+              <label class="attendance-btn" [class.is-selected]="form.controls.attending.value === true">
+                <input type="radio" [value]="true" [formControl]="form.controls.attending" class="sr-only" />
+                <span class="btn-check">✦</span>
+                <span class="btn-text">Hân hạnh tham dự</span>
+              </label>
+              <label class="attendance-btn" [class.is-selected]="form.controls.attending.value === false">
+                <input type="radio" [value]="false" [formControl]="form.controls.attending" class="sr-only" />
+                <span class="btn-check">✕</span>
+                <span class="btn-text">Tiếc là không thể</span>
+              </label>
             </div>
+          </div>
 
-            <button
-              class="submit-btn"
-              type="submit"
-              [disabled]="form.invalid || status() === 'submitting'"
-            >
-              @if (status() === 'submitting') {
-                <span>Đang gửi thư hồi âm...</span>
-              } @else {
-                <span class="submit-seal">✦</span>
-                <span>Gửi Thư Hồi Âm</span>
-                <span class="submit-seal">✦</span>
-              }
-            </button>
-
-            @if (status() === 'error') {
-              <p class="error-msg error-banner">Đã xảy ra lỗi. Vui lòng thử lại.</p>
+          @if (form.controls.attending.value) {
+          <div class="field">
+            <label class="field-label" for="rsvp-guests">Số lượng khách</label>
+            <div class="guest-selector">
+              <input id="rsvp-guests" class="field-input guest-input" type="number" min="1" max="10"
+                [formControl]="form.controls.guests"
+                [class.field-error]="form.controls.guests.touched && form.controls.guests.invalid" />
+              <span class="guest-unit">người</span>
+            </div>
+            @if (form.controls.guests.touched && form.controls.guests.invalid) {
+            <p class="error-msg">Nhập số từ 1 đến 10</p>
             }
-          </form>
+          </div>
+          }
+
+          <div class="field">
+            <label class="field-label" for="rsvp-notes">Lời chúc & Ghi chú</label>
+            <textarea id="rsvp-notes" class="field-input field-textarea" rows="3" [formControl]="form.controls.notes"
+              placeholder="Gửi lời chúc hoặc yêu cầu ăn kiêng đặc biệt..."></textarea>
+          </div>
+
+          <button class="submit-btn" type="submit" [disabled]="form.invalid || status() === 'submitting'">
+            @if (status() === 'submitting') {
+            <span>Đang gửi thư hồi âm...</span>
+            } @else {
+            <span class="submit-seal">✦</span>
+            <span>Gửi Thư Hồi Âm</span>
+            <span class="submit-seal">✦</span>
+            }
+          </button>
+
+          @if (status() === 'error') {
+          <p class="error-msg error-banner">Đã xảy ra lỗi. Vui lòng thử lại.</p>
+          }
+        </form>
         }
       </div>
     </div>

@@ -11,6 +11,8 @@ export interface WeddingConfig {
     name: string;
     address: string;
     mapUrl: string;
+    mapEmbedUrl?: string;
+    mapImageUrl?: string;
   };
   dressCode: string;
   openingQuote: string;
@@ -61,9 +63,11 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   date: '01.11.2026',
   time: '17:30',
   venue: {
-    name: 'Lacasa',
-    address: '30 Nguyễn Văn Hưởng, An Khánh',
+    name: 'LACASA',
+    address: '30 Nguyễn Văn Hưởng, Thảo Điền, TP. Thủ Đức',
     mapUrl: 'https://maps.app.goo.gl/PHCvCBcgiyN7i56w8',
+    mapEmbedUrl: 'https://maps.google.com/maps?q=30+Nguy%E1%BB%85n+V%C4%83n+H%C6%B0%E1%BB%9Fng%2C+Th%E1%BA%A3o+%C4%90i%E1%BB%81n%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh&t=&z=16&ie=UTF8&iwloc=&output=embed',
+    mapImageUrl: 'map.png',
   },
   dressCode: 'Trang phục lịch sự',
   openingQuote: 'Mỗi câu chuyện đều có một khởi đầu',

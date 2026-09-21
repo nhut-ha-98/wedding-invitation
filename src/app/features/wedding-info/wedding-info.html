@@ -31,16 +31,23 @@
             <span class="note-label">Địa điểm</span>
             <span class="note-value">Nhà hàng {{ config().venue.name }}</span>
             <span class="note-sub">{{ config().venue.address }}</span>
-            <div class="note-map-action">
-              <a class="map-btn" [href]="config().venue.mapUrl" target="_blank" rel="noopener noreferrer">
+
+            @if (config().venue.mapImageUrl) {
+            <a class="map-frame-wrapper" [href]="config().venue.mapUrl" target="_blank" rel="noopener noreferrer"
+              title="Mở bản đồ Google Maps">
+              <img class="map-image" [src]="config().venue.mapImageUrl"
+                [alt]="'Bản đồ hướng dẫn đường đi đến ' + config().venue.name" loading="lazy" />
+              <span class="map-hover-hint">
                 <svg class="map-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  aria-hidden="true">
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
-                <span>Xem Bản Đồ & Chỉ Đường</span>
-              </a>
-            </div>
+                Chạm để xem Google Maps
+              </span>
+            </a>
+            }
+
           </figure>
         </div>
 
