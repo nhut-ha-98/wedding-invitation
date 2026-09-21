@@ -10,14 +10,13 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatedSection } from '../../shared/components/animated-section';
-import { PapercutArt } from '../../shared/components/papercut-art';
 import { WeddingConfig } from '../../core/models/wedding-config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-wedding-info',
-  imports: [AnimatedSection, PapercutArt],
+  imports: [AnimatedSection],
   templateUrl: './wedding-info.html',
   styleUrl: './wedding-info.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,13 +33,13 @@ export class WeddingInfo {
       const card = root.querySelector<HTMLElement>('.info-card');
       const notes = root.querySelectorAll<HTMLElement>('.detail-note');
       const programStubs = root.querySelectorAll<HTMLElement>('.program-stub');
-      const map = root.querySelector<HTMLElement>('.note-map');
+      const mapAction = root.querySelector<HTMLElement>('.note-map-action');
       const btn = root.querySelector<HTMLElement>('.map-btn');
 
       if (!card) return;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        gsap.set([card, ...notes, ...programStubs, map, btn].filter(Boolean), {
+        gsap.set([card, ...notes, ...programStubs, mapAction, btn].filter(Boolean), {
           opacity: 1,
           scale: 1,
           y: 0,
@@ -80,11 +79,11 @@ export class WeddingInfo {
         );
       }
 
-      if (map && btn) {
+      if (mapAction || btn) {
         tl.fromTo(
-          [map, btn],
+          [mapAction, btn].filter(Boolean),
           { opacity: 0, y: 12 },
-          { opacity: 1, y: 0, duration: 0.45, stagger: 0.1, ease: 'power2.out' },
+          { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
           '-=0.3',
         );
       }
