@@ -25,6 +25,7 @@ export interface WeddingConfig {
     she: CoupleProfile;
   };
   timeline: TimelineEvent[];
+  schedule: ScheduleEvent[];
   proposalStory: string;
   closingQuote: string;
   closingQuoteAuthor: string;
@@ -36,6 +37,11 @@ export interface TimelineEvent {
   description: string;
   image?: string;
   icon?: string;
+}
+
+export interface ScheduleEvent {
+  time: string;
+  label: string;
 }
 
 export interface CoupleProfile {
@@ -53,13 +59,13 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     partner2: 'Hoa Ha',
   },
   date: '01.11.2026',
-  time: '18:00',
+  time: '17:30',
   venue: {
-    name: 'The Lacasa',
-    address: 'Nguyen Van Huong, Thao Dien',
-    mapUrl: 'https://maps.google.com',
+    name: 'Lacasa',
+    address: '30 Nguyễn Văn Hưởng, An Khánh',
+    mapUrl: 'https://maps.app.goo.gl/PHCvCBcgiyN7i56w8',
   },
-  dressCode: 'Formal attire',
+  dressCode: 'Trang phục lịch sự',
   openingQuote: 'Mỗi câu chuyện đều có một khởi đầu',
   openingQuoteAuthor: '',
   introduction:
@@ -71,14 +77,14 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   heAndShe: {
     he: {
       name: 'Nhut Ha',
-      portraitUrl: 'he.jpg',
+      portraitUrl: 'he.webp',
       alt: 'Huy hiệu vẽ tay của chú rể (ảnh mẫu)',
       intro:
         'Người kiến trúc cho thế giới nhỏ của chúng mình. Anh ấy phác hoạ những giấc mơ bằng mực, tin rằng mỗi câu chuyện tình yêu đều cần một khởi đầu thật nhẹ. Người viết nên những bản nhạc riêng, người giữ lời hứa, và là người luôn mở cửa cho em dù trời không mưa.',
     },
     she: {
       name: 'Hoa Ha',
-      portraitUrl: 'she.jpg',
+      portraitUrl: 'she.webp',
       alt: 'Huy hiệu vẽ tay của cô dâu (ảnh mẫu)',
       intro:
         'Người giữ kệ thơ chung của hai đứa. Chị ấy ngân nga khi đọc sách, nhớ từng ngày kỷ niệm nhỏ, và tin rằng những câu chuyện hay nhất phải kể thật chậm. Tiếng cười của chị là nhạc nền của tổ ấm mình, và trái tim chị là nơi cả hai cùng ở.',
@@ -87,35 +93,40 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   timeline: [
     {
       year: '2016',
-      title: 'First Meeting',
+      title: 'Lần Đầu Gặp',
       description:
-        'Bumped into each other at The Cozy Nook Bookshop. Bonded over a shared love for old poetry.',
+        'Tình cờ gặp nhau ở nhà sách The Cozy Nook. Gắn kết vì cùng yêu thơ xưa.',
       icon: '📖',
     },
     {
       year: '2017',
-      title: 'First Trip',
+      title: 'Chuyến Đi Đầu Tiên',
       description:
-        'A spontaneous weekend trip to the mountains. We watched the sunrise from the peak and knew this was forever.',
+        'Một chuyến đi chơi núi đầy hứng khởi. Ngắm bình minh trên đỉnh và biết đây là mãi mãi.',
       icon: '🏔️',
     },
     {
       year: '2024',
-      title: 'The Proposal',
+      title: 'Lời Cầu Hôn',
       description:
-        'Under the same oak tree where we had our first picnic, Nhut got down on one knee.',
+        'Dưới gốc sồi nơi có buổi picnic đầu tiên, Nhut quỳ xuống cầu hôn.',
       icon: '💍',
     },
     {
       year: '2026',
-      title: 'Our Wedding',
-      description: 'Surrounded by our loved ones, we will say "I do" and begin our forever.',
+      title: 'Đám Cưới Của Chúng Mình',
+      description: 'Bên người thương yêu, chúng mình nói "đồng ý" và bắt đầu mãi mãi.',
       icon: '🥂',
     },
+  ],
+  schedule: [
+    { time: '16:45', label: 'LỄ VOW' },
+    { time: '17:30', label: 'ĐÓN KHÁCH' },
+    { time: '19:30', label: 'LỄ CHÍNH' },
   ],
   proposalStory:
     'Chúng mình đã đi qua những ngày rất đỗi bình thường, để rồi nhận ra chính những ngày ấy đã làm nên câu chuyện đẹp nhất của đời mình.',
   closingQuote:
-    'Love is not about how many days, months, or years you have been together. Love is about how much you love each other every single day.',
-  closingQuoteAuthor: 'Unknown',
+    'Tình yêu không phải là bao nhiêu ngày, tháng hay năm bên nhau. Mà là yêu nhau nhiều đến đâu mỗi ngày.',
+  closingQuoteAuthor: 'Khuyết danh',
 };

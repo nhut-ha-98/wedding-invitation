@@ -5,25 +5,28 @@
 .ending-section {
   max-width: 640px;
   margin: 0 auto;
-  padding: 6rem 1.5rem 6rem;
+  padding: 6rem 1.5rem max(3rem, env(safe-area-inset-bottom));
   text-align: center;
   position: relative;
   z-index: 2;
-  height: 100dvh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 
-.ending-divider {}
+.ending-divider {
+}
 
 .ending-ornament {
   opacity: 0.85;
   filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
 }
 
-.thank-you-block {}
+.thank-you-block {
+  margin-bottom: clamp(2.5rem, 6vh, 4rem);
+}
 
 .thank-you-title {
   font-family: 'Great Vibes', cursive;
@@ -78,12 +81,14 @@
   font-weight: 700;
   text-align: center;
 
-  background: linear-gradient(110deg,
-      #8f6d38 20%,
-      #caa038 40%,
-      #f0d889 50%,
-      #caa038 60%,
-      #8f6d38 80%);
+  background: linear-gradient(
+    110deg,
+    #8f6d38 20%,
+    #caa038 40%,
+    #f0d889 50%,
+    #caa038 60%,
+    #8f6d38 80%
+  );
 
   background-size: 250% 100%;
   background-clip: text;
