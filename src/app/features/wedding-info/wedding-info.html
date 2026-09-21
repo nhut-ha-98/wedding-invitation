@@ -1,115 +1,70 @@
 <app-animated-section>
   <section class="info-section">
-    <div class="torn-paper">
-      <div class="info-card torn-paper__sheet paper-grain">
-        <p class="info-label">Thiệp Mời</p>
+    <div class="invitation-frame">
+      <div class="info-card paper-grain">
+        <p class="info-label">✦ THIỆP MỜI ✦</p>
         <h2 class="info-title">
           {{ config().couple.partner1 }}
           <span class="ampersand">&</span>
           {{ config().couple.partner2 }}
         </h2>
-        <p class="info-subtitle">Trân trọng kính mời sự có mặt của bạn</p>
+        <p class="info-subtitle">Trân trọng kính mời sự hiện diện của bạn</p>
 
         <div class="stitch-divider" aria-hidden="true"></div>
 
+        <!-- Detail Cards -->
         <div class="detail-deck">
           <figure class="detail-note detail-note--date paper-grain">
-            <svg
-              class="note-clip"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path
-                d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"
-              />
-            </svg>
+            <span class="note-pin" aria-hidden="true">✦</span>
             <span class="note-label">Ngày</span>
             <span class="note-value note-value--gold">{{ config().date }}</span>
           </figure>
 
           <figure class="detail-note detail-note--time paper-grain">
-            <svg
-              class="note-clip"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path
-                d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"
-              />
-            </svg>
+            <span class="note-pin" aria-hidden="true">✦</span>
             <span class="note-label">Giờ</span>
             <span class="note-value note-value--gold">{{ config().time }}</span>
           </figure>
 
           <figure class="detail-note detail-note--venue paper-grain">
-            <svg
-              class="note-clip"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path
-                d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"
-              />
-            </svg>
+            <span class="note-pin" aria-hidden="true">✦</span>
             <span class="note-label">Địa điểm</span>
             <span class="note-value">Nhà hàng {{ config().venue.name }}</span>
             <span class="note-sub">{{ config().venue.address }}</span>
-            <span class="note-map">
-              <span class="note-map-photo">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3295.5578300088614!2d106.7251365909774!3d10.80358985070709!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527a1a0aaa48d%3A0xd6639369f7ba36d8!2zTEFDQVNBIC0gMzAgTmd1eeG7hW4gVsSDbiBIxrDhu59uZw!5e0!3m2!1svi!2s!4v1789897298367!5m2!1svi!2s"
-                  width="600"
-                  height="450"
-                  style="border: 0"
-                  allowfullscreen=""
-                  loading="lazy"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  title="Bản đồ {{ config().venue.name }}"
-                ></iframe>
-                <span class="note-map-caption">{{ config().venue.name }}</span>
+
+            @if (config().venue.mapImageUrl) {
+            <a class="map-frame-wrapper" [href]="config().venue.mapUrl" target="_blank" rel="noopener noreferrer"
+              title="Mở bản đồ Google Maps">
+              <img class="map-image" [src]="config().venue.mapImageUrl"
+                [alt]="'Bản đồ hướng dẫn đường đi đến ' + config().venue.name" loading="lazy" />
+              <span class="map-hover-hint">
+                <svg class="map-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Chạm để xem Google Maps
               </span>
-              <a
-                class="map-btn"
-                [href]="config().venue.mapUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Xem Bản Đồ
-              </a>
-            </span>
+            </a>
+            }
+
           </figure>
         </div>
 
+        <!-- Schedule -->
         <div class="info-schedule">
           <h3 class="info-schedule-title">Chương Trình</h3>
           <div class="program-card paper-grain">
-            <span class="program-spark" aria-hidden="true">✦</span>
             @for (event of config().schedule; track event.time; let idx = $index) {
-              <div class="program-stub">
+            <div class="program-stub">
+              <div class="program-time-wrap">
                 <span class="program-time">{{ event.time }}</span>
-                <span class="program-label">{{ event.label }}</span>
               </div>
-              @if (idx < config().schedule.length - 1) {
-                <div class="program-sep" aria-hidden="true"></div>
-              }
+              <div class="program-line" aria-hidden="true">
+                <span class="program-node"></span>
+              </div>
+              <span class="program-label">{{ event.label }}</span>
+            </div>
             }
           </div>
         </div>
