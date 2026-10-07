@@ -1,21 +1,22 @@
 /* ─── Page 2: Inside Storybook Transition Page ─── */
 .transition-page {
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.75),
-    0 0 0 1px rgba(184, 143, 98, 0.12);
-  background: #ebdcc6;
-  /* Warm antique parchment paper */
+  background: #ffffff;
+  /* Subtle white paper texture */
   background-image:
-    radial-gradient(rgba(58, 32, 17, 0.05) 1px, transparent 0),
-    radial-gradient(rgba(58, 32, 17, 0.05) 1px, transparent 0);
-  background-size: 8px 8px;
+    radial-gradient(rgba(0, 0, 0, 0.02) 0.6px, transparent 0),
+    radial-gradient(rgba(0, 0, 0, 0.015) 0.6px, transparent 0);
+  background-size:
+    10px 10px,
+    6px 6px;
   background-position:
     0 0,
-    4px 4px;
+    3px 3px;
   color: #3b2011;
-  /* Deep sepia brown text - No white */
   position: relative;
-  border-radius: 5px 14px 14px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
 }
 
 .transition-page::before {
@@ -27,36 +28,135 @@
 }
 
 .transition-inner {
-  text-align: center;
-  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4rem;
+  padding: 12% 2rem 1.5rem;
   z-index: 2;
+  height: 100%;
+  width: 100%;
+  max-width: 520px;
 }
 
 .transition-text {
-  font-size: 1.85rem;
+  font-size: 2.05rem;
   color: #432414;
   /* Deep sepia */
-  letter-spacing: 2px;
-  text-shadow: 0 1px 1px rgba(235, 220, 198, 0.45);
+  letter-spacing: 1px;
+  text-shadow: 0 1px 0 rgba(235, 220, 198, 0.35);
   position: relative;
+  line-height: 1.2;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0;
+  text-align: center;
 }
 
 .transition-text::after {
-  content: '✦';
-  display: block;
-  font-size: 1rem;
-  color: #b88f62;
-  margin-top: 0.75rem;
+  /* remove decorative separator for a seamless handwrite -> image transition */
+  display: none;
 }
 
 .dandelion {
-  margin-top: 1rem;
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .dandelion svg {
-  width: 80px;
+  width: 120px;
   height: auto;
-  opacity: 0.85;
+  opacity: 0.25;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+}
+
+/* Cover photo (hidden until triggered) */
+.cover-photo-wrap {
+  width: min(68vw, 280px);
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  border: 1px solid rgba(163, 131, 99, 0.45);
+  border-radius: 0;
+  background: transparent;
+  overflow: hidden;
+  position: relative;
+  box-shadow: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px) scale(0.98);
+  transition:
+    opacity 520ms ease,
+    transform 520ms cubic-bezier(0.22, 0.9, 0.3, 1),
+    visibility 0s linear 520ms;
+}
+
+.cover-photo-wrap img.cover-transition-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cover-photo-wrap .photo-wipe {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    96% 10%,
+    100% 20%,
+    95% 30%,
+    100% 40%,
+    96% 50%,
+    100% 60%,
+    95% 70%,
+    100% 80%,
+    96% 90%,
+    100% 100%,
+    0 100%
+  );
+  transform: translateX(0);
+  transition:
+    transform 950ms cubic-bezier(0.55, 0, 0.25, 1),
+    opacity 180ms ease 770ms;
+}
+
+.cover-photo-wrap.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 520ms ease,
+    transform 520ms cubic-bezier(0.22, 0.9, 0.3, 1),
+    visibility 0s;
+}
+
+.cover-photo-wrap.show .photo-wipe {
+  transform: translateX(110%);
+  opacity: 0;
+}
+
+/* subtle drifting for small seeds inside the dandelion group */
+.dandelion .seed {
+  transform-origin: center;
+  animation: seed-drift 3.5s ease-in-out infinite;
+}
+
+@keyframes seed-drift {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-6px) translateX(-3px) scale(0.98);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 1;
+  }
 }

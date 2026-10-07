@@ -1,4 +1,4 @@
-import { Directive, ElementRef, input, inject, afterNextRender, DestroyRef } from '@angular/core';
+import { afterNextRender, DestroyRef, Directive, ElementRef, inject, input } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 

@@ -1,21 +1,22 @@
 import {
-  Component,
+  afterNextRender,
   ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
   input,
   output,
-  viewChild,
-  ElementRef,
-  afterNextRender,
-  DestroyRef,
-  inject,
   signal,
-  computed,
+  viewChild,
 } from '@angular/core';
-import { PageFlip } from 'page-flip';
 import type { FlipSetting } from 'page-flip';
+import { PageFlip } from 'page-flip';
 import { WeddingConfig } from '../../core/models/wedding-config';
 import { AudioService } from '../../core/services/audio.service';
 import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
+import { CoverHandwriteDirective } from './cover-handwrite.directive';
 
 class DandelionParticle {
   x = 0;
@@ -59,16 +60,6 @@ class DandelionParticle {
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle + Math.sin(this.wiggle) * 0.1);
-    ctx.strokeStyle = `rgba(245, 230, 211, ${this.opacity})`;
-    ctx.lineWidth = 0.75;
-
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0, this.size);
-    ctx.stroke();
-
     ctx.fillStyle = `rgba(216, 180, 135, ${this.opacity})`;
     ctx.beginPath();
     ctx.arc(0, this.size, 1.0, 0, Math.PI * 2);
@@ -147,7 +138,7 @@ class GlowingDust {
 
 @Component({
   selector: 'app-cover',
-  imports: [HandwriteDirective],
+  imports: [HandwriteDirective, CoverHandwriteDirective],
   templateUrl: './cover.html',
   styleUrl: './cover.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -176,6 +167,7 @@ export class Cover {
   private audioService = inject(AudioService);
   private pageFlip: PageFlip | null = null;
   private animationFrameId: number | null = null;
+  private bookContainerEl: HTMLElement | null = null;
 
   constructor() {
     afterNextRender(() => {
@@ -185,6 +177,21 @@ export class Cover {
       setTimeout(() => {
         this.showTapPrompt.set(true);
       }, 1500);
+
+      try {
+        const container = this.bookContainer().nativeElement;
+        this.bookContainerEl = container;
+        const revealPhoto = () => {
+          const wrap = container.querySelector<HTMLElement>('.cover-photo-wrap');
+          if (wrap) wrap.classList.add('show');
+        };
+        container.addEventListener('cover-handwrite-complete', revealPhoto);
+        this.destroyRef.onDestroy(() =>
+          container.removeEventListener('cover-handwrite-complete', revealPhoto),
+        );
+      } catch {
+        // noop
+      }
     });
   }
 
