@@ -118,7 +118,9 @@ export class ConstellationBackground {
     const performUpdate = (p: number): void => {
       // 1. Sky cycle: Morning -> Afternoon Golden Hour -> Dark Violet Night
       const rawAfternoon = Math.max(0, Math.min(1, (p - 0.16) / 0.32));
-      const smoothAfternoon = Number((rawAfternoon * rawAfternoon * (3 - 2 * rawAfternoon)).toFixed(3));
+      const smoothAfternoon = Number(
+        (rawAfternoon * rawAfternoon * (3 - 2 * rawAfternoon)).toFixed(3),
+      );
       if (smoothAfternoon !== this.lastAfternoonOpacity) {
         this.lastAfternoonOpacity = smoothAfternoon;
         this.afternoonLayer().nativeElement.style.opacity = String(smoothAfternoon);

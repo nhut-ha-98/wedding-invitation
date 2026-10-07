@@ -12,13 +12,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { WeddingConfig } from '../../core/models/wedding-config';
 import { AnimatedSection } from '../../shared/components/animated-section';
 import { PapercutArt } from '../../shared/components/papercut-art';
+import { SectionHeader } from '../../shared/components/section-header';
 import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-chapter-one',
-  imports: [AnimatedSection, PapercutArt, HandwriteDirective],
+  imports: [AnimatedSection, PapercutArt, SectionHeader, HandwriteDirective],
   templateUrl: './chapter-one.html',
   styleUrl: './chapter-one.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,8 +34,7 @@ export class ChapterOne {
     afterNextRender(() => {
       const root = this.el.nativeElement;
       const photo = root.querySelector('.photo-placeholder');
-      const overlay = root.querySelector('.photo-overlay');
-      const label = root.querySelector('.chapter-label');
+      const label = root.querySelector('.section-header');
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -58,13 +58,6 @@ export class ChapterOne {
           '-=0.2',
         );
       }
-
-      tl.fromTo(
-        overlay,
-        { opacity: 1 },
-        { opacity: 0, duration: 0.8, ease: 'power2.inOut' },
-        '-=0.6',
-      );
 
       this.destroyRef.onDestroy(() => {
         tl.scrollTrigger?.kill();

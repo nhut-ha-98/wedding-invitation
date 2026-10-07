@@ -119,14 +119,14 @@ export class AudioService {
       try {
         this.windSource.stop();
         this.windSource.disconnect();
-      } catch { }
+      } catch {}
       this.windSource = null;
     }
     if (this.windOsc) {
       try {
         this.windOsc.stop();
         this.windOsc.disconnect();
-      } catch { }
+      } catch {}
       this.windOsc = null;
     }
     if (this.windNode) {

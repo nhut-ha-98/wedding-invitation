@@ -1,11 +1,18 @@
 <app-animated-section>
   <section class="chapter-section">
-    <p class="chapter-label">Trân trọng kính mời</p>
-    <div class="photo-frame">
-      <div class="photo-placeholder" role="img" [attr.aria-label]="config().chapterOne.photoAlt">
+    <app-section-header title="Chương I" subtitle="Lời mở đầu cho câu chuyện của chúng mình" />
+    <div class="photo-frame polaroid paper-grain">
+      <div class="photo-placeholder">
         <app-papercut-art variant="branch" />
-        <div class="photo-overlay"></div>
+        <img
+          class="photo-img"
+          src="album/welcome.webp"
+          [alt]="config().chapterOne.photoAlt"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
+      <p class="polaroid-caption">#It starts with</p>
     </div>
     <div class="chapter-body">
       <p appHandwrite>{{ config().chapterOne.narrative }}</p>

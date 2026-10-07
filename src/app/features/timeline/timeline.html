@@ -1,26 +1,9 @@
 <app-animated-section>
   <section class="timeline-section">
-    <div class="timeline-header">
-      <div class="timeline-divider">
-        <svg
-          class="timeline-divider-ornament"
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#d4af37"
-          stroke-width="1.2"
-          aria-hidden="true"
-        >
-          <path d="M4 20 C 9 16, 13 11, 14 4" />
-          <path d="M8 15 C 5 13, 4 9, 7 8 C 10 7, 12 10, 10 13 Z" />
-          <path d="M11 11 C 13 9, 15 9, 17 10 C 19 11, 18 14, 15 14 C 14 13, 12 12, 11 11 Z" />
-          <circle cx="14" cy="5" r="1.1" />
-        </svg>
-      </div>
-      <h2 class="timeline-title">Hành Trình Của Chúng Mình</h2>
-      <p class="timeline-subtitle">Những khoảnh khắc đưa chúng ta đến ngày hôm nay</p>
-    </div>
+    <app-section-header
+      title="Hành Trình Của Chúng Mình"
+      subtitle="Những khoảnh khắc đưa chúng ta đến ngày hôm nay"
+    />
     <div class="timeline-rail">
       <div class="timeline-line"></div>
       @for (event of config().timeline; track event.year; let idx = $index) {

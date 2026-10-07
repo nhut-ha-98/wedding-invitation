@@ -71,7 +71,7 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     partner2: 'Hoa Ha',
   },
   date: '01.11.2026',
-  time: '17:30',
+  time: '18:00',
   venue: {
     name: 'LACASA',
     address: '30 Nguyễn Văn Hưởng, Thảo Điền, TP. Thủ Đức',
@@ -153,7 +153,11 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       imageStyle: 'portrait',
     },
   ],
-  schedule: [{ time: '17:30', label: 'TIỆC CƯỚI' }],
+  schedule: [
+    { time: '16:30', label: 'LỄ VOW' },
+    { time: '18:00', label: 'ĐÓN KHÁCH' },
+    { time: '19:00', label: 'KHAI TIỆC' },
+  ],
   album: [
     {
       imageUrl: 'album/album-2.webp',

@@ -11,13 +11,14 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatedSection } from '../../shared/components/animated-section';
 import { PapercutArt, PapercutVariant } from '../../shared/components/papercut-art';
+import { SectionHeader } from '../../shared/components/section-header';
 import { WeddingConfig } from '../../core/models/wedding-config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-timeline',
-  imports: [AnimatedSection, PapercutArt],
+  imports: [AnimatedSection, PapercutArt, SectionHeader],
   templateUrl: './timeline.html',
   styleUrl: './timeline.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -103,7 +104,13 @@ export class Timeline {
             itemTl.fromTo(
               polaroid,
               { opacity: 0, y: 15, rotation: i % 2 === 0 ? -8 : 8 },
-              { opacity: 1, y: 0, rotation: i % 2 === 0 ? -3 : 3, duration: 0.5, ease: 'power2.out' },
+              {
+                opacity: 1,
+                y: 0,
+                rotation: i % 2 === 0 ? -3 : 3,
+                duration: 0.5,
+                ease: 'power2.out',
+              },
               '-=0.4',
             );
           }

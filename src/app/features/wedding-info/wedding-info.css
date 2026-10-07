@@ -43,10 +43,22 @@
   z-index: 2;
 }
 
-.corner--tl { top: 8px; left: 8px; }
-.corner--tr { top: 8px; right: 8px; }
-.corner--bl { bottom: 8px; left: 8px; }
-.corner--br { bottom: 8px; right: 8px; }
+.corner--tl {
+  top: 8px;
+  left: 8px;
+}
+.corner--tr {
+  top: 8px;
+  right: 8px;
+}
+.corner--bl {
+  bottom: 8px;
+  left: 8px;
+}
+.corner--br {
+  bottom: 8px;
+  right: 8px;
+}
 
 /* ── Royal Crest ── */
 
@@ -146,7 +158,9 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.9);
   padding: 1.2rem 0.85rem 1rem;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .detail-note:hover {
@@ -242,7 +256,9 @@
   height: auto;
   max-height: 280px;
   object-fit: cover;
-  transition: transform 0.4s ease, filter 0.3s ease;
+  transition:
+    transform 0.4s ease,
+    filter 0.3s ease;
 }
 
 .map-hover-hint {
@@ -419,4 +435,3 @@
     grid-column: 1;
   }
 }
-

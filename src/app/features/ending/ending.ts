@@ -72,4 +72,3 @@ export class Ending {
     this.closeBook.emit();
   }
 }
-

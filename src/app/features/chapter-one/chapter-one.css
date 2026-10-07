@@ -8,25 +8,39 @@
   padding: 4rem 1.5rem;
 }
 
-.chapter-label {
-  font-family: 'Playfair Display', serif;
-  font-size: 0.875rem;
-  color: #d4af37;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin: 0 0 1.5rem;
+.photo-frame {
+  position: relative;
+  margin: 0 auto 2.5rem;
+  padding: 14px 14px 0;
+  background: linear-gradient(160deg, #fffdf8 0%, var(--color-parchment) 55%, #f6ecd9 100%);
+  border: 1px solid rgba(107, 63, 36, 0.12);
+  border-radius: 3px;
+  box-shadow:
+    0 1px 2px rgba(44, 24, 16, 0.1),
+    0 8px 20px rgba(44, 24, 16, 0.16),
+    0 18px 34px rgba(44, 24, 16, 0.08);
+  transform: rotate(-1.2deg);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.photo-frame {
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(44, 24, 16, 0.15);
+.photo-frame:hover {
+  transform: rotate(0deg) translateY(-6px);
+  box-shadow:
+    0 2px 4px rgba(44, 24, 16, 0.12),
+    0 14px 28px rgba(44, 24, 16, 0.2),
+    0 26px 46px rgba(44, 24, 16, 0.1);
 }
 
 .photo-placeholder {
   position: relative;
   width: 100%;
-  padding-bottom: 66%;
-  background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c0 100%);
+  aspect-ratio: 3 / 2;
+  background: var(--color-ivory);
+  box-shadow:
+    inset 0 0 0 1px rgba(107, 63, 36, 0.22),
+    inset 0 3px 8px rgba(44, 24, 16, 0.22);
   overflow: hidden;
 }
 
@@ -36,11 +50,33 @@
   height: auto;
 }
 
-.photo-overlay {
+.photo-img {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #2c1810 0%, transparent 50%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   z-index: 1;
+  filter: sepia(0.14) saturate(0.92) contrast(1.03) brightness(1.02);
+  transition:
+    transform 0.45s ease,
+    filter 0.45s ease;
+}
+
+.photo-frame:hover .photo-img {
+  transform: scale(1.04);
+  filter: sepia(0.06) saturate(1) contrast(1.03) brightness(1.03);
+}
+
+.polaroid-caption {
+  margin: 0;
+  padding: 0.85rem 0.25rem 1.1rem;
+  text-align: center;
+  font-family: 'Dancing Script', cursive;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  color: var(--paper-ink);
 }
 
 .chapter-body p {

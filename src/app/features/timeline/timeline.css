@@ -8,53 +8,6 @@
   padding: 5rem 1.5rem;
 }
 
-/* ── Header ── */
-
-.timeline-header {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
-.timeline-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.25rem;
-}
-
-.timeline-divider::before,
-.timeline-divider::after {
-  content: '';
-  width: 40px;
-  height: 1px;
-  background: linear-gradient(to right, transparent, #d4af37);
-}
-
-.timeline-divider::after {
-  background: linear-gradient(to left, transparent, #d4af37);
-}
-
-.timeline-divider-ornament {
-  margin: 0 0.75rem;
-  display: block;
-}
-
-.timeline-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.75rem;
-  color: #2c1810;
-  margin: 0 0 0.35rem;
-  letter-spacing: 1px;
-}
-
-.timeline-subtitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.05rem;
-  color: #8b7355;
-  font-style: italic;
-  margin: 0;
-}
-
 /* ── Rail ── */
 
 .timeline-rail {
@@ -243,10 +196,6 @@
     padding: 3rem 1rem;
   }
 
-  .timeline-header {
-    margin-bottom: 2.5rem;
-  }
-
   .timeline-line {
     left: 15px;
     transform: scaleY(0);
@@ -282,15 +231,15 @@
   }
 
   .timeline-polaroid[data-style='landscape'] {
-    max-width: 180px;
+    max-width: 240px;
   }
 
   .timeline-polaroid[data-style='portrait'] {
-    max-width: 110px;
+    max-width: 165px;
   }
 
   .timeline-polaroid[data-style='square'] {
-    max-width: 130px;
+    max-width: 185px;
   }
 
   .timeline-polaroid.rotate-left {

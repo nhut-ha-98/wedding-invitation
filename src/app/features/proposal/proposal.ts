@@ -11,6 +11,7 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatedSection } from '../../shared/components/animated-section';
+import { SectionHeader } from '../../shared/components/section-header';
 import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
 import { WeddingConfig } from '../../core/models/wedding-config';
 
@@ -18,7 +19,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-proposal',
-  imports: [AnimatedSection, HandwriteDirective],
+  imports: [AnimatedSection, SectionHeader, HandwriteDirective],
   templateUrl: './proposal.html',
   styleUrl: './proposal.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,7 +50,7 @@ export class Proposal {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const root = this.el.nativeElement;
       const photos = root.querySelectorAll<HTMLElement>('.polaroid');
-      const label = root.querySelector<HTMLElement>('.proposal-label');
+      const label = root.querySelector<HTMLElement>('.section-header');
 
       if (prefersReducedMotion) {
         if (label) gsap.set(label, { opacity: 1, y: 0 });

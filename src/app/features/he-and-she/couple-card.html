@@ -12,12 +12,19 @@
 >
   <div class="card-scene">
     <div class="flip-inner">
-      <figure class="face face-front" [attr.aria-hidden]="flipped() ? 'true' : null">
-        <img [src]="profile().portraitUrl" [alt]="profile().alt" loading="lazy" decoding="async" />
+      <figure class="face face-front paper-grain" [attr.aria-hidden]="flipped() ? 'true' : null">
+        <div class="polaroid-photo">
+          <img
+            [src]="profile().portraitUrl"
+            [alt]="profile().alt"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="flip-hint">Chạm để lật</span>
+        </div>
         <figcaption class="photo-name great-vibes">{{ profile().name }}</figcaption>
-        <span class="flip-hint">Chạm để lật</span>
       </figure>
-      <div class="face face-back" [attr.aria-hidden]="flipped() ? null : 'true'">
+      <div class="face face-back paper-grain" [attr.aria-hidden]="flipped() ? null : 'true'">
         <p class="back-name great-vibes">{{ profile().name }}</p>
         <p class="back-intro">{{ profile().intro }}</p>
         <p class="back-hint">Chạm để lật lại</p>
