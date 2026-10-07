@@ -67,8 +67,8 @@ export class ChapterOne {
       );
 
       this.destroyRef.onDestroy(() => {
+        tl.scrollTrigger?.kill();
         tl.kill();
-        ScrollTrigger.getAll().forEach((st) => st.kill());
       });
     });
   }
