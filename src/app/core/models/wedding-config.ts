@@ -65,68 +65,75 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     address: '30 Nguyễn Văn Hưởng, An Khánh',
     mapUrl: 'https://maps.app.goo.gl/PHCvCBcgiyN7i56w8',
   },
-  dressCode: 'Trang phục lịch sự',
-  openingQuote: 'Mỗi câu chuyện đều có một khởi đầu',
-  openingQuoteAuthor: '',
+  dressCode: 'Trang phục lịch sự, thoải mái cùng chúng mình chung vui',
+  openingQuote: 'Ngày chúng mình bắt đầu cũng chỉ là một cái nắm tay.',
+  openingQuoteAuthor: 'Chúng mình',
   introduction:
-    'Câu chuyện của chúng mình bắt đầu từ một lời chào, lớn lên qua năm tháng, và hôm nay mở sang một chương mới.',
+    'Từ những buổi cùng ngồi học trong thư viện đến cái nắm tay đầu tiên trước kỳ thi đại học, chúng mình đã đi cùng nhau qua mười năm thanh xuân. Hôm nay, bên những người thân yêu, chúng mình bắt đầu viết tiếp chương mới.',
   chapterOne: {
-    photoAlt: 'Một cặp đôi chia sẻ khoảnh khắc yên tĩnh trong thư viện ngập nắng',
-    narrative: 'Câu chuyện của chúng mình bắt đầu một cách bất ngờ.',
+    photoAlt: 'Kỷ niệm những ngày cùng học trong thư viện trước kỳ thi đại học',
+    narrative:
+      'Chúng mình từng là bạn cùng trường, cùng lớp, rồi mỗi người bận rộn với câu chuyện riêng. Những ngày ôn thi trong thư viện đưa hai đứa lại gần nhau. Ngay trước kỳ thi đại học, một cái nắm tay bất ngờ đã mở đầu cho mối tình đầu và hành trình mười năm bên nhau.',
   },
   heAndShe: {
     he: {
       name: 'Nhut Ha',
       portraitUrl: 'he.webp',
-      alt: 'Huy hiệu vẽ tay của chú rể (ảnh mẫu)',
+      alt: 'Chân dung chú rể',
       intro:
-        'Người kiến trúc cho thế giới nhỏ của chúng mình. Anh ấy phác hoạ những giấc mơ bằng mực, tin rằng mỗi câu chuyện tình yêu đều cần một khởi đầu thật nhẹ. Người viết nên những bản nhạc riêng, người giữ lời hứa, và là người luôn mở cửa cho em dù trời không mưa.',
+        'Ngày ấy, anh chẳng phải hình mẫu cô thích, thậm chí còn từng bị cô ghét vì học giỏi và lạc quan đến đáng ghét. Nhưng chính sự lạc quan và tử tế của anh đã khiến cô vui vẻ hơn, nhẹ nhàng hơn, và nhìn mọi thứ bằng một ánh mắt khác.',
     },
     she: {
       name: 'Hoa Ha',
       portraitUrl: 'she.webp',
-      alt: 'Huy hiệu vẽ tay của cô dâu (ảnh mẫu)',
+      alt: 'Chân dung cô dâu',
       intro:
-        'Người giữ kệ thơ chung của hai đứa. Chị ấy ngân nga khi đọc sách, nhớ từng ngày kỷ niệm nhỏ, và tin rằng những câu chuyện hay nhất phải kể thật chậm. Tiếng cười của chị là nhạc nền của tổ ấm mình, và trái tim chị là nơi cả hai cùng ở.',
+        'Cô gái từng chẳng mấy thiện cảm với anh, rồi trở thành người cùng anh đi qua những năm tháng đẹp nhất của tuổi trẻ. Từ những ngày còn là bạn học đến hôm nay, em vẫn là người anh muốn cùng viết tiếp mọi chặng đường.',
     },
   },
   timeline: [
     {
+      year: '2009 – 2016',
+      title: 'Từ bạn học thành tri kỷ',
+      description:
+        'Cùng trường, cùng tên, cùng tuổi và từng học chung lớp 8. Lên cấp 3, mỗi người một lớp, cho đến những buổi ôn thi cuối cấp trong thư viện đưa hai đứa lại gần nhau.',
+      icon: '📚',
+    },
+    {
       year: '2016',
-      title: 'Lần Đầu Gặp',
+      title: 'Cái nắm tay đầu tiên',
       description:
-        'Tình cờ gặp nhau ở nhà sách The Cozy Nook. Gắn kết vì cùng yêu thơ xưa.',
-      icon: '📖',
+        'Một ngày tháng 6 trước kỳ thi đại học, cái nắm tay bất ngờ mở đầu cho mối tình đầu, bộ phim Me Before You và những chuyến đi đầu tiên cùng nhau.',
+      icon: '🤝',
     },
     {
-      year: '2017',
-      title: 'Chuyến Đi Đầu Tiên',
+      year: '2017 – 2024',
+      title: 'Cùng nhau lớn lên',
       description:
-        'Một chuyến đi chơi núi đầy hứng khởi. Ngắm bình minh trên đỉnh và biết đây là mãi mãi.',
-      icon: '🏔️',
+        'Cùng học, cùng làm, cùng tốt nghiệp và rong ruổi qua những cung đường Tây Bắc, miền Tây cùng bao vùng đất mới. Bình dị thôi, nhưng luôn có nhau.',
+      icon: '🛣️',
     },
     {
-      year: '2024',
-      title: 'Lời Cầu Hôn',
+      year: '2025',
+      title: 'Một lời hứa',
       description:
-        'Dưới gốc sồi nơi có buổi picnic đầu tiên, Nhut quỳ xuống cầu hôn.',
+        'Trong buổi tối ở Monad Stopover, giữa những lưng đèo Bảo Lộc, một chiếc nhẫn và lời cầu hôn mở ra hành trình dài hơn của hai đứa.',
       icon: '💍',
     },
     {
       year: '2026',
       title: 'Đám Cưới Của Chúng Mình',
-      description: 'Bên người thương yêu, chúng mình nói "đồng ý" và bắt đầu mãi mãi.',
+      description:
+        'Sau mười năm kể từ cái nắm tay đầu tiên, chúng mình cùng những người thân yêu mừng chương mới và hứa sẽ tiếp tục đi bên nhau.',
       icon: '🥂',
     },
   ],
   schedule: [
-    { time: '16:45', label: 'LỄ VOW' },
-    { time: '17:30', label: 'ĐÓN KHÁCH' },
-    { time: '19:30', label: 'LỄ CHÍNH' },
+    { time: '17:30', label: 'TIỆC CƯỚI' },
   ],
   proposalStory:
-    'Chúng mình đã đi qua những ngày rất đỗi bình thường, để rồi nhận ra chính những ngày ấy đã làm nên câu chuyện đẹp nhất của đời mình.',
+    'Một buổi tối ở Monad Stopover, giữa khung cảnh đèo Bảo Lộc yên bình, anh trao em chiếc nhẫn cùng lời cầu hôn đã được chờ đợi từ lâu. Sau những năm tháng cùng nhau đi qua tuổi trẻ, chúng mình chọn tiếp tục hành trình ấy, lần này bằng một lời hứa dài lâu.',
   closingQuote:
-    'Tình yêu không phải là bao nhiêu ngày, tháng hay năm bên nhau. Mà là yêu nhau nhiều đến đâu mỗi ngày.',
-  closingQuoteAuthor: 'Khuyết danh',
+    'Điều đẹp nhất không phải là đã đi được bao xa, mà là sau từng ấy năm, quay lại vẫn thấy người bên cạnh là người mình muốn cùng đi tiếp.',
+  closingQuoteAuthor: 'Chúng mình',
 };
