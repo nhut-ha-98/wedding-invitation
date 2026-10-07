@@ -30,6 +30,7 @@
             @if (event.image) {
               <div
                 class="timeline-polaroid"
+                [attr.data-style]="event.imageStyle"
                 [class.rotate-left]="idx % 2 === 0"
                 [class.rotate-right]="idx % 2 !== 0"
               >

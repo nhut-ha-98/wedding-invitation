@@ -34,11 +34,14 @@ export interface WeddingConfig {
   closingQuoteAuthor: string;
 }
 
+export type TimelineImageStyle = 'landscape' | 'portrait' | 'square';
+
 export interface TimelineEvent {
   year: string;
   title: string;
   description: string;
   image?: string;
+  imageStyle?: TimelineImageStyle;
   icon?: string;
 }
 
@@ -110,6 +113,8 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       description:
         'Cùng trường, cùng tên, cùng tuổi và từng học chung lớp 8. Lên cấp 3, mỗi người một lớp, cho đến những buổi ôn thi cuối cấp trong thư viện đưa hai đứa lại gần nhau.',
       icon: '📚',
+      image: 'album/timeline-1.webp',
+      imageStyle: 'landscape',
     },
     {
       year: '2016',
@@ -117,6 +122,8 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       description:
         'Một ngày tháng 6 trước kỳ thi đại học, cái nắm tay bất ngờ mở đầu cho mối tình đầu, bộ phim Me Before You và những chuyến đi đầu tiên cùng nhau.',
       icon: '🤝',
+      image: 'album/timeline-2.webp',
+      imageStyle: 'portrait',
     },
     {
       year: '2017 – 2024',
@@ -124,6 +131,8 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       description:
         'Cùng học, cùng làm, cùng tốt nghiệp và rong ruổi qua những cung đường Tây Bắc, miền Tây cùng bao vùng đất mới. Bình dị thôi, nhưng luôn có nhau.',
       icon: '🛣️',
+      image: 'album/timeline-3.webp',
+      imageStyle: 'portrait',
     },
     {
       year: '2025',
@@ -131,6 +140,8 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       description:
         'Trong buổi tối ở Monad Stopover, giữa những lưng đèo Bảo Lộc, một chiếc nhẫn và lời cầu hôn mở ra hành trình dài hơn của hai đứa.',
       icon: '💍',
+      image: 'album/timeline-4.webp',
+      imageStyle: 'portrait',
     },
     {
       year: '2026',
@@ -138,6 +149,8 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       description:
         'Sau mười năm kể từ cái nắm tay đầu tiên, chúng mình cùng những người thân yêu mừng chương mới và hứa sẽ tiếp tục đi bên nhau.',
       icon: '🥂',
+      image: 'album/timeline-5.webp',
+      imageStyle: 'portrait',
     },
   ],
   schedule: [{ time: '17:30', label: 'TIỆC CƯỚI' }],

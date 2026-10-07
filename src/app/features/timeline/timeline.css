@@ -203,6 +203,33 @@
   width: 100%;
   height: auto;
   border-radius: 1px;
+  object-fit: cover;
+}
+
+/* ── Image shape configs ── */
+
+.timeline-polaroid[data-style='landscape'] {
+  max-width: 230px;
+}
+
+.timeline-polaroid[data-style='landscape'] img {
+  aspect-ratio: 3 / 2;
+}
+
+.timeline-polaroid[data-style='portrait'] {
+  max-width: 140px;
+}
+
+.timeline-polaroid[data-style='portrait'] img {
+  aspect-ratio: 3 / 4;
+}
+
+.timeline-polaroid[data-style='square'] {
+  max-width: 160px;
+}
+
+.timeline-polaroid[data-style='square'] img {
+  aspect-ratio: 1 / 1;
 }
 
 .timeline-polaroid app-papercut-art {
@@ -252,6 +279,18 @@
     margin-right: 0 !important;
     margin-bottom: 0.75rem !important;
     max-width: 120px;
+  }
+
+  .timeline-polaroid[data-style='landscape'] {
+    max-width: 180px;
+  }
+
+  .timeline-polaroid[data-style='portrait'] {
+    max-width: 110px;
+  }
+
+  .timeline-polaroid[data-style='square'] {
+    max-width: 130px;
   }
 
   .timeline-polaroid.rotate-left {
