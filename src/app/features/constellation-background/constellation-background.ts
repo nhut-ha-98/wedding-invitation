@@ -108,18 +108,28 @@ export class ConstellationBackground {
     });
   }
 
-  private initScroll(): void {
-    const update = (p: number): void => {
-      // 1. Sky cycle: Morning -> Afternoon Golden Hour -> Dark Violet Night
-      // Afternoon: rises from p = 0.16 to 0.48
-      const rawAfternoon = Math.max(0, Math.min(1, (p - 0.16) / 0.32));
-      const smoothAfternoon = rawAfternoon * rawAfternoon * (3 - 2 * rawAfternoon);
-      this.afternoonLayer().nativeElement.style.opacity = String(smoothAfternoon);
+  private lastAfternoonOpacity = -1;
+  private lastNightOpacity = -1;
+  private pendingRaf = 0;
 
-      // Dark violet night: rises from p = 0.48 to 0.82
+  private initScroll(): void {
+    let lastProgress = -1;
+
+    const performUpdate = (p: number): void => {
+      // 1. Sky cycle: Morning -> Afternoon Golden Hour -> Dark Violet Night
+      const rawAfternoon = Math.max(0, Math.min(1, (p - 0.16) / 0.32));
+      const smoothAfternoon = Number((rawAfternoon * rawAfternoon * (3 - 2 * rawAfternoon)).toFixed(3));
+      if (smoothAfternoon !== this.lastAfternoonOpacity) {
+        this.lastAfternoonOpacity = smoothAfternoon;
+        this.afternoonLayer().nativeElement.style.opacity = String(smoothAfternoon);
+      }
+
       const rawNight = Math.max(0, Math.min(1, (p - 0.48) / 0.34));
-      const smoothNight = rawNight * rawNight * (3 - 2 * rawNight);
-      this.nightLayer().nativeElement.style.opacity = String(smoothNight);
+      const smoothNight = Number((rawNight * rawNight * (3 - 2 * rawNight)).toFixed(3));
+      if (smoothNight !== this.lastNightOpacity) {
+        this.lastNightOpacity = smoothNight;
+        this.nightLayer().nativeElement.style.opacity = String(smoothNight);
+      }
 
       // 2. Check all stars
       for (const star of this.stars) {
@@ -155,14 +165,24 @@ export class ConstellationBackground {
       }
     };
 
+    const scheduleUpdate = (p: number): void => {
+      if (Math.abs(p - lastProgress) < 0.001) return;
+      lastProgress = p;
+      if (this.pendingRaf) cancelAnimationFrame(this.pendingRaf);
+      this.pendingRaf = requestAnimationFrame(() => {
+        performUpdate(p);
+        this.pendingRaf = 0;
+      });
+    };
+
     this.scrollTrigger = ScrollTrigger.create({
       start: 0,
       end: () => document.documentElement.scrollHeight - window.innerHeight,
       scrub: false,
-      onUpdate: (self) => update(self.progress),
+      onUpdate: (self) => scheduleUpdate(self.progress),
     });
 
-    update(0);
+    performUpdate(0);
   }
 
   private animateStarVisibility(star: ConstellationStar, el: SVGGElement, visible: boolean): void {

@@ -56,73 +56,75 @@ export class Timeline {
         return;
       }
 
-      gsap.to(line, {
-        scaleY: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: root,
-          start: 'top 80%',
-          end: 'bottom 60%',
-          scrub: 0.5,
-        },
-      });
-
-      items.forEach((item, i) => {
-        const dot = item.querySelector('.timeline-dot');
-        const card = item.querySelector('.timeline-card');
-        const polaroid = item.querySelector('.timeline-polaroid');
-
-        const itemTl = gsap.timeline({
+      const ctx = gsap.context(() => {
+        gsap.to(line, {
+          scaleY: 1,
+          ease: 'none',
           scrollTrigger: {
-            trigger: item,
+            trigger: root,
             start: 'top 80%',
-            toggleActions: 'play none none none',
+            end: 'bottom 60%',
+            scrub: 0.5,
           },
         });
 
-        if (dot) {
-          itemTl.fromTo(
-            dot,
-            { scale: 0, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' },
-          );
-        }
+        items.forEach((item, i) => {
+          const dot = item.querySelector('.timeline-dot');
+          const card = item.querySelector('.timeline-card');
+          const polaroid = item.querySelector('.timeline-polaroid');
 
-        if (card) {
-          const isLeft = i % 2 === 0;
-          itemTl.fromTo(
-            card,
-            { opacity: 0, y: 20, x: isLeft ? -15 : 15 },
-            { opacity: 1, y: 0, x: 0, duration: 0.6, ease: 'power2.out' },
-            '-=0.2',
-          );
-        }
-
-        if (polaroid) {
-          itemTl.fromTo(
-            polaroid,
-            { opacity: 0, y: 15, rotation: i % 2 === 0 ? -8 : 8 },
-            { opacity: 1, y: 0, rotation: i % 2 === 0 ? -3 : 3, duration: 0.5, ease: 'power2.out' },
-            '-=0.4',
-          );
-        }
-
-        if (card) {
-          gsap.to(card, {
-            y: -8,
-            ease: 'none',
+          const itemTl = gsap.timeline({
             scrollTrigger: {
               trigger: item,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
             },
           });
-        }
-      });
+
+          if (dot) {
+            itemTl.fromTo(
+              dot,
+              { scale: 0, opacity: 0 },
+              { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2)' },
+            );
+          }
+
+          if (card) {
+            const isLeft = i % 2 === 0;
+            itemTl.fromTo(
+              card,
+              { opacity: 0, y: 20, x: isLeft ? -15 : 15 },
+              { opacity: 1, y: 0, x: 0, duration: 0.6, ease: 'power2.out' },
+              '-=0.2',
+            );
+          }
+
+          if (polaroid) {
+            itemTl.fromTo(
+              polaroid,
+              { opacity: 0, y: 15, rotation: i % 2 === 0 ? -8 : 8 },
+              { opacity: 1, y: 0, rotation: i % 2 === 0 ? -3 : 3, duration: 0.5, ease: 'power2.out' },
+              '-=0.4',
+            );
+          }
+
+          if (card) {
+            gsap.to(card, {
+              y: -8,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: item,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+              },
+            });
+          }
+        });
+      }, root);
 
       this.destroyRef.onDestroy(() => {
-        ScrollTrigger.getAll().forEach((st) => st.kill());
+        ctx.revert();
       });
     });
   }

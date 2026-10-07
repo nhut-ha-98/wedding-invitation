@@ -52,7 +52,7 @@ export class Rsvp {
     afterNextRender(() => {
       const card = this.el.nativeElement.querySelector('.rsvp-card');
 
-      gsap.fromTo(
+      const anim = gsap.fromTo(
         card,
         { opacity: 0, y: 40 },
         {
@@ -69,7 +69,8 @@ export class Rsvp {
       );
 
       this.destroyRef.onDestroy(() => {
-        ScrollTrigger.getAll().forEach((st) => st.kill());
+        anim.scrollTrigger?.kill();
+        anim.kill();
       });
     });
   }

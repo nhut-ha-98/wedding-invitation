@@ -44,8 +44,8 @@ export class Introduction {
       tl.fromTo(author, { opacity: 0 }, { opacity: 1, duration: 0.5 });
 
       this.destroyRef.onDestroy(() => {
+        tl.scrollTrigger?.kill();
         tl.kill();
-        ScrollTrigger.getAll().forEach((st) => st.kill());
       });
     });
   }

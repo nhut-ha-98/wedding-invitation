@@ -8,6 +8,9 @@
   overflow: hidden;
   pointer-events: none;
   background: transparent;
+  contain: strict;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /* Full Viewport Sky Background */
@@ -17,6 +20,8 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+  contain: paint;
+  transform: translateZ(0);
 }
 
 /* Morning: Warm Ivory Dawn Parchment */
@@ -38,6 +43,7 @@
   background: linear-gradient(180deg, #fae5c3 0%, #f4b875 35%, #de7e5d 70%, #6f3458 100%);
   opacity: 0;
   will-change: opacity;
+  transform: translateZ(0);
 }
 
 /* Night: Rich Celestial Dark Violet */
@@ -49,6 +55,7 @@
   background: radial-gradient(circle at 50% 40%, #2f1350 0%, #1c0936 50%, #0c0218 100%);
   opacity: 0;
   will-change: opacity;
+  transform: translateZ(0);
 }
 
 .sky {
@@ -58,6 +65,8 @@
   height: 100%;
   display: block;
   overflow: visible;
+  transform: translateZ(0);
+  contain: layout paint;
 }
 
 /* Lines */
@@ -69,13 +78,11 @@
   stroke-dashoffset: 1;
   transition:
     stroke 0.6s ease,
-    stroke-width 0.6s ease,
-    filter 0.6s ease;
+    stroke-width 0.6s ease;
 }
 
 .cl-line--logo {
   stroke: #d4af37;
-  filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.45));
 }
 
 /* Stars */
@@ -91,7 +98,6 @@
   transition:
     fill 0.5s ease,
     stroke 0.5s ease,
-    filter 0.5s ease,
     transform 0.5s ease;
 }
 
@@ -107,8 +113,7 @@
   transform-origin: center;
   transition:
     opacity 0.7s ease,
-    transform 0.7s ease,
-    filter 0.7s ease;
+    transform 0.7s ease;
 }
 
 .halo--logo {
@@ -164,44 +169,50 @@
    SYNCHRONIZED GOLDEN NEON BRIGHTENING
    ======================================================== */
 
-/* Logo Connected: Radiant Warm Gold / Amber Neon Glow on Dark Violet */
+/* Group-level hardware accelerated glow for optimal 60fps scrolling */
+.line-group--logo.is-connected {
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.7));
+  will-change: filter;
+}
+
 .line-group--logo.is-connected .cl-line {
   stroke: #fffde7;
   stroke-width: 2;
-  filter: drop-shadow(0 0 6px #ffd700);
+}
+
+.star-group--logo.is-connected {
+  filter: drop-shadow(0 0 6px rgba(255, 214, 0, 0.75));
+  will-change: filter;
 }
 
 .star-group--logo.is-connected .star-glyph {
   fill: #ffffff;
   stroke: #fff59d;
   stroke-width: 0.7;
-  filter: drop-shadow(0 0 6px #ffd600);
-  animation: neon-star-twinkle-lg 2.2s ease-in-out infinite alternate;
+  animation: neon-star-twinkle-lg 2.4s ease-in-out infinite alternate;
 }
 
 .star-group--logo.is-connected .halo {
   opacity: 0.85;
   transform: scale(2.2);
-  filter: drop-shadow(0 0 10px #ffab00);
 }
 
 .star-group--logo.is-connected .neon-spikes {
   opacity: 0.95;
   fill: #ffffff;
-  filter: drop-shadow(0 0 6px #ffd600);
   animation: neon-spike-shimmer-lg 3s ease-in-out infinite alternate;
 }
 
 /* Neon Keyframe Animations */
 @keyframes neon-star-twinkle-lg {
   0% {
-    opacity: 0.8;
+    opacity: 0.82;
     transform: scale(1);
   }
 
   100% {
     opacity: 1;
-    transform: scale(1.15);
+    transform: scale(1.12);
   }
 }
 
@@ -213,11 +224,15 @@
 
   100% {
     opacity: 1;
-    transform: scale(1.15) rotate(-12deg);
+    transform: scale(1.1) rotate(-10deg);
   }
 }
 
 /* Completion Ring & Glint */
+.fx-group--logo {
+  filter: drop-shadow(0 0 10px rgba(255, 214, 0, 0.85));
+}
+
 .completion-ring {
   fill: none;
   stroke-width: 2;
@@ -228,7 +243,6 @@
 
 .ring--logo {
   stroke: #ffd700;
-  filter: drop-shadow(0 0 8px #ff9100);
 }
 
 .completion-glint {
@@ -240,5 +254,4 @@
 
 .glint--logo {
   fill: #ffffff;
-  filter: drop-shadow(0 0 12px #ffd600);
 }

@@ -52,8 +52,8 @@ export class HandwriteDirective {
       });
 
       this.destroyRef.onDestroy(() => {
+        tl.scrollTrigger?.kill();
         tl.kill();
-        ScrollTrigger.getAll().forEach((st) => st.kill());
       });
     });
   }
