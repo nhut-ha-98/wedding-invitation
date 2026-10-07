@@ -28,6 +28,7 @@ export interface WeddingConfig {
   };
   timeline: TimelineEvent[];
   schedule: ScheduleEvent[];
+  album: AlbumPhoto[];
   proposalStory: string;
   closingQuote: string;
   closingQuoteAuthor: string;
@@ -44,6 +45,12 @@ export interface TimelineEvent {
 export interface ScheduleEvent {
   time: string;
   label: string;
+}
+
+export interface AlbumPhoto {
+  imageUrl: string;
+  alt: string;
+  caption?: string;
 }
 
 export interface CoupleProfile {
@@ -66,7 +73,8 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     name: 'LACASA',
     address: '30 Nguyễn Văn Hưởng, Thảo Điền, TP. Thủ Đức',
     mapUrl: 'https://maps.app.goo.gl/PHCvCBcgiyN7i56w8',
-    mapEmbedUrl: 'https://maps.google.com/maps?q=30+Nguy%E1%BB%85n+V%C4%83n+H%C6%B0%E1%BB%9Fng%2C+Th%E1%BA%A3o+%C4%90i%E1%BB%81n%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh&t=&z=16&ie=UTF8&iwloc=&output=embed',
+    mapEmbedUrl:
+      'https://maps.google.com/maps?q=30+Nguy%E1%BB%85n+V%C4%83n+H%C6%B0%E1%BB%9Fng%2C+Th%E1%BA%A3o+%C4%90i%E1%BB%81n%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh&t=&z=16&ie=UTF8&iwloc=&output=embed',
     mapImageUrl: 'map.png',
   },
   dressCode: 'Trang phục lịch sự, thoải mái cùng chúng mình chung vui',
@@ -132,8 +140,23 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       icon: '🥂',
     },
   ],
-  schedule: [
-    { time: '17:30', label: 'TIỆC CƯỚI' },
+  schedule: [{ time: '17:30', label: 'TIỆC CƯỚI' }],
+  album: [
+    {
+      imageUrl: 'album/album-2.webp',
+      alt: 'Khoảnh khắc cầu hôn',
+      caption: '#We',
+    },
+    {
+      imageUrl: 'album/album-3.webp',
+      alt: 'Niềm vui sau lời cầu hôn',
+      caption: '#Are',
+    },
+    {
+      imageUrl: 'album/album-4.webp',
+      alt: 'Chiếc nhẫn',
+      caption: '#Ha',
+    },
   ],
   proposalStory:
     'Một buổi tối ở Monad Stopover, giữa khung cảnh đèo Bảo Lộc yên bình, anh trao em chiếc nhẫn cùng lời cầu hôn đã được chờ đợi từ lâu. Sau những năm tháng cùng nhau đi qua tuổi trẻ, chúng mình chọn tiếp tục hành trình ấy, lần này bằng một lời hứa dài lâu.',

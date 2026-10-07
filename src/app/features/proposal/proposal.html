@@ -2,19 +2,20 @@
   <section class="proposal-section">
     <p class="proposal-label">Album</p>
     <div class="polaroid-grid">
-      @for (polaroid of polaroids; track polaroid.alt; let i = $index) {
+      @for (polaroid of polaroids(); track polaroid.alt; let i = $index) {
         <div
-          class="polaroid"
+          class="polaroid paper-grain"
           [style.--rotate]="polaroid.rotate + 'deg'"
           [style.--top]="polaroid.top + 'px'"
           [style.--left]="polaroid.left + 'px'"
           [attr.data-rotate]="polaroid.rotate"
-          role="img"
-          [attr.aria-label]="polaroid.alt"
         >
           <div class="polaroid-photo">
-            <app-papercut-art [variant]="polaroid.art" />
+            <img [src]="polaroid.imageUrl" [alt]="polaroid.alt" loading="lazy" decoding="async" />
           </div>
+          @if (polaroid.caption) {
+            <p class="polaroid-caption">{{ polaroid.caption }}</p>
+          }
         </div>
       }
     </div>

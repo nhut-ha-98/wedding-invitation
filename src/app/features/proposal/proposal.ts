@@ -1,6 +1,7 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  computed,
   input,
   ElementRef,
   afterNextRender,
@@ -11,14 +12,13 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatedSection } from '../../shared/components/animated-section';
 import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
-import { PapercutArt, PapercutVariant } from '../../shared/components/papercut-art';
 import { WeddingConfig } from '../../core/models/wedding-config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-proposal',
-  imports: [AnimatedSection, HandwriteDirective, PapercutArt],
+  imports: [AnimatedSection, HandwriteDirective],
   templateUrl: './proposal.html',
   styleUrl: './proposal.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,17 +29,20 @@ export class Proposal {
   private el = inject<ElementRef<HTMLElement>>(ElementRef);
   private destroyRef = inject(DestroyRef);
 
-  readonly polaroids: {
-    alt: string;
-    rotate: number;
-    top: number;
-    left: number;
-    art: PapercutVariant;
-  }[] = [
-    { alt: 'Proposal at sunset', rotate: -3, top: 0, left: 0, art: 'dandelion' },
-    { alt: 'Celebration after', rotate: 4, top: 60, left: 40, art: 'branch' },
-    { alt: 'The ring close-up', rotate: -2, top: 20, left: 20, art: 'blossom' },
+  private readonly layout: { rotate: number; top: number; left: number }[] = [
+    { rotate: -3, top: 0, left: 0 },
+    { rotate: 4, top: 60, left: 40 },
+    { rotate: -2, top: 20, left: 20 },
   ];
+
+  readonly polaroids = computed(() =>
+    this.config().album.map((photo, i) => ({
+      ...photo,
+      rotate: this.layout[i]?.rotate ?? 0,
+      top: this.layout[i]?.top ?? 0,
+      left: this.layout[i]?.left ?? 0,
+    })),
+  );
 
   constructor() {
     afterNextRender(() => {
