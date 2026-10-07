@@ -1,25 +1,64 @@
 import { DestroyRef, Injectable, inject } from '@angular/core';
-import { CANT_HELP_FALLING_IN_LOVE_MELODY, CANT_HELP_FALLING_IN_LOVE_MELODY2, DEFAULT_MELODY, DIGIMON_BUTTERFLY_MELODY, riverFlowsMelody } from './music';
+
+const MUSIC_TRACKS = [
+  'music/River Flows In You - compressed.m4a',
+  'music/Photograph-compressed.m4a',
+  "music/Can't Help Falling In Love - compressed.m4a",
+  'music/Butter-Fly - compressed.m4a',
+];
+
+const TARGET_VOLUME = 0.6;
+const FADE_TIME = 500;
 
 @Injectable({ providedIn: 'root' })
 export class AudioService {
   private ctx: AudioContext | null = null;
   private musicPlaying = false;
+  private musicAudio: HTMLAudioElement | null = null;
+  private musicIndex = -1;
+  private musicTriedCount = 0;
+  private fadeTimer: ReturnType<typeof setTimeout> | null = null;
+  private musicStartTimer: ReturnType<typeof setTimeout> | null = null;
   private windNode: GainNode | null = null;
   private windSource: AudioBufferSourceNode | null = null;
   private windOsc: OscillatorNode | null = null;
-  private musicTimeout: any = null;
-  private currentNoteIndex = 0;
-
-  // Vintage music box melody (Inspired by warm Ghibli piano themes)
-  // Midi notes, beats
-  private readonly melody = DEFAULT_MELODY;
 
   constructor() {
     const destroyRef = inject(DestroyRef);
     destroyRef.onDestroy(() => {
       this.stopAll();
     });
+    this.selectAndPreloadMusic();
+  }
+
+  private selectAndPreloadMusic(): void {
+    if (typeof Audio === 'undefined') return;
+    this.musicIndex = Math.floor(Math.random() * MUSIC_TRACKS.length);
+    const audio = new Audio();
+    audio.loop = true;
+    audio.preload = 'auto';
+    audio.volume = 0;
+    audio.addEventListener('error', () => this.handleMusicLoadError());
+    this.musicAudio = audio;
+    this.setMusicSource(this.musicIndex);
+    this.musicTriedCount = 0;
+  }
+
+  private setMusicSource(index: number): void {
+    if (!this.musicAudio) return;
+    this.musicIndex = index;
+    this.musicAudio.src = MUSIC_TRACKS[index];
+    this.musicAudio.load();
+  }
+
+  private handleMusicLoadError(): void {
+    this.musicTriedCount++;
+    if (this.musicTriedCount >= MUSIC_TRACKS.length) {
+      this.musicAudio = null;
+      console.warn('Audio: all music tracks failed to load');
+      return;
+    }
+    this.setMusicSource((this.musicIndex + 1) % MUSIC_TRACKS.length);
   }
 
   private initCtx() {
@@ -161,80 +200,73 @@ export class AudioService {
   }
 
   playMusic() {
-    this.initCtx();
-    if (!this.ctx || this.musicPlaying) return;
+    if (!this.musicAudio || this.musicPlaying) return;
     this.musicPlaying = true;
-    this.currentNoteIndex = 0;
-    this.playNextMusicNote();
+    if (this.musicStartTimer) {
+      clearTimeout(this.musicStartTimer);
+      this.musicStartTimer = null;
+    }
+    // Start shortly after the gesture that triggered it; some mobile browsers
+    // reject play() fired synchronously within the same event handler
+    this.musicStartTimer = setTimeout(() => {
+      this.musicStartTimer = null;
+      this.startMusicPlayback();
+    }, 150);
   }
 
   stopMusic() {
     this.musicPlaying = false;
-    if (this.musicTimeout) {
-      clearTimeout(this.musicTimeout);
-      this.musicTimeout = null;
+    if (this.musicStartTimer) {
+      clearTimeout(this.musicStartTimer);
+      this.musicStartTimer = null;
     }
+    const audio = this.musicAudio;
+    if (!audio || audio.paused) return;
+    this.fadeTo(0);
   }
 
   isMusicPlaying(): boolean {
     return this.musicPlaying;
   }
 
-  private playNextMusicNote() {
-    if (!this.musicPlaying || !this.ctx) return;
-
-    try {
-      const [midiNote, beats] = this.melody[this.currentNoteIndex];
-      const freq = this.midiToFreq(midiNote);
-      const now = this.ctx.currentTime;
-
-      // Primary tone
-      const osc1 = this.ctx.createOscillator();
-      const gain1 = this.ctx.createGain();
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(freq, now);
-
-      // Warm octave lower oscillator
-      const osc2 = this.ctx.createOscillator();
-      const gain2 = this.ctx.createGain();
-      osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(freq * 0.5, now);
-
-      // Envelopes
-      gain1.gain.setValueAtTime(0.0, now);
-      gain1.gain.linearRampToValueAtTime(0.12, now + 0.015);
-      gain1.gain.exponentialRampToValueAtTime(0.001, now + beats * 0.75);
-
-      gain2.gain.setValueAtTime(0.0, now);
-      gain2.gain.linearRampToValueAtTime(0.03, now + 0.02);
-      gain2.gain.exponentialRampToValueAtTime(0.001, now + beats * 0.75);
-
-      osc1.connect(gain1);
-      gain1.connect(this.ctx.destination);
-
-      osc2.connect(gain2);
-      gain2.connect(this.ctx.destination);
-
-      osc1.start(now);
-      osc1.stop(now + beats * 0.75 + 0.1);
-
-      osc2.start(now);
-      osc2.stop(now + beats * 0.75 + 0.1);
-
-      const beatDurationMs = 380;
-      this.currentNoteIndex = (this.currentNoteIndex + 1) % this.melody.length;
-      this.musicTimeout = setTimeout(() => {
-        this.playNextMusicNote();
-      }, beats * beatDurationMs);
-    } catch (e) {
-      console.error('Music note play failed', e);
-      this.musicPlaying = false;
+  private startMusicPlayback(): void {
+    const audio = this.musicAudio;
+    if (!audio || !this.musicPlaying) return;
+    const playPromise = audio.play();
+    if (!playPromise) {
+      this.fadeTo(TARGET_VOLUME);
+      return;
     }
+    playPromise
+      .then(() => {
+        if (!this.musicPlaying) return;
+        this.fadeTo(TARGET_VOLUME);
+      })
+      .catch(() => {
+        // Playback blocked; user can retry via the toggle
+      });
   }
 
-  private midiToFreq(note: number): number {
-    // return note;
-    return 440 * Math.pow(2, (note - 69) / 12);
+  private fadeTo(target: number): void {
+    const audio = this.musicAudio;
+    if (!audio) return;
+    if (this.fadeTimer) {
+      clearTimeout(this.fadeTimer);
+      this.fadeTimer = null;
+    }
+    const from = audio.volume;
+    const start = performance.now();
+    const step = () => {
+      const t = Math.min((performance.now() - start) / FADE_TIME, 1);
+      audio.volume = from + (target - from) * t;
+      if (t < 1) {
+        this.fadeTimer = setTimeout(step, 16);
+      } else {
+        this.fadeTimer = null;
+        if (target === 0) audio.pause();
+      }
+    };
+    step();
   }
 
   private stopAll() {

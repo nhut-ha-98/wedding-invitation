@@ -281,18 +281,24 @@ export class Cover {
   }
 
   private startAmbientAudio(): void {
-    // Start wind + music on first interaction to satisfy browser autoplay
+    // Start wind + music on first interaction, with a short gap after the
+    // gesture so mobile browsers allow playback
     const triggerAudio = () => {
-      this.audioService.playWind();
-      this.audioService.playMusic();
       window.removeEventListener('click', triggerAudio);
       window.removeEventListener('touchstart', triggerAudio);
+      window.removeEventListener('keydown', triggerAudio);
+      setTimeout(() => {
+        this.audioService.playWind();
+        this.audioService.playMusic();
+      }, 150);
     };
     window.addEventListener('click', triggerAudio);
     window.addEventListener('touchstart', triggerAudio);
+    window.addEventListener('keydown', triggerAudio);
     this.destroyRef.onDestroy(() => {
       window.removeEventListener('click', triggerAudio);
       window.removeEventListener('touchstart', triggerAudio);
+      window.removeEventListener('keydown', triggerAudio);
     });
   }
 
