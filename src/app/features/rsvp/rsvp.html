@@ -40,10 +40,10 @@
           </div>
           <p class="success-title">Cảm ơn bạn!</p>
           <p class="success-text">Đã nhận được phản hồi của bạn. Hẹn gặp lại bạn trong ngày vui!</p>
-          <button class="reset-btn" (click)="resetForm()">Gửi phản hồi khác</button>
+          <button type="button" class="reset-btn" (click)="resetForm()">Gửi phản hồi khác</button>
         </div>
         } @else {
-        <form class="rsvp-form" (submit)="onSubmit()" novalidate>
+        <form class="rsvp-form" [formGroup]="form" (ngSubmit)="onSubmit($event)" (submit)="$event.preventDefault()" novalidate>
           <div class="field">
             <label class="field-label" for="rsvp-name">Tên của bạn</label>
             <div class="input-line-wrap">
@@ -104,7 +104,7 @@
           </button>
 
           @if (status() === 'error') {
-          <p class="error-msg error-banner">Đã xảy ra lỗi. Vui lòng thử lại.</p>
+          <p class="error-msg error-banner">{{ errorMessage() || 'Đã xảy ra lỗi. Vui lòng thử lại.' }}</p>
           }
         </form>
         }

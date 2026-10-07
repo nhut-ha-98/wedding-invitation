@@ -3,7 +3,7 @@
     <p class="couple-label">Cặp Đôi</p>
     <h2 class="couple-title great-vibes">Anh &amp; Em</h2>
     @for (profile of profiles(); track profile.name; let i = $index) {
-      <app-couple-card class="couple-card" [profile]="profile" [tilt]="i === 0 ? 3 : -3" />
+    <app-couple-card class="couple-card" [profile]="profile" [tilt]="i === 0 ? 3 : -3" />
     }
   </section>
 </app-animated-section>
