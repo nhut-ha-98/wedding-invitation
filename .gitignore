@@ -46,3 +46,8 @@ Thumbs.db
 .claude/*
 
 .local/*
+
+# Environment configs
+.env
+.env.*
+.env.local

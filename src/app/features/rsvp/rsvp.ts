@@ -35,6 +35,7 @@ export class Rsvp {
   private destroyRef = inject(DestroyRef);
 
   readonly status = this.rsvpService.status;
+  readonly errorMessage = this.rsvpService.errorMessage;
 
   readonly form = new FormGroup<RsvpForm>({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -75,7 +76,9 @@ export class Rsvp {
     });
   }
 
-  onSubmit(): void {
+  onSubmit(event?: Event): void {
+    event?.preventDefault();
+
     if (this.form.invalid) {
       Object.values(this.form.controls).forEach((c) => c.markAsTouched());
       return;
