@@ -1,24 +1,24 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  inject,
+  Component,
+  DestroyRef,
   ElementRef,
   afterNextRender,
-  DestroyRef,
-  viewChild,
   effect,
+  inject,
+  viewChild,
 } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BookStateService } from '../../core/services/book-state.service';
 import {
-  LOGO_STARS,
-  LOGO_LINES,
-  LOGO_REVEAL_TRIGGER,
-  constellationLineD,
-  constellationStarById,
   ConstellationLine,
   ConstellationStar,
+  LOGO_LINES,
+  LOGO_REVEAL_TRIGGER,
+  LOGO_STARS,
+  constellationLineD,
+  constellationStarById,
 } from './star-data';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -72,6 +72,7 @@ export class ConstellationBackground {
   private starVisibleMap = new Map<string, boolean>();
   private lineDrawnMap = new Map<string, boolean>();
   private bothConnected = false;
+  private highlightTimeline: gsap.core.Timeline | null = null;
 
   private scrollTrigger: ScrollTrigger | null = null;
 
@@ -105,6 +106,7 @@ export class ConstellationBackground {
 
     this.destroyRef.onDestroy(() => {
       this.scrollTrigger?.kill();
+      this.highlightTimeline?.kill();
     });
   }
 
@@ -268,10 +270,101 @@ export class ConstellationBackground {
       lineEl.classList.add('is-connected');
 
       this.pulseCompletion();
+      this.startHighlightShine();
     } else {
+      this.highlightTimeline?.kill();
+      this.highlightTimeline = null;
+      for (const star of this.stars) {
+        const starId = star.id;
+        const host = this.starElMap.get(starId);
+        const halo = host?.querySelector('.halo');
+        const spikes = host?.querySelector('.neon-spikes');
+        if (halo) gsap.set(halo, { opacity: 0.35, scale: 1 });
+        if (spikes) gsap.set(spikes, { opacity: 0, scale: 0.2, rotation: 0 });
+      }
       starEl.classList.remove('is-connected');
       lineEl.classList.remove('is-connected');
     }
+  }
+
+  private startHighlightShine(): void {
+    this.highlightTimeline?.kill();
+
+    const timeline = gsap.timeline();
+    const sequenceCount = 10;
+    for (let sequenceIndex = 0; sequenceIndex < sequenceCount; sequenceIndex++) {
+      const sequence = gsap.timeline({ repeat: -1, repeatDelay: 0.3 });
+      const sequenceStars = this.stars
+        .filter((_, index) => index % sequenceCount === sequenceIndex)
+        .map((star, index) => ({ star, index }))
+        .concat()
+        .sort((left, right) =>
+          sequenceIndex === 0 ? left.index - right.index : right.index - left.index,
+        );
+
+      for (const [sequencePosition, { star, index }] of sequenceStars.entries()) {
+        const host = this.starElMap.get(star.id);
+        const halo = host?.querySelector<SVGCircleElement>('.halo');
+        const spike = host?.querySelector<SVGPathElement>('.neon-spikes');
+        const flash = host?.querySelector<SVGCircleElement>('.flash');
+        if (!halo || !spike || !flash) continue;
+
+        const pace = 0.82 + ((index * 7 + sequenceIndex * 3) % 5) * 0.09;
+
+        const connectedPaths = new Set<SVGPathElement>();
+        for (const line of this.lines) {
+          if (line.from !== star.id && line.to !== star.id) continue;
+          const path = this.lineElMap.get(line.id)?.path;
+          if (path) connectedPaths.add(path);
+        }
+
+        sequence
+          .to(halo, { opacity: 0.58, scale: 1.7, duration: 0.42 * pace, ease: 'sine.inOut' })
+          .to(spike, { opacity: 0.22, scale: 0.55, duration: 0.4 * pace, ease: 'sine.inOut' }, '<')
+          .fromTo(
+            flash,
+            { opacity: 0, scale: 0.72 },
+            { opacity: 0.62, scale: 1.4, duration: 0.3 * pace, ease: 'sine.out' },
+            '<',
+          )
+          .to(
+            [...connectedPaths],
+            { stroke: '#b9efff', strokeWidth: 1.82, duration: 0.42 * pace, ease: 'sine.inOut' },
+            '<',
+          )
+          .to(halo, { opacity: 0.38, scale: 1.35, duration: 0.58 * pace, ease: 'sine.inOut' })
+          .to(spike, { opacity: 0, scale: 0.2, duration: 0.54 * pace, ease: 'sine.inOut' }, '<')
+          .to(flash, { opacity: 0, scale: 1, duration: 0.48 * pace, ease: 'sine.inOut' }, '<')
+          .to(
+            [...connectedPaths],
+            { stroke: '#d9f8ff', strokeWidth: 1.65, duration: 0.58 * pace, ease: 'sine.inOut' },
+            '<',
+          )
+          .to({}, { duration: 0.08 + ((sequencePosition + sequenceIndex) % 4) * 0.035 });
+      }
+
+      timeline.add(sequence, sequenceIndex * 0.38);
+    }
+
+    const circlePaths = this.lines
+      .filter((line) => line.from.startsWith('lg-c') && line.to.startsWith('lg-c'))
+      .map((line) => this.lineElMap.get(line.id)?.path)
+      .filter((path): path is SVGPathElement => path !== undefined);
+    const innerPaths = this.lines
+      .filter((line) => !(line.from.startsWith('lg-c') && line.to.startsWith('lg-c')))
+      .map((line) => this.lineElMap.get(line.id)?.path)
+      .filter((path): path is SVGPathElement => path !== undefined);
+
+    const frameSequence = gsap.timeline({ repeat: -1, repeatDelay: 4.5 });
+    frameSequence
+      .to({}, { duration: 1.2 })
+      .to(circlePaths, { stroke: '#b9efff', strokeWidth: 1.82, duration: 0.65, ease: 'sine.inOut' })
+      .to(circlePaths, { stroke: '#d9f8ff', strokeWidth: 1.65, duration: 0.72, ease: 'sine.inOut' })
+      .to(innerPaths, { stroke: '#b9efff', strokeWidth: 1.82, duration: 0.65, ease: 'sine.inOut' })
+      .to(innerPaths, { stroke: '#d9f8ff', strokeWidth: 1.65, duration: 0.72, ease: 'sine.inOut' });
+    timeline.add(frameSequence, 0.9);
+
+    this.highlightTimeline = timeline;
   }
 
   private pulseCompletion(): void {

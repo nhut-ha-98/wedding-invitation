@@ -76,13 +76,10 @@
   stroke-width: 1.3;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition:
-    stroke 0.6s ease,
-    stroke-width 0.6s ease;
 }
 
 .cl-line--logo {
-  stroke: #d4af37;
+  stroke: #80dfff;
 }
 
 /* Stars */
@@ -102,18 +99,15 @@
 }
 
 .star-host--logo .star-glyph {
-  fill: #faecc5;
-  stroke: #b8912e;
-  stroke-width: 0.5;
+  fill: #effaff;
+  stroke: #5bc8ff;
+  stroke-width: 0.55;
 }
 
 .halo {
   opacity: 0.35;
   transform-box: fill-box;
   transform-origin: center;
-  transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
 }
 
 .halo--logo {
@@ -127,7 +121,7 @@
 }
 
 .flash--logo {
-  fill: #fff9e6;
+  fill: #e9fbff;
 }
 
 /* Diffraction Spikes for Bright Neon Effect */
@@ -136,9 +130,6 @@
   transform: scale(0.2);
   transform-box: fill-box;
   transform-origin: center;
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
   pointer-events: none;
 }
 
@@ -156,7 +147,7 @@
 }
 
 .spark--logo .spark-outer {
-  fill: #faecc5;
+  fill: #a9edff;
   opacity: 0.92;
 }
 
@@ -166,71 +157,45 @@
 }
 
 /* ========================================================
-   SYNCHRONIZED GOLDEN NEON BRIGHTENING
-   ======================================================== */
+  COOL STELLAR CONSTELLATION GLOW
+  ======================================================== */
 
 /* Group-level hardware accelerated glow for optimal 60fps scrolling */
 .line-group--logo.is-connected {
-  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.7));
+  filter: drop-shadow(0 0 3px rgba(65, 196, 255, 0.46));
   will-change: filter;
 }
 
 .line-group--logo.is-connected .cl-line {
-  stroke: #fffde7;
-  stroke-width: 2;
+  stroke: #d9f8ff;
+  stroke-width: 1.65;
 }
 
 .star-group--logo.is-connected {
-  filter: drop-shadow(0 0 6px rgba(255, 214, 0, 0.75));
+  filter: drop-shadow(0 0 4px rgba(56, 183, 255, 0.46));
   will-change: filter;
 }
 
 .star-group--logo.is-connected .star-glyph {
   fill: #ffffff;
-  stroke: #fff59d;
+  stroke: #a9edff;
   stroke-width: 0.7;
-  animation: neon-star-twinkle-lg 2.4s ease-in-out infinite alternate;
 }
 
 .star-group--logo.is-connected .halo {
-  opacity: 0.85;
-  transform: scale(2.2);
+  opacity: 0.38;
+  transform: scale(1.35);
 }
 
 .star-group--logo.is-connected .neon-spikes {
-  opacity: 0.95;
+  opacity: 0;
   fill: #ffffff;
-  animation: neon-spike-shimmer-lg 3s ease-in-out infinite alternate;
-}
-
-/* Neon Keyframe Animations */
-@keyframes neon-star-twinkle-lg {
-  0% {
-    opacity: 0.82;
-    transform: scale(1);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1.12);
-  }
-}
-
-@keyframes neon-spike-shimmer-lg {
-  0% {
-    opacity: 0.75;
-    transform: scale(0.95) rotate(0deg);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1.1) rotate(-10deg);
-  }
+  filter: drop-shadow(0 0 3px rgba(112, 217, 255, 0.72));
 }
 
 /* Completion Ring & Glint */
 .fx-group--logo {
-  filter: drop-shadow(0 0 10px rgba(255, 214, 0, 0.85));
+  filter: drop-shadow(0 0 7px rgba(79, 198, 255, 0.64));
 }
 
 .completion-ring {
@@ -242,7 +207,7 @@
 }
 
 .ring--logo {
-  stroke: #ffd700;
+  stroke: #73d7ff;
 }
 
 .completion-glint {
@@ -253,5 +218,5 @@
 }
 
 .glint--logo {
-  fill: #ffffff;
+  fill: #c8f4ff;
 }
