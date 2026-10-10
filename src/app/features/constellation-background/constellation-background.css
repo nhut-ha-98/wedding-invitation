@@ -12,7 +12,7 @@
 .sky-background,
 .sky-daylight,
 .sky-dawn,
-.sky-dusk,
+.sky-sunset,
 .sky-night,
 .sky {
   position: absolute;
@@ -28,7 +28,9 @@
 }
 
 .sky-daylight {
-  background: linear-gradient(180deg, #d5e8e8 0%, #e8ecdc 52%, #f1d7a8 100%);
+  background: #f4f9ff;
+  opacity: 1;
+  will-change: opacity;
 }
 
 .sky-dawn {
@@ -37,7 +39,7 @@
   will-change: opacity;
 }
 
-.sky-dusk {
+.sky-sunset {
   background: linear-gradient(180deg, #fae5c3 0%, #f4b875 35%, #de7e5d 70%, #6f3458 100%);
   opacity: 0;
   will-change: opacity;

@@ -45,8 +45,9 @@ export class ConstellationBackground {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
 
+  private readonly daylightLayer = viewChild.required<ElementRef<HTMLElement>>('daylightLayer');
   private readonly dawnLayer = viewChild.required<ElementRef<HTMLElement>>('dawnLayer');
-  private readonly afternoonLayer = viewChild.required<ElementRef<HTMLElement>>('afternoonLayer');
+  private readonly sunsetLayer = viewChild.required<ElementRef<HTMLElement>>('sunsetLayer');
   private readonly nightLayer = viewChild.required<ElementRef<HTMLElement>>('nightLayer');
   private readonly starlightArtwork =
     viewChild.required<ElementRef<HTMLElement>>('starlightArtwork');
@@ -203,14 +204,19 @@ export class ConstellationBackground {
 
   private performUpdate(progress: number): void {
     this.currentProgress = progress;
-    const dawn = this.smoothstep((progress - 0.38) / 0.16);
-    const afternoon = this.smoothstep((progress - 0.54) / 0.22);
-    const night = this.smoothstep((progress - 0.72) / 0.24);
+    const daylightToDawn = this.smoothstep((progress - 0.175) / 0.15);
+    const dawnToSunset = this.smoothstep((progress - 0.425) / 0.15);
+    const sunsetToNight = this.smoothstep((progress - 0.675) / 0.15);
+    const daylight = 1 - daylightToDawn;
+    const dawn = daylightToDawn * (1 - dawnToSunset);
+    const sunset = dawnToSunset * (1 - sunsetToNight);
+    const night = sunsetToNight;
     const artworkProgress = this.starlightProgress(progress);
     const artworkOpacity = this.starlightOpacity(progress);
 
+    this.daylightLayer().nativeElement.style.opacity = String(Number(daylight.toFixed(3)));
     this.dawnLayer().nativeElement.style.opacity = String(Number(dawn.toFixed(3)));
-    this.afternoonLayer().nativeElement.style.opacity = String(Number(afternoon.toFixed(3)));
+    this.sunsetLayer().nativeElement.style.opacity = String(Number(sunset.toFixed(3)));
     this.nightLayer().nativeElement.style.opacity = String(Number(night.toFixed(3)));
     this.starlightArtwork().nativeElement.style.opacity = String(Number(artworkOpacity.toFixed(3)));
     this.renderArtwork(artworkProgress);
@@ -274,8 +280,9 @@ export class ConstellationBackground {
 
   private renderStatic(): void {
     this.currentProgress = 1;
+    this.daylightLayer().nativeElement.style.opacity = '0';
     this.dawnLayer().nativeElement.style.opacity = '0';
-    this.afternoonLayer().nativeElement.style.opacity = '0';
+    this.sunsetLayer().nativeElement.style.opacity = '0';
     this.nightLayer().nativeElement.style.opacity = '1';
     this.starlightArtwork().nativeElement.style.opacity = '1';
     this.renderArtwork(1);
