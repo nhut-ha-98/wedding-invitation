@@ -72,7 +72,7 @@
   margin: 0;
   padding: 0.85rem 0.25rem 1.1rem;
   text-align: center;
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-script);
   font-weight: 600;
   font-size: 1.5rem;
   line-height: 1.25;
@@ -80,7 +80,7 @@
 }
 
 .chapter-body p {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1.125rem;
   color: #5c4033;
   line-height: 1.8;

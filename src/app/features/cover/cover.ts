@@ -15,7 +15,6 @@ import type { FlipSetting } from 'page-flip';
 import { PageFlip } from 'page-flip';
 import { WeddingConfig } from '../../core/models/wedding-config';
 import { AudioService } from '../../core/services/audio.service';
-import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
 import { CoverHandwriteDirective } from './cover-handwrite.directive';
 
 class DandelionParticle {
@@ -138,7 +137,7 @@ class GlowingDust {
 
 @Component({
   selector: 'app-cover',
-  imports: [HandwriteDirective, CoverHandwriteDirective],
+  imports: [CoverHandwriteDirective],
   templateUrl: './cover.html',
   styleUrl: './cover.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -150,12 +149,7 @@ export class Cover {
 
   formattedDate = computed(() => {
     try {
-      const date = new Date(this.config().date);
-      if (isNaN(date.getTime())) return this.config().date;
-      const d = String(date.getDate()).padStart(2, '0');
-      const m = String(date.getMonth() + 1).padStart(2, '0');
-      const y = date.getFullYear();
-      return `${d} · ${m} · ${y}`;
+      return this.config().date.replaceAll('.', ' · ');
     } catch {
       return this.config().date;
     }

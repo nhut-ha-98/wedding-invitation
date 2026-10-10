@@ -61,7 +61,7 @@
 }
 
 .stamp-text {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 0.55rem;
   letter-spacing: 1px;
   color: #8b7355;
@@ -86,7 +86,7 @@
 /* ── Header ── */
 
 .rsvp-label {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 600;
   color: #a8743b;
@@ -96,7 +96,7 @@
 }
 
 .rsvp-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.65rem;
   color: #2c1810;
   margin: 0 0 0.25rem;
@@ -104,7 +104,7 @@
 }
 
 .rsvp-subtitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   color: #7d5e3f;
   font-style: italic;
@@ -125,7 +125,7 @@
 
 .field-label {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.92rem;
   font-weight: 600;
   color: #2c1810;
@@ -139,7 +139,7 @@
 
 .field-input {
   width: 100%;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1.05rem;
   color: #2c1810;
   background: rgba(255, 255, 255, 0.75);
@@ -200,7 +200,7 @@
 }
 
 .attendance-btn .btn-text {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 500;
   color: #2c1810;
@@ -238,14 +238,14 @@
 
 .guest-input {
   text-align: center;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.15rem;
   font-weight: 600;
   padding: 0.45rem 0.5rem;
 }
 
 .guest-unit {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1rem;
   color: #5c4033;
 }
@@ -258,7 +258,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1rem;
   font-weight: 600;
   color: #fdf8f0;
@@ -295,7 +295,7 @@
 /* ── Status Messages ── */
 
 .error-msg {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.85rem;
   color: #c0392b;
   margin: 0.3rem 0 0;
@@ -326,21 +326,21 @@
 }
 
 .success-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.5rem;
   color: #2c1810;
   margin: 0 0 0.5rem;
 }
 
 .success-text {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1.05rem;
   color: #5c4033;
   margin: 0 0 1.5rem;
 }
 
 .reset-btn {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 600;
   color: #2c1810;

@@ -61,7 +61,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     }
 
     .section-title {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-serif);
       font-size: 1.75rem;
       color: #2c1810;
       margin: 0 0 0.35rem;
@@ -69,7 +69,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     }
 
     .section-subtitle {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-body);
       font-size: 1.05rem;
       color: #8b7355;
       font-style: italic;

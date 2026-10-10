@@ -14,7 +14,7 @@
 }
 
 .quote-mark {
-  font-family: 'Great Vibes', cursive;
+  font-family: var(--font-handwriting);
   font-size: 3rem;
   color: #d4af37;
   line-height: 1;
@@ -22,7 +22,7 @@
 }
 
 .quote-text {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1.375rem;
   font-style: italic;
   color: #4a2c1a;
@@ -37,7 +37,7 @@
 }
 
 .intro-text {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1.125rem;
   color: #5c4033;
   line-height: 1.8;

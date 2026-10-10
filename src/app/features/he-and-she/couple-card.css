@@ -112,7 +112,7 @@
 .flip-hint,
 .back-hint {
   margin: 0;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.875rem;
   letter-spacing: 2px;
   color: var(--color-gold, #d4af37);
@@ -154,7 +154,7 @@
 
 .back-intro {
   margin: 0;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1.05rem;
   line-height: 1.8;
   color: #5c4033;

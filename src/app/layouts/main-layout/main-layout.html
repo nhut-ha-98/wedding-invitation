@@ -7,7 +7,7 @@
 }
 
 <div class="scroll-stage" #scrollContent>
-  <app-constellation-background />
+  <app-constellation-background [timing]="config.constellation" />
   <div class="scroll-content">
     <app-introduction id="introduction" [config]="config" />
     <app-he-and-she id="he-and-she" [config]="config" />

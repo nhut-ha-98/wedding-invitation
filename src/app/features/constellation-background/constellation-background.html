@@ -1,67 +1,8 @@
-<div class="sky-background">
-  <div class="sky-morning"></div>
-  <div #afternoonLayer class="sky-afternoon"></div>
+<div class="sky-background" aria-hidden="true">
+  <div #daylightLayer class="sky-daylight"></div>
+  <div #dawnLayer class="sky-dawn"></div>
+  <div #sunsetLayer class="sky-sunset"></div>
   <div #nightLayer class="sky-night"></div>
 </div>
 
-<svg aria-hidden="true" class="sky" viewBox="0 0 1000 1600" preserveAspectRatio="xMidYMid meet">
-  <defs>
-    <!-- Star & Glow Gradients -->
-    <radialGradient id="lg-halo-grad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
-      <stop offset="28%" stop-color="#b9f1ff" stop-opacity="0.88" />
-      <stop offset="62%" stop-color="#38c5ff" stop-opacity="0.42" />
-      <stop offset="100%" stop-color="#1688e8" stop-opacity="0" />
-    </radialGradient>
-
-    <radialGradient id="lg-spark-glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
-      <stop offset="38%" stop-color="#a9edff" stop-opacity="0.96" />
-      <stop offset="100%" stop-color="#28aaff" stop-opacity="0" />
-    </radialGradient>
-  </defs>
-
-  <!-- ================= COUPLE LOGO ================= -->
-  <!-- Connecting Lines & Cool Comet Sparks -->
-  <g #logoLineGroup class="line-group line-group--logo">
-    @for (line of lines; track line.id) {
-      <g class="line-item" [attr.id]="'item-' + line.id">
-        <path class="cl-line cl-line--logo" [attr.d]="lineD(line)" pathLength="1" />
-        <g class="comet-spark spark--logo" [attr.id]="'spark-' + line.id">
-          <circle class="spark-trail-outer" r="9" />
-          <circle class="spark-outer" r="5" />
-          <circle class="spark-core" r="2.2" />
-          <path class="spark-star" [attr.d]="sparkStarD" />
-        </g>
-      </g>
-    }
-  </g>
-
-  <!-- Stars -->
-  <g #logoStarGroup class="star-group star-group--logo">
-    @for (star of stars; track star.id) {
-      <g
-        class="star-host star-host--logo"
-        [attr.id]="'star-' + star.id"
-        [attr.transform]="'translate(' + star.x + ',' + star.y + ')'"
-      >
-        <circle class="halo halo--logo" [attr.r]="haloR" />
-        <path class="neon-spikes neon-spikes--logo" [attr.d]="neonSpikeD" />
-        <path
-          class="star-glyph"
-          [attr.d]="starGlyphD"
-          [attr.transform]="'scale(' + starScale + ')'"
-        />
-        <circle class="flash flash--logo" [attr.r]="flashR" />
-      </g>
-    }
-  </g>
-
-  <!-- Logo Completion Pulse -->
-  <g #logoFxGroup class="fx-group fx-group--logo">
-    <circle cx="500" cy="500" r="180" class="completion-ring ring--logo" />
-    <g class="completion-glint glint--logo" transform="translate(500, 500)">
-      <path [attr.d]="glintD" />
-    </g>
-  </g>
-</svg>
+<div #starlightArtwork class="sky" aria-hidden="true"></div>

@@ -11,6 +11,10 @@
   animation: frameReveal 800ms ease 350ms both;
 }
 
+.side-motif {
+  display: none;
+}
+
 @keyframes frameReveal {
   from {
     opacity: 0;

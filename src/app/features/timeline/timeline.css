@@ -105,7 +105,7 @@
 }
 
 .timeline-year {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 0.8rem;
   color: #d4af37;
   letter-spacing: 2px;
@@ -114,14 +114,14 @@
 }
 
 .timeline-event-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.125rem;
   color: #2c1810;
   margin: 0.25rem 0;
 }
 
 .timeline-desc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1rem;
   color: #5c4033;
   line-height: 1.6;
