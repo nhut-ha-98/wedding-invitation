@@ -176,7 +176,7 @@ export interface TimelineMilestone {
         background: #2a140b;
         border: 1.5px solid #d4af37;
         color: #fdf3d0;
-        font-family: 'Playfair Display', serif;
+        font-family: var(--font-serif);
         font-size: 0.6875rem;
         font-weight: 700;
         display: flex;
@@ -315,7 +315,7 @@ export interface TimelineMilestone {
       }
 
       .time-badge {
-        font-family: 'Playfair Display', serif;
+        font-family: var(--font-serif);
         font-size: 0.75rem;
         font-weight: 700;
         color: #1e100a;
@@ -331,7 +331,7 @@ export interface TimelineMilestone {
       }
 
       .time-label {
-        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-family: var(--font-body);
         font-size: 0.875rem;
         font-weight: 600;
         color: #fff8e7;
@@ -402,7 +402,7 @@ export interface TimelineMilestone {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: 'Playfair Display', serif;
+        font-family: var(--font-serif);
         font-size: 0.6875rem;
         font-weight: 700;
         background: rgba(212, 175, 55, 0.2);
@@ -418,7 +418,7 @@ export interface TimelineMilestone {
       }
 
       .section-label {
-        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-family: var(--font-body);
         font-size: 0.875rem;
         font-weight: 600;
         color: #f5e6d3;

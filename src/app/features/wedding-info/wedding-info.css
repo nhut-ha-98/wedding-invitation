@@ -77,7 +77,7 @@
 /* ── Header Typography ── */
 
 .info-label {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 600;
   color: #a8743b;
@@ -87,7 +87,7 @@
 }
 
 .info-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.65rem;
   color: #2c1810;
   margin: 0 0 0.25rem;
@@ -95,7 +95,7 @@
 }
 
 .ampersand {
-  font-family: 'Great Vibes', cursive;
+  font-family: var(--font-handwriting);
   font-size: 1.55em;
   color: #d4af37;
   margin: 0 0.15em;
@@ -104,7 +104,7 @@
 }
 
 .info-subtitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   color: #7d5e3f;
   font-style: italic;
@@ -196,7 +196,7 @@
 
 .note-label {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-style: italic;
   font-size: 0.82rem;
   letter-spacing: 2px;
@@ -207,14 +207,14 @@
 
 .note-value {
   display: block;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.15rem;
   color: #2c1810;
   line-height: 1.35;
 }
 
 .note-value--gold {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.45rem;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -224,7 +224,7 @@
 
 .note-sub {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-style: italic;
   font-size: 0.9rem;
   color: #6b4c35;
@@ -270,7 +270,7 @@
   gap: 0.35rem;
   background: rgba(44, 24, 16, 0.78);
   color: #fdfaf5;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.82rem;
   padding: 0.3rem 0.65rem;
   border-radius: 20px;
@@ -304,7 +304,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 600;
   color: #2c1810;
@@ -348,7 +348,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.05rem;
   font-weight: 600;
   color: #2c1810;
@@ -391,7 +391,7 @@
 }
 
 .program-time {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.05rem;
   font-weight: 600;
   color: #b8860b;
@@ -414,7 +414,7 @@
 
 .program-label {
   flex: 1;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   color: #2c1810;
   text-align: left;

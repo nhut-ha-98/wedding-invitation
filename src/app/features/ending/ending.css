@@ -29,7 +29,7 @@
 }
 
 .thank-you-title {
-  font-family: 'Great Vibes', cursive;
+  font-family: var(--font-handwriting);
   font-size: clamp(3.5rem, 8vw, 5.5rem);
   color: #fff8e7;
   text-shadow:
@@ -41,7 +41,7 @@
 }
 
 .thank-you-subtitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   font-size: 1.35rem;
   font-style: italic;
   color: #faecc5;
@@ -65,7 +65,7 @@
 }
 
 .couple-names {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-serif);
   font-size: 1.25rem;
   color: #fdf3d0;
   letter-spacing: 0.2em;
@@ -76,7 +76,7 @@
 }
 
 .wedding-date {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-cinzel);
   font-size: 1.75rem;
   font-weight: 700;
   text-align: center;

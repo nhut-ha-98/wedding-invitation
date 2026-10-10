@@ -76,8 +76,8 @@ export const WEDDING_CONFIG = new InjectionToken<WeddingConfig>('WEDDING_CONFIG'
 
 export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   couple: {
-    partner1: 'Nhut Ha',
-    partner2: 'Hoa Ha',
+    partner1: 'Nhựt Hạ',
+    partner2: 'Hoa Hạ',
   },
   date: '01.11.2026',
   time: '18:00',
