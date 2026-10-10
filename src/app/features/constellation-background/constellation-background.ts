@@ -253,7 +253,7 @@ export class ConstellationBackground {
 
     // ScrollTrigger can report just under 1 at the physical scroll limit.
     // Treat the final fraction as complete so the finishing flare always plays.
-    const complete = boundedProgress >= 0.995;
+    const complete = boundedProgress >= 0.999;
     if (complete !== this.completionShown) {
       this.completionShown = complete;
       if (complete && !this.reducedMotion) this.flare();
