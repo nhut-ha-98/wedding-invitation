@@ -1,222 +1,60 @@
 :host {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
   z-index: 0;
   display: block;
   overflow: hidden;
   pointer-events: none;
   background: transparent;
   contain: strict;
-  transform: translateZ(0);
-  will-change: transform;
 }
 
-/* Full Viewport Sky Background */
-.sky-background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  contain: paint;
-  transform: translateZ(0);
-}
-
-/* Morning: Warm Ivory Dawn Parchment */
-.sky-morning {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, #fffcf5 0%, #fcf5e8 50%, #f5e8d0 100%);
-  opacity: 1;
-}
-
-/* Afternoon: Warm Golden Hour / Sunset */
-.sky-afternoon {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, #fae5c3 0%, #f4b875 35%, #de7e5d 70%, #6f3458 100%);
-  opacity: 0;
-  will-change: opacity;
-  transform: translateZ(0);
-}
-
-/* Night: Rich Celestial Dark Violet */
-.sky-night {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 50% 40%, #2f1350 0%, #1c0936 50%, #0c0218 100%);
-  opacity: 0;
-  will-change: opacity;
-  transform: translateZ(0);
-}
-
+.sky-background,
+.sky-daylight,
+.sky-dawn,
+.sky-dusk,
+.sky-night,
 .sky {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.sky-background {
+  overflow: hidden;
+  pointer-events: none;
+  contain: paint;
+}
+
+.sky-daylight {
+  background: linear-gradient(180deg, #d5e8e8 0%, #e8ecdc 52%, #f1d7a8 100%);
+}
+
+.sky-dawn {
+  background: linear-gradient(180deg, #fffcf5 0%, #fcf5e8 50%, #f5e8d0 100%);
+  opacity: 0;
+  will-change: opacity;
+}
+
+.sky-dusk {
+  background: linear-gradient(180deg, #fae5c3 0%, #f4b875 35%, #de7e5d 70%, #6f3458 100%);
+  opacity: 0;
+  will-change: opacity;
+}
+
+.sky-night {
+  background: radial-gradient(circle at 50% 40%, #10273e 0%, #081321 68%, #07101c 100%);
+  opacity: 0;
+  will-change: opacity;
+}
+
+.sky {
   display: block;
-  overflow: visible;
-  transform: translateZ(0);
-  contain: layout paint;
-}
-
-/* Lines */
-.cl-line {
-  fill: none;
-  stroke-linecap: round;
-  stroke-width: 1.3;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-
-.cl-line--logo {
-  stroke: #80dfff;
-}
-
-/* Stars */
-.star-host {
+  overflow: hidden;
+  border: 0;
   opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.star-glyph {
-  transform-box: fill-box;
-  transform-origin: center;
-  transition:
-    fill 0.5s ease,
-    stroke 0.5s ease,
-    transform 0.5s ease;
-}
-
-.star-host--logo .star-glyph {
-  fill: #effaff;
-  stroke: #5bc8ff;
-  stroke-width: 0.55;
-}
-
-.halo {
-  opacity: 0.35;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.halo--logo {
-  fill: url(#lg-halo-grad);
-}
-
-.flash {
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.flash--logo {
-  fill: #e9fbff;
-}
-
-/* Diffraction Spikes for Bright Neon Effect */
-.neon-spikes {
-  opacity: 0;
-  transform: scale(0.2);
-  transform-box: fill-box;
-  transform-origin: center;
   pointer-events: none;
-}
-
-/* Golden Comet Spark Trail */
-.comet-spark {
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-  pointer-events: none;
-}
-
-.spark--logo .spark-trail-outer {
-  fill: url(#lg-spark-glow);
-  opacity: 0.6;
-}
-
-.spark--logo .spark-outer {
-  fill: #a9edff;
-  opacity: 0.92;
-}
-
-.spark--logo .spark-core,
-.spark--logo .spark-star {
-  fill: #ffffff;
-}
-
-/* ========================================================
-  COOL STELLAR CONSTELLATION GLOW
-  ======================================================== */
-
-/* Group-level hardware accelerated glow for optimal 60fps scrolling */
-.line-group--logo.is-connected {
-  filter: drop-shadow(0 0 3px rgba(65, 196, 255, 0.46));
-  will-change: filter;
-}
-
-.line-group--logo.is-connected .cl-line {
-  stroke: #d9f8ff;
-  stroke-width: 1.65;
-}
-
-.star-group--logo.is-connected {
-  filter: drop-shadow(0 0 4px rgba(56, 183, 255, 0.46));
-  will-change: filter;
-}
-
-.star-group--logo.is-connected .star-glyph {
-  fill: #ffffff;
-  stroke: #a9edff;
-  stroke-width: 0.7;
-}
-
-.star-group--logo.is-connected .halo {
-  opacity: 0.38;
-  transform: scale(1.35);
-}
-
-.star-group--logo.is-connected .neon-spikes {
-  opacity: 0;
-  fill: #ffffff;
-  filter: drop-shadow(0 0 3px rgba(112, 217, 255, 0.72));
-}
-
-/* Completion Ring & Glint */
-.fx-group--logo {
-  filter: drop-shadow(0 0 7px rgba(79, 198, 255, 0.64));
-}
-
-.completion-ring {
-  fill: none;
-  stroke-width: 2;
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.ring--logo {
-  stroke: #73d7ff;
-}
-
-.completion-glint {
-  opacity: 0;
-  fill: none;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.glint--logo {
-  fill: #c8f4ff;
+  transform: translate3d(0, clamp(-5rem, -8dvh, -2.5rem), 0);
+  will-change: opacity;
 }

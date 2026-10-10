@@ -6,31 +6,28 @@ import {
   afterNextRender,
   effect,
   inject,
+  input,
   viewChild,
 } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import type { ConstellationConfig } from '../../core/models/wedding-config';
 import { BookStateService } from '../../core/services/book-state.service';
-import {
-  ConstellationLine,
-  ConstellationStar,
-  LOGO_LINES,
-  LOGO_REVEAL_TRIGGER,
-  LOGO_STARS,
-  constellationLineD,
-  constellationStarById,
-} from './star-data';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const STAR_SCALE = 3;
-const HALO_R = STAR_SCALE * 2.6;
-const FLASH_R = STAR_SCALE * 1.9;
+interface ReferenceEdge {
+  readonly element: SVGGElement;
+  readonly paths: readonly SVGPathElement[];
+  readonly start: number;
+  readonly span: number;
+  last: number;
+}
 
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  );
+interface ReferenceStar {
+  readonly element: SVGGElement;
+  readonly revealAt: number;
+  last: number;
 }
 
 @Component({
@@ -41,40 +38,36 @@ function prefersReducedMotion(): boolean {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConstellationBackground {
-  readonly stars = LOGO_STARS;
-  readonly lines = LOGO_LINES;
-  readonly lineD = constellationLineD;
+  /** Configurable scroll thresholds from the wedding configuration. */
+  readonly timing = input.required<ConstellationConfig>();
 
-  readonly starScale = STAR_SCALE;
-  readonly haloR = HALO_R;
-  readonly flashR = FLASH_R;
+  private readonly bookState = inject(BookStateService);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly destroyRef = inject(DestroyRef);
 
-  readonly starGlyphD =
-    'M0 -1 L0.265 -0.364 L0.951 -0.309 L0.428 0.139 L0.588 0.809 L0 0.45 L-0.588 0.809 L-0.428 0.139 L-0.951 -0.309 L-0.265 -0.364 Z';
-  readonly sparkStarD = 'M0 -4.5 L0.9 -0.9 L4.5 0 L0.9 0.9 L0 4.5 L-0.9 0.9 L-4.5 0 L-0.9 -0.9 Z';
-  readonly neonSpikeD =
-    'M0 -15 L1.5 -2.5 L15 0 L1.5 2.5 L0 15 L-1.5 2.5 L-15 0 L-1.5 -2.5 Z M-6 -6 L-1 -1.5 L0 0 L-1.5 -1 L-6 -6 Z M6 -6 L1.5 -1 L0 0 L1 -1.5 L6 -6 Z M6 6 L1 -1.5 L0 0 L1.5 1 L6 6 Z M-6 6 L-1.5 1 L0 0 L-1 1.5 L-6 6 Z';
-  readonly glintD = 'M0 -1 L0.25 -0.25 L1 0 L0.25 0.25 L0 1 L-0.25 0.25 L-1 0 L-0.25 -0.25 Z';
+  private readonly dawnLayer = viewChild.required<ElementRef<HTMLElement>>('dawnLayer');
+  private readonly afternoonLayer = viewChild.required<ElementRef<HTMLElement>>('afternoonLayer');
+  private readonly nightLayer = viewChild.required<ElementRef<HTMLElement>>('nightLayer');
+  private readonly starlightArtwork =
+    viewChild.required<ElementRef<HTMLElement>>('starlightArtwork');
 
-  private bookState = inject(BookStateService);
-  private host = inject<ElementRef<HTMLElement>>(ElementRef);
-  private destroyRef = inject(DestroyRef);
-
-  private afternoonLayer = viewChild.required<ElementRef<HTMLElement>>('afternoonLayer');
-  private nightLayer = viewChild.required<ElementRef<HTMLElement>>('nightLayer');
-  private logoStarGroup = viewChild.required<ElementRef<SVGGElement>>('logoStarGroup');
-  private logoLineGroup = viewChild.required<ElementRef<SVGGElement>>('logoLineGroup');
-  private logoFxGroup = viewChild.required<ElementRef<SVGGElement>>('logoFxGroup');
-
-  private starElMap = new Map<string, SVGGElement>();
-  private lineElMap = new Map<string, { path: SVGPathElement; spark: SVGGElement }>();
-
-  private starVisibleMap = new Map<string, boolean>();
-  private lineDrawnMap = new Map<string, boolean>();
-  private bothConnected = false;
-  private highlightTimeline: gsap.core.Timeline | null = null;
-
+  private artworkSvg: SVGSVGElement | null = null;
+  private edges: ReferenceEdge[] = [];
+  private stars: ReferenceStar[] = [];
+  private decorations: SVGElement[] = [];
+  private totalEdgeTime = 1;
   private scrollTrigger: ScrollTrigger | null = null;
+  private pendingRaf = 0;
+  private queuedProgress = 0;
+  private currentProgress = 0;
+  private mediaQuery: MediaQueryList | null = null;
+  private intersectionObserver: IntersectionObserver | null = null;
+  private pageVisibilityListener: (() => void) | null = null;
+  private flareTimer = 0;
+  private isVisible = true;
+  private reducedMotion = false;
+  private completionShown = false;
+  private destroyed = false;
 
   constructor() {
     this.initClosingFade();
@@ -82,365 +75,276 @@ export class ConstellationBackground {
   }
 
   private init(): void {
-    // Map Logo stars & lines
-    const lgStarNodes = Array.from(this.logoStarGroup().nativeElement.children) as SVGGElement[];
-    this.stars.forEach((s, i) => {
-      this.starElMap.set(s.id, lgStarNodes[i]);
-      this.starVisibleMap.set(s.id, false);
-    });
+    if (typeof window === 'undefined') return;
 
-    const lgLineNodes = Array.from(this.logoLineGroup().nativeElement.children) as SVGGElement[];
-    this.lines.forEach((l, i) => {
-      const path = lgLineNodes[i].querySelector('.cl-line') as SVGPathElement;
-      const spark = lgLineNodes[i].querySelector('.comet-spark') as SVGGElement;
-      this.lineElMap.set(l.id, { path, spark });
-      this.lineDrawnMap.set(l.id, false);
-    });
+    this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.reducedMotion = this.mediaQuery.matches;
+    this.mediaQuery.addEventListener('change', this.onMotionPreferenceChange);
+    this.pageVisibilityListener = () => this.updatePausedState();
+    document.addEventListener('visibilitychange', this.pageVisibilityListener);
 
-    if (prefersReducedMotion()) {
+    if (typeof IntersectionObserver !== 'undefined') {
+      this.intersectionObserver = new IntersectionObserver(
+        (entries) => {
+          this.isVisible = entries.some((entry) => entry.isIntersecting);
+          this.updatePausedState();
+        },
+        { threshold: 0 },
+      );
+      this.intersectionObserver.observe(this.host.nativeElement);
+    }
+
+    this.destroyRef.onDestroy(() => this.cleanup());
+    void this.loadReferenceArtwork();
+    this.configureMotion();
+  }
+
+  private readonly onMotionPreferenceChange = (event: MediaQueryListEvent): void => {
+    this.reducedMotion = event.matches;
+    this.configureReferenceAppearance();
+    this.configureMotion();
+  };
+
+  private async loadReferenceArtwork(): Promise<void> {
+    try {
+      const response = await fetch('/wedding-starlight.svg', { cache: 'force-cache' });
+      if (!response.ok || this.destroyed) return;
+      const source = await response.text();
+      if (this.destroyed) return;
+      const parsed = new DOMParser().parseFromString(source, 'image/svg+xml');
+      if (parsed.querySelector('parsererror')) return;
+      const sourceSvg = parsed.querySelector<SVGSVGElement>('svg.wedding-constellation');
+      if (!sourceSvg) return;
+
+      const svg = document.importNode(sourceSvg, true) as SVGSVGElement;
+      this.starlightArtwork().nativeElement.replaceChildren(svg);
+      this.mapReferenceArtwork(svg);
+      this.configureReferenceAppearance();
+      this.renderArtwork(this.reducedMotion ? 1 : this.starlightProgress(this.currentProgress));
+      this.updatePausedState();
+    } catch {
+      // The app shell remains usable if the decorative asset cannot load.
+    }
+  }
+
+  private mapReferenceArtwork(svg: SVGSVGElement): void {
+    this.artworkSvg = svg;
+    const edgeElements = [...svg.querySelectorAll<SVGGElement>('g[data-edge]')];
+    this.edges = edgeElements.map((element, index) => {
+      const paths = [...element.querySelectorAll<SVGPathElement>('path')];
+      const drawingPath = paths.at(-1);
+      const length = drawingPath?.getTotalLength() ?? 85;
+      return {
+        element,
+        paths,
+        start: index * 0.72,
+        span: Math.max(1, Math.min(4, length / 85)),
+        last: -1,
+      };
+    });
+    this.totalEdgeTime = Math.max(1, ...this.edges.map((edge) => edge.start + edge.span));
+
+    const edgeById = new Map(this.edges.map((edge) => [edge.element.dataset['edge'] ?? '', edge]));
+    this.stars = [...svg.querySelectorAll<SVGGElement>('[data-star]')].map((element) => {
+      const edge = edgeById.get(element.dataset['edgeId'] ?? '');
+      const position = Number(element.dataset['at'] ?? 0);
+      const revealAt = edge ? (edge.start + edge.span * position) / this.totalEdgeTime : 0.96;
+      return { element, revealAt, last: -1 };
+    });
+    this.decorations = [...svg.querySelectorAll<SVGElement>('[data-decoration]')];
+  }
+
+  private configureReferenceAppearance(): void {
+    if (!this.artworkSvg) return;
+    this.artworkSvg.style.width = '100%';
+    this.artworkSvg.style.height = '100%';
+    this.artworkSvg.style.display = 'block';
+    this.artworkSvg.style.setProperty('--sparkle', '0.65');
+    this.artworkSvg.style.setProperty('--sparkle-speed', '3.2s');
+    this.artworkSvg.style.setProperty('--glow', '0.8');
+    this.artworkSvg.style.setProperty('--flare', '1');
+    this.artworkSvg.style.setProperty('--galaxy', '0.9');
+    this.artworkSvg.dataset['edgeMode'] = '2';
+    this.artworkSvg.dataset['twinkle'] = this.reducedMotion ? 'off' : 'on';
+  }
+
+  private configureMotion(): void {
+    this.scrollTrigger?.kill();
+    this.scrollTrigger = null;
+    if (this.pendingRaf) cancelAnimationFrame(this.pendingRaf);
+    this.pendingRaf = 0;
+    this.clearFlare();
+
+    if (this.reducedMotion) {
       this.renderStatic();
+      this.updatePausedState();
       return;
     }
 
-    this.initScroll();
-
-    this.destroyRef.onDestroy(() => {
-      this.scrollTrigger?.kill();
-      this.highlightTimeline?.kill();
-    });
-  }
-
-  private lastAfternoonOpacity = -1;
-  private lastNightOpacity = -1;
-  private pendingRaf = 0;
-
-  private initScroll(): void {
-    let lastProgress = -1;
-
-    const performUpdate = (p: number): void => {
-      // 1. Sky cycle: Morning -> Afternoon Golden Hour -> Dark Violet Night
-      const rawAfternoon = Math.max(0, Math.min(1, (p - 0.16) / 0.32));
-      const smoothAfternoon = Number(
-        (rawAfternoon * rawAfternoon * (3 - 2 * rawAfternoon)).toFixed(3),
-      );
-      if (smoothAfternoon !== this.lastAfternoonOpacity) {
-        this.lastAfternoonOpacity = smoothAfternoon;
-        this.afternoonLayer().nativeElement.style.opacity = String(smoothAfternoon);
-      }
-
-      const rawNight = Math.max(0, Math.min(1, (p - 0.48) / 0.34));
-      const smoothNight = Number((rawNight * rawNight * (3 - 2 * rawNight)).toFixed(3));
-      if (smoothNight !== this.lastNightOpacity) {
-        this.lastNightOpacity = smoothNight;
-        this.nightLayer().nativeElement.style.opacity = String(smoothNight);
-      }
-
-      // 2. Check all stars
-      for (const star of this.stars) {
-        const isVisible = this.starVisibleMap.get(star.id) ?? false;
-        const shouldBeVisible = p >= star.trigger;
-        if (shouldBeVisible !== isVisible) {
-          this.starVisibleMap.set(star.id, shouldBeVisible);
-          const el = this.starElMap.get(star.id);
-          if (el) {
-            this.animateStarVisibility(star, el, shouldBeVisible);
-          }
-        }
-      }
-
-      // 3. Check all lines
-      for (const line of this.lines) {
-        const isDrawn = this.lineDrawnMap.get(line.id) ?? false;
-        const shouldBeDrawn = p >= line.trigger;
-        if (shouldBeDrawn !== isDrawn) {
-          this.lineDrawnMap.set(line.id, shouldBeDrawn);
-          const entry = this.lineElMap.get(line.id);
-          if (entry) {
-            this.animateLineDraw(line, entry.path, entry.spark, shouldBeDrawn);
-          }
-        }
-      }
-
-      // 4. Synchronized Golden Awakening: Only shine when the logo is fully connected
-      const shouldBothConnect = p >= LOGO_REVEAL_TRIGGER;
-      if (shouldBothConnect !== this.bothConnected) {
-        this.bothConnected = shouldBothConnect;
-        this.setLogoAwakening(shouldBothConnect);
-      }
-    };
-
-    const scheduleUpdate = (p: number): void => {
-      if (Math.abs(p - lastProgress) < 0.001) return;
-      lastProgress = p;
-      if (this.pendingRaf) cancelAnimationFrame(this.pendingRaf);
-      this.pendingRaf = requestAnimationFrame(() => {
-        performUpdate(p);
-        this.pendingRaf = 0;
-      });
-    };
-
+    this.resetArtwork();
     this.scrollTrigger = ScrollTrigger.create({
       start: 0,
-      end: () => document.documentElement.scrollHeight - window.innerHeight,
-      scrub: false,
-      onUpdate: (self) => scheduleUpdate(self.progress),
+      end: () => Math.max(1, document.documentElement.scrollHeight - window.innerHeight),
+      onUpdate: (self) => this.scheduleUpdate(self.progress),
+      onRefresh: (self) => this.scheduleUpdate(self.progress),
     });
-
-    performUpdate(0);
+    this.performUpdate(this.scrollTrigger.progress);
+    this.updatePausedState();
   }
 
-  private animateStarVisibility(star: ConstellationStar, el: SVGGElement, visible: boolean): void {
-    if (visible) {
-      gsap.to(el, {
-        opacity: star.alpha,
-        duration: 0.35,
-        ease: 'power2.out',
-        overwrite: 'auto',
-      });
-      this.shine(star.id, 0.45);
-    } else {
-      gsap.to(el, {
-        opacity: 0,
-        duration: 0.25,
-        ease: 'power2.in',
-        overwrite: 'auto',
-      });
-    }
+  private scheduleUpdate(progress: number): void {
+    this.queuedProgress = progress;
+    if (this.pendingRaf) return;
+    this.pendingRaf = requestAnimationFrame(() => {
+      this.pendingRaf = 0;
+      this.performUpdate(this.queuedProgress);
+    });
   }
 
-  private animateLineDraw(
-    line: ConstellationLine,
-    lineEl: SVGPathElement,
-    sparkEl: SVGGElement,
-    drawn: boolean,
-  ): void {
-    const fromStar = constellationStarById(line.from);
-    const toStar = constellationStarById(line.to);
+  private performUpdate(progress: number): void {
+    this.currentProgress = progress;
+    const dawn = this.smoothstep((progress - 0.38) / 0.16);
+    const afternoon = this.smoothstep((progress - 0.54) / 0.22);
+    const night = this.smoothstep((progress - 0.72) / 0.24);
+    const artworkProgress = this.starlightProgress(progress);
+    const artworkOpacity = this.starlightOpacity(progress);
 
-    if (drawn) {
-      gsap.to(lineEl, {
-        strokeDashoffset: 0,
-        duration: 0.38,
-        ease: 'power2.out',
-        overwrite: 'auto',
-      });
-
-      gsap.killTweensOf(sparkEl);
-      gsap.set(sparkEl, {
-        opacity: 1,
-        scale: 1,
-        x: fromStar.x,
-        y: fromStar.y,
-      });
-
-      gsap.to(sparkEl, {
-        x: toStar.x,
-        y: toStar.y,
-        duration: 0.38,
-        ease: 'power2.out',
-        onComplete: () => {
-          this.shine(toStar.id, 0.7);
-          gsap.to(sparkEl, {
-            opacity: 0,
-            scale: 0.2,
-            duration: 0.22,
-            ease: 'power2.in',
-          });
-        },
-      });
-    } else {
-      gsap.killTweensOf(sparkEl);
-      gsap.set(sparkEl, { opacity: 0 });
-      gsap.to(lineEl, {
-        strokeDashoffset: 1,
-        duration: 0.25,
-        ease: 'power2.in',
-        overwrite: 'auto',
-      });
-    }
+    this.dawnLayer().nativeElement.style.opacity = String(Number(dawn.toFixed(3)));
+    this.afternoonLayer().nativeElement.style.opacity = String(Number(afternoon.toFixed(3)));
+    this.nightLayer().nativeElement.style.opacity = String(Number(night.toFixed(3)));
+    this.starlightArtwork().nativeElement.style.opacity = String(Number(artworkOpacity.toFixed(3)));
+    this.renderArtwork(artworkProgress);
   }
 
-  /** Triggers the neon brightening effect across the full logo silhouette */
-  private setLogoAwakening(connected: boolean): void {
-    const starEl = this.logoStarGroup().nativeElement;
-    const lineEl = this.logoLineGroup().nativeElement;
+  private renderArtwork(progress: number): void {
+    if (!this.artworkSvg) return;
 
-    if (connected) {
-      starEl.classList.add('is-connected');
-      lineEl.classList.add('is-connected');
-
-      this.pulseCompletion();
-      this.startHighlightShine();
-    } else {
-      this.highlightTimeline?.kill();
-      this.highlightTimeline = null;
-      for (const star of this.stars) {
-        const starId = star.id;
-        const host = this.starElMap.get(starId);
-        const halo = host?.querySelector('.halo');
-        const spikes = host?.querySelector('.neon-spikes');
-        if (halo) gsap.set(halo, { opacity: 0.35, scale: 1 });
-        if (spikes) gsap.set(spikes, { opacity: 0, scale: 0.2, rotation: 0 });
+    const boundedProgress = Math.max(0, Math.min(1, progress));
+    const time = boundedProgress * this.totalEdgeTime;
+    for (const edge of this.edges) {
+      const edgeProgress = Math.max(0, Math.min(1, (time - edge.start) / edge.span));
+      if (edgeProgress === edge.last) continue;
+      edge.last = edgeProgress;
+      for (const path of edge.paths) {
+        path.style.strokeDasharray = '1 1';
+        path.style.strokeDashoffset = String(1 - edgeProgress);
+        path.style.visibility = edgeProgress === 0 ? 'hidden' : 'visible';
       }
-      starEl.classList.remove('is-connected');
-      lineEl.classList.remove('is-connected');
+    }
+
+    for (const star of this.stars) {
+      const alpha = Math.max(0.1, Math.min(1, (boundedProgress - star.revealAt) * 28 + 0.1));
+      const opacity = boundedProgress === 1 ? 1 : alpha;
+      if (opacity === star.last) continue;
+      star.last = opacity;
+      star.element.style.opacity = String(opacity);
+    }
+
+    const decorationOpacity = Math.max(0, Math.min(1, (boundedProgress - 0.42) / 0.58));
+    for (const decoration of this.decorations) {
+      decoration.style.opacity = String(decorationOpacity);
+    }
+
+    // ScrollTrigger can report just under 1 at the physical scroll limit.
+    // Treat the final fraction as complete so the finishing flare always plays.
+    const complete = boundedProgress >= 0.995;
+    if (complete !== this.completionShown) {
+      this.completionShown = complete;
+      if (complete && !this.reducedMotion) this.flare();
+      else if (!complete) this.clearFlare();
     }
   }
 
-  private startHighlightShine(): void {
-    this.highlightTimeline?.kill();
-
-    const timeline = gsap.timeline();
-    const sequenceCount = 10;
-    for (let sequenceIndex = 0; sequenceIndex < sequenceCount; sequenceIndex++) {
-      const sequence = gsap.timeline({ repeat: -1, repeatDelay: 0.3 });
-      const sequenceStars = this.stars
-        .filter((_, index) => index % sequenceCount === sequenceIndex)
-        .map((star, index) => ({ star, index }))
-        .concat()
-        .sort((left, right) =>
-          sequenceIndex === 0 ? left.index - right.index : right.index - left.index,
-        );
-
-      for (const [sequencePosition, { star, index }] of sequenceStars.entries()) {
-        const host = this.starElMap.get(star.id);
-        const halo = host?.querySelector<SVGCircleElement>('.halo');
-        const spike = host?.querySelector<SVGPathElement>('.neon-spikes');
-        const flash = host?.querySelector<SVGCircleElement>('.flash');
-        if (!halo || !spike || !flash) continue;
-
-        const pace = 0.82 + ((index * 7 + sequenceIndex * 3) % 5) * 0.09;
-
-        const connectedPaths = new Set<SVGPathElement>();
-        for (const line of this.lines) {
-          if (line.from !== star.id && line.to !== star.id) continue;
-          const path = this.lineElMap.get(line.id)?.path;
-          if (path) connectedPaths.add(path);
-        }
-
-        sequence
-          .to(halo, { opacity: 0.58, scale: 1.7, duration: 0.42 * pace, ease: 'sine.inOut' })
-          .to(spike, { opacity: 0.22, scale: 0.55, duration: 0.4 * pace, ease: 'sine.inOut' }, '<')
-          .fromTo(
-            flash,
-            { opacity: 0, scale: 0.72 },
-            { opacity: 0.62, scale: 1.4, duration: 0.3 * pace, ease: 'sine.out' },
-            '<',
-          )
-          .to(
-            [...connectedPaths],
-            { stroke: '#b9efff', strokeWidth: 1.82, duration: 0.42 * pace, ease: 'sine.inOut' },
-            '<',
-          )
-          .to(halo, { opacity: 0.38, scale: 1.35, duration: 0.58 * pace, ease: 'sine.inOut' })
-          .to(spike, { opacity: 0, scale: 0.2, duration: 0.54 * pace, ease: 'sine.inOut' }, '<')
-          .to(flash, { opacity: 0, scale: 1, duration: 0.48 * pace, ease: 'sine.inOut' }, '<')
-          .to(
-            [...connectedPaths],
-            { stroke: '#d9f8ff', strokeWidth: 1.65, duration: 0.58 * pace, ease: 'sine.inOut' },
-            '<',
-          )
-          .to({}, { duration: 0.08 + ((sequencePosition + sequenceIndex) % 4) * 0.035 });
-      }
-
-      timeline.add(sequence, sequenceIndex * 0.38);
-    }
-
-    const circlePaths = this.lines
-      .filter((line) => line.from.startsWith('lg-c') && line.to.startsWith('lg-c'))
-      .map((line) => this.lineElMap.get(line.id)?.path)
-      .filter((path): path is SVGPathElement => path !== undefined);
-    const innerPaths = this.lines
-      .filter((line) => !(line.from.startsWith('lg-c') && line.to.startsWith('lg-c')))
-      .map((line) => this.lineElMap.get(line.id)?.path)
-      .filter((path): path is SVGPathElement => path !== undefined);
-
-    const frameSequence = gsap.timeline({ repeat: -1, repeatDelay: 4.5 });
-    frameSequence
-      .to({}, { duration: 1.2 })
-      .to(circlePaths, { stroke: '#b9efff', strokeWidth: 1.82, duration: 0.65, ease: 'sine.inOut' })
-      .to(circlePaths, { stroke: '#d9f8ff', strokeWidth: 1.65, duration: 0.72, ease: 'sine.inOut' })
-      .to(innerPaths, { stroke: '#b9efff', strokeWidth: 1.82, duration: 0.65, ease: 'sine.inOut' })
-      .to(innerPaths, { stroke: '#d9f8ff', strokeWidth: 1.65, duration: 0.72, ease: 'sine.inOut' });
-    timeline.add(frameSequence, 0.9);
-
-    this.highlightTimeline = timeline;
+  private flare(): void {
+    if (!this.artworkSvg) return;
+    this.clearFlare();
+    this.artworkSvg.getBoundingClientRect();
+    this.artworkSvg.classList.add('is-flaring');
+    this.flareTimer = window.setTimeout(() => {
+      this.artworkSvg?.classList.remove('is-flaring');
+      this.flareTimer = 0;
+    }, 1100);
   }
 
-  private pulseCompletion(): void {
-    const fxGroup = this.logoFxGroup().nativeElement;
-
-    const ring = fxGroup.querySelector('.completion-ring') as SVGCircleElement | null;
-    const glint = fxGroup.querySelector('.completion-glint') as SVGGElement | null;
-
-    if (ring) {
-      gsap.fromTo(
-        ring,
-        { scale: 0.1, opacity: 0.95 },
-        { scale: 1.4, opacity: 0, duration: 1.2, ease: 'power3.out', overwrite: true },
-      );
-    }
-
-    if (glint) {
-      gsap.fromTo(
-        glint,
-        { scale: 0.2, opacity: 0, rotation: 0 },
-        {
-          scale: 2.8,
-          opacity: 1,
-          rotation: 140,
-          duration: 0.65,
-          ease: 'sine.out',
-          yoyo: true,
-          repeat: 1,
-          overwrite: true,
-        },
-      );
-    }
+  private clearFlare(): void {
+    if (this.flareTimer) window.clearTimeout(this.flareTimer);
+    this.flareTimer = 0;
+    this.artworkSvg?.classList.remove('is-flaring');
   }
 
-  private shine(starId: string, intensity: number): void {
-    const host = this.starElMap.get(starId);
-    if (!host) return;
-    const flash = host.querySelector('.flash') as SVGCircleElement | null;
-    if (!flash) return;
-    gsap.fromTo(
-      flash,
-      { opacity: 0 },
-      { opacity: intensity, duration: 0.25, ease: 'power2.in', overwrite: true },
+  private renderStatic(): void {
+    this.currentProgress = 1;
+    this.dawnLayer().nativeElement.style.opacity = '0';
+    this.afternoonLayer().nativeElement.style.opacity = '0';
+    this.nightLayer().nativeElement.style.opacity = '1';
+    this.starlightArtwork().nativeElement.style.opacity = '1';
+    this.renderArtwork(1);
+  }
+
+  private resetArtwork(): void {
+    this.currentProgress = 0;
+    this.completionShown = false;
+    this.starlightArtwork().nativeElement.style.opacity = '0';
+    for (const edge of this.edges) edge.last = -1;
+    for (const star of this.stars) star.last = -1;
+    this.renderArtwork(0);
+  }
+
+  private updatePausedState(): void {
+    const paused = this.reducedMotion || document.hidden || !this.isVisible;
+    this.host.nativeElement.classList.toggle('is-paused', paused);
+    this.artworkSvg?.classList.toggle('is-paused', paused);
+  }
+
+  private starlightProgress(pageProgress: number): number {
+    const { drawStart, drawDuration } = this.timing();
+    return this.smoothstep(
+      (pageProgress - this.scrollValue(drawStart)) / this.scrollDuration(drawDuration),
     );
-    gsap.to(flash, {
-      opacity: 0,
-      duration: 0.45,
-      delay: 0.25,
-      ease: 'power2.out',
-      overwrite: true,
-    });
+  }
+
+  private starlightOpacity(pageProgress: number): number {
+    const { opacityStart, opacityDuration } = this.timing();
+    return this.smoothstep(
+      (pageProgress - this.scrollValue(opacityStart)) / this.scrollDuration(opacityDuration),
+    );
+  }
+
+  private scrollValue(value: number): number {
+    return Math.max(0, Math.min(1, value));
+  }
+
+  private scrollDuration(value: number): number {
+    return Math.max(0.01, Math.min(1, value));
+  }
+
+  private smoothstep(value: number): number {
+    const bounded = Math.max(0, Math.min(1, value));
+    return bounded * bounded * (3 - 2 * bounded);
   }
 
   private initClosingFade(): void {
     effect(() => {
       const state = this.bookState.state();
-      const hostEl = this.host.nativeElement;
-      if (state === 'closing') {
-        gsap.to(hostEl, { opacity: 0.25, duration: 0.5, overwrite: true });
-      } else if (state === 'open') {
-        gsap.to(hostEl, { opacity: 1, duration: 0.4, overwrite: true });
-      } else {
-        gsap.to(hostEl, { opacity: 0, duration: 0.3, overwrite: true });
-      }
+      const opacity = state === 'closing' ? 0.25 : state === 'open' ? 1 : 0;
+      gsap.to(this.host.nativeElement, {
+        opacity,
+        duration: state === 'closing' ? 0.5 : state === 'open' ? 0.4 : 0.3,
+        overwrite: true,
+      });
     });
   }
 
-  private renderStatic(): void {
-    this.afternoonLayer().nativeElement.style.opacity = '0';
-    this.nightLayer().nativeElement.style.opacity = '1';
-    for (const star of this.stars) {
-      const el = this.starElMap.get(star.id);
-      if (el) el.style.opacity = String(star.alpha * 0.7);
+  private cleanup(): void {
+    this.destroyed = true;
+    this.scrollTrigger?.kill();
+    if (this.pendingRaf) cancelAnimationFrame(this.pendingRaf);
+    this.clearFlare();
+    this.mediaQuery?.removeEventListener('change', this.onMotionPreferenceChange);
+    if (this.pageVisibilityListener) {
+      document.removeEventListener('visibilitychange', this.pageVisibilityListener);
     }
-    for (const entry of this.lineElMap.values()) {
-      entry.path.style.strokeDashoffset = '0';
-    }
+    this.intersectionObserver?.disconnect();
+    gsap.killTweensOf(this.host.nativeElement);
   }
 }

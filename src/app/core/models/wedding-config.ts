@@ -32,6 +32,15 @@ export interface WeddingConfig {
   proposalStory: string;
   closingQuote: string;
   closingQuoteAuthor: string;
+  constellation: ConstellationConfig;
+}
+
+/** Scroll timing for the closing constellation, expressed from 0 to 1. */
+export interface ConstellationConfig {
+  drawStart: number;
+  drawDuration: number;
+  opacityStart: number;
+  opacityDuration: number;
 }
 
 export type TimelineImageStyle = 'landscape' | 'portrait' | 'square';
@@ -180,4 +189,10 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   closingQuote:
     'Điều đẹp nhất không phải là đã đi được bao xa, mà là sau từng ấy năm, quay lại vẫn thấy người bên cạnh là người mình muốn cùng đi tiếp.',
   closingQuoteAuthor: 'Chúng mình',
+  constellation: {
+    drawStart: 0.54,
+    drawDuration: 0.46,
+    opacityStart: 0.56,
+    opacityDuration: 0.44,
+  },
 };
