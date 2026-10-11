@@ -97,7 +97,7 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   },
   dressCode: 'Trang phục lịch sự, thoải mái cùng chúng mình chung vui',
   openingQuote: 'Ngày chúng mình bắt đầu cũng chỉ là một cái nắm tay.',
-  openingQuoteAuthor: 'Chúng mình',
+  openingQuoteAuthor: 'Cặp đôi mùa hè',
   introduction:
     'Từ những buổi cùng ngồi học trong thư viện đến cái nắm tay đầu tiên trước kỳ thi đại học, chúng mình đã đi cùng nhau qua mười năm thanh xuân. Hôm nay, bên những người thân yêu, chúng mình bắt đầu viết tiếp chương mới.',
   chapterOne: {

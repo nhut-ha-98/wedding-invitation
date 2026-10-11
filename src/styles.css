@@ -209,6 +209,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html.book-cover-active,
+body.book-cover-active {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 body {
   margin: 0;
   padding: 0;

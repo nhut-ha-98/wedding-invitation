@@ -1,19 +1,7 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  inject,
-  ElementRef,
-  afterNextRender,
-  DestroyRef,
-  signal,
-} from '@angular/core';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AnimatedSection } from '../../shared/components/animated-section';
 import { RsvpService } from '../../core/services/rsvp.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface RsvpForm {
   name: FormControl<string>;
@@ -31,8 +19,6 @@ interface RsvpForm {
 })
 export class Rsvp {
   private rsvpService = inject(RsvpService);
-  private el = inject<ElementRef<HTMLElement>>(ElementRef);
-  private destroyRef = inject(DestroyRef);
 
   readonly status = this.rsvpService.status;
   readonly errorMessage = this.rsvpService.errorMessage;
@@ -48,33 +34,6 @@ export class Rsvp {
   });
 
   readonly submitted = signal(false);
-
-  constructor() {
-    afterNextRender(() => {
-      const card = this.el.nativeElement.querySelector('.rsvp-card');
-
-      const anim = gsap.fromTo(
-        card,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: this.el.nativeElement,
-            start: 'top 75%',
-            toggleActions: 'play none none none',
-          },
-        },
-      );
-
-      this.destroyRef.onDestroy(() => {
-        anim.scrollTrigger?.kill();
-        anim.kill();
-      });
-    });
-  }
 
   onSubmit(event?: Event): void {
     event?.preventDefault();

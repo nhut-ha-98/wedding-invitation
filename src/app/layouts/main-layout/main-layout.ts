@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -50,11 +51,14 @@ gsap.registerPlugin(ScrollTrigger);
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainLayout {
+  private readonly document = inject(DOCUMENT);
   private bookState = inject(BookStateService);
   private destroyRef = inject(DestroyRef);
   private storyAutoScroll = inject(StoryAutoScrollService);
   private observer: IntersectionObserver | null = null;
   private currentHash = '';
+  private coverScrollLocked = false;
+  private previousScrollRestoration: ScrollRestoration | null = null;
   private readonly sectionIds = [
     'introduction',
     'he-and-she',
@@ -86,16 +90,28 @@ export class MainLayout {
   private scrollContainer = viewChild.required<ElementRef<HTMLElement>>('scrollContent');
   private coverComponent = viewChild.required<Cover>('coverComponent');
 
+  private readonly preventCoverScroll = (event: Event): void => event.preventDefault();
+  private readonly preventCoverKeyScroll = (event: KeyboardEvent): void => {
+    if ([' ', 'ArrowDown', 'ArrowUp', 'End', 'Home', 'PageDown', 'PageUp'].includes(event.key)) {
+      event.preventDefault();
+    }
+  };
+
   constructor() {
     afterNextRender(() => {
+      this.disableScrollRestoration();
+      this.lockCoverScroll();
       this.destroyRef.onDestroy(() => {
         ScrollTrigger.getAll().forEach((st) => st.kill());
         this.observer?.disconnect();
+        this.unlockCoverScroll();
+        this.restoreScrollRestoration();
       });
     });
   }
 
   onCoverOpened(): void {
+    this.lockCoverScroll();
     this.bookState.setOpening();
     const coverEl = document.querySelector('.cover-stage') as HTMLElement | null;
     const scrollEl = document.querySelector('.scroll-stage') as HTMLElement | null;
@@ -103,11 +119,13 @@ export class MainLayout {
     this.showTransition.set(true);
 
     const finalize = () => {
+      this.scrollToInitialHash();
       this.bookState.setOpen();
+      this.resetScrollPosition();
+      this.unlockCoverScroll();
       this.startSectionObserver();
       this.startScrollProgressTracking();
       this.storyAutoScroll.startTour();
-      this.scrollToInitialHash();
       requestAnimationFrame(() => {
         ScrollTrigger.refresh();
       });
@@ -141,7 +159,7 @@ export class MainLayout {
   }
 
   private scrollToInitialHash(): void {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    this.resetScrollPosition();
     this.currentHash = '';
     history.replaceState(null, '', window.location.pathname);
   }
@@ -169,7 +187,7 @@ export class MainLayout {
     this.observer?.disconnect();
     this.storyAutoScroll.endTour();
 
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    this.lockCoverScroll();
 
     const container = this.scrollContainer().nativeElement;
     const coverEl = document.querySelector('.cover-stage') as HTMLElement | null;
@@ -203,6 +221,53 @@ export class MainLayout {
       history.replaceState(null, '', window.location.pathname);
       gsap.set(container, { clearProps: 'all' });
     }
+  }
+
+  private disableScrollRestoration(): void {
+    if (!('scrollRestoration' in history)) return;
+    this.previousScrollRestoration = history.scrollRestoration;
+    history.scrollRestoration = 'manual';
+  }
+
+  private restoreScrollRestoration(): void {
+    if (this.previousScrollRestoration === null) return;
+    history.scrollRestoration = this.previousScrollRestoration;
+    this.previousScrollRestoration = null;
+  }
+
+  private lockCoverScroll(): void {
+    this.resetScrollPosition();
+    if (this.coverScrollLocked) return;
+
+    this.coverScrollLocked = true;
+    this.document.documentElement.classList.add('book-cover-active');
+    this.document.body.classList.add('book-cover-active');
+    this.document.addEventListener('wheel', this.preventCoverScroll, {
+      capture: true,
+      passive: false,
+    });
+    this.document.addEventListener('touchmove', this.preventCoverScroll, {
+      capture: true,
+      passive: false,
+    });
+    this.document.addEventListener('keydown', this.preventCoverKeyScroll, true);
+  }
+
+  private unlockCoverScroll(): void {
+    if (!this.coverScrollLocked) return;
+
+    this.coverScrollLocked = false;
+    this.document.documentElement.classList.remove('book-cover-active');
+    this.document.body.classList.remove('book-cover-active');
+    this.document.removeEventListener('wheel', this.preventCoverScroll, true);
+    this.document.removeEventListener('touchmove', this.preventCoverScroll, true);
+    this.document.removeEventListener('keydown', this.preventCoverKeyScroll, true);
+  }
+
+  private resetScrollPosition(): void {
+    window.scrollTo(0, 0);
+    this.document.documentElement.scrollTop = 0;
+    this.document.body.scrollTop = 0;
   }
 
   private startSectionObserver(): void {
