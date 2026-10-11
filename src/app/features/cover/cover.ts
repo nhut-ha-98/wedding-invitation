@@ -500,7 +500,12 @@ export class Cover {
     this.promptAnimation = gsap.fromTo(
       prompt,
       { autoAlpha: 0, y: 8 },
-      { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power1.out' },
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.45,
+        ease: 'power1.inOut',
+      },
     );
   }
 
