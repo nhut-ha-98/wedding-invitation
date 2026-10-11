@@ -28,7 +28,7 @@
 }
 
 .frame-paper-cut {
-  filter: drop-shadow(0 2.5px 4px rgba(12, 5, 2, 0.85));
+  filter: drop-shadow(0 2.5px 4px var(--color-cover-shadow-umber-0-85));
 }
 
 .corner-group {

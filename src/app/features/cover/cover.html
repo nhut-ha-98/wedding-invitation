@@ -3,6 +3,10 @@
   class="book-container"
   role="application"
   aria-label="Bìa truyện thiệp mời đám cưới"
+  tabindex="0"
+  (pointerdown)="handleCoverPointerDown()"
+  (pointerup)="handleCoverPointerUp($event)"
+  (keydown)="handleCoverKeydown($event)"
 >
   <div class="page cover-page" data-density="hard">
     <!-- SVG Filters for tactile papercut depth and fiber -->
@@ -529,22 +533,15 @@
     </div>
 
     @if (showTapPrompt()) {
-      <button
-        class="tap-prompt-container"
-        (click)="openBook(); $event.stopPropagation()"
-        aria-label="Chạm để mở sổ thiệp mời"
-      >
-        <span class="tap-paper-badge">
-          <span class="tap-prompt-text">Chạm để mở</span>
-        </span>
-      </button>
+      <span class="tap-prompt">Chạm để mở</span>
     }
   </div>
 
   <!-- Page 2: Inside Storybook Transition Page -->
   <div class="page transition-page" data-density="hard">
     <div class="transition-inner">
-      <p class="great-vibes transition-text" appCoverHandwrite>10 năm cho một câu chuyện...</p>
+      <p class="great-vibes transition-text" appCoverHandwrite>10 năm...<br/>...1 câu chuyện</p>
+     
       <div class="dandelion" aria-hidden="true">
         <!-- Replace dandelion with cover photo placeholder. Hidden initially; shown after handwriting completes. -->
         <div class="cover-photo-wrap" aria-hidden="true">

@@ -6,9 +6,9 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #251309;
-  border: 1.5px solid #bfa079;
-  color: #eddcc6;
+  background: var(--color-cover-frame);
+  border: 1.5px solid var(--color-cover-frame-highlight);
+  color: var(--color-cover-label);
   /* No white */
   cursor: pointer;
   display: flex;
@@ -16,8 +16,8 @@
   justify-content: center;
   z-index: 15;
   box-shadow:
-    0 4px 14px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(191, 160, 121, 0.25);
+    0 4px 14px var(--color-black-tint-0-6),
+    0 0 0 1px var(--color-cover-antique-gold-0-25);
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease,
@@ -25,23 +25,23 @@
 }
 
 .music-toggle-btn:hover {
-  background: #3c2011;
+  background: var(--color-cover-ui-brown);
   box-shadow:
-    0 4px 20px rgba(191, 160, 121, 0.35),
-    0 0 0 1px rgba(216, 180, 135, 0.45);
+    0 4px 20px var(--color-cover-antique-gold-0-35),
+    0 0 0 1px var(--color-cover-gold-glow-0-45);
   transform: scale(1.08);
 }
 
 .music-icon {
   font-size: 1.2rem;
-  color: #ebd5b8;
+  color: var(--color-cover-star-light);
 }
 
 .music-toggle-btn.playing {
-  background: #331b0e;
+  background: var(--color-cover-ui-shadow);
   box-shadow:
-    0 0 18px rgba(216, 180, 135, 0.45),
-    0 0 0 1px rgba(216, 180, 135, 0.5);
+    0 0 18px var(--color-cover-gold-glow-0-45),
+    0 0 0 1px var(--color-cover-gold-glow-0-5);
   animation: musicPulse 1.8s ease-in-out infinite;
 }
 
@@ -56,93 +56,20 @@
   }
 }
 
-/* ─── Handcrafted Papercut Tap Prompt ─── */
-.tap-prompt-container {
+/* Cover opening cue */
+.tap-prompt {
   position: absolute;
-  bottom: calc(clamp(1.1rem, 4vh, 1.8rem) + 1rem);
+  bottom: clamp(3.25rem, 9vh, 4.5rem);
   left: 50%;
   transform: translateX(-50%);
   z-index: 12;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  animation: fadeSlideUp 700ms ease forwards;
-}
-
-.tap-paper-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.15rem;
-  padding: 0.45rem 1.25rem;
-  background: rgba(35, 17, 9, 0.9);
-  border: 1px solid rgba(216, 180, 135, 0.62);
-  border-radius: 18px;
-  box-shadow: 0 2px 7px rgba(10, 4, 2, 0.42);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.tap-prompt-container:hover .tap-paper-badge {
-  transform: scale(1.05);
-  box-shadow:
-    0 3px 10px rgba(10, 4, 2, 0.5),
-    inset 0 1px 2px rgba(235, 213, 184, 0.16);
-}
-
-.tap-prompt-text {
+  color: var(--color-cover-label);
   font-family: var(--font-serif);
-  font-size: clamp(0.86rem, 2.9vw, 1.08rem);
-  font-weight: 500;
-  color: #eddcc6;
-  /* Aged parchment text - No white */
-  letter-spacing: 0.04em;
-  line-height: 1.1;
-  text-shadow: 0 1px 1px rgba(10, 4, 2, 0.38);
-}
-
-.tap-prompt-sub {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #caa173;
-  margin-top: -0.1rem;
-}
-
-.tap-prompt-fleuron {
-  font-size: 0.85rem;
-  color: #cf9f6e;
-  line-height: 1;
-  margin-top: 0.1rem;
-  animation: fleuronBounce 1.6s ease-in-out infinite;
-}
-
-@keyframes fleuronBounce {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.75;
-  }
-
-  50% {
-    transform: translateY(3px);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeSlideUp {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(22px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
+  font-size: clamp(0.76rem, 2.6vw, 0.9rem);
+  letter-spacing: 0.16em;
+  text-shadow: 0 2px 5px var(--color-black-tint-0-6);
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 @keyframes floatPrompt {

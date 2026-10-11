@@ -1,17 +1,17 @@
 /* ─── Page 2: Inside Storybook Transition Page ─── */
 .transition-page {
-  background: #ffffff;
+  background: var(--color-white);
   /* Subtle white paper texture */
   background-image:
-    radial-gradient(rgba(0, 0, 0, 0.02) 0.6px, transparent 0),
-    radial-gradient(rgba(0, 0, 0, 0.015) 0.6px, transparent 0);
+    radial-gradient(var(--color-black-tint-0-02) 0.6px, transparent 0),
+    radial-gradient(var(--color-black-tint-0-015) 0.6px, transparent 0);
   background-size:
     10px 10px,
     6px 6px;
   background-position:
     0 0,
     3px 3px;
-  color: #3b2011;
+  color: var(--color-cover-ink);
   position: relative;
   display: flex;
   align-items: center;
@@ -23,7 +23,7 @@
   content: '';
   position: absolute;
   inset: 16px;
-  border: 1px dashed rgba(88, 48, 26, 0.25);
+  border: 1px dashed var(--color-cover-antique-walnut-0-25);
   pointer-events: none;
 }
 
@@ -42,10 +42,10 @@
 
 .transition-text {
   font-size: 2.05rem;
-  color: #432414;
+  color: var(--color-cover-ink-soft);
   /* Deep sepia */
   letter-spacing: 1px;
-  text-shadow: 0 1px 0 rgba(235, 220, 198, 0.35);
+  text-shadow: 0 1px 0 var(--color-cover-paper-shadow-0-35);
   position: relative;
   line-height: 1.2;
   width: 100%;
@@ -70,7 +70,7 @@
   width: 120px;
   height: auto;
   opacity: 0.25;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+  filter: drop-shadow(0 2px 2px var(--color-black-tint-0-06));
 }
 
 /* Cover photo (hidden until triggered) */
@@ -78,7 +78,7 @@
   width: min(68vw, 280px);
   aspect-ratio: 1;
   box-sizing: border-box;
-  border: 1px solid rgba(163, 131, 99, 0.45);
+  border: 1px solid var(--color-cover-antique-gold-0-45);
   border-radius: 0;
   background: transparent;
   overflow: hidden;
@@ -103,7 +103,7 @@
 .cover-photo-wrap .photo-wipe {
   position: absolute;
   inset: 0;
-  background: #fff;
+  background: var(--color-white);
   clip-path: polygon(
     0 0,
     100% 0,

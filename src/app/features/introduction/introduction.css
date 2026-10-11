@@ -16,7 +16,7 @@
 .quote-mark {
   font-family: var(--font-handwriting);
   font-size: 3rem;
-  color: #d4af37;
+  color: var(--color-gold);
   line-height: 1;
   margin: 0 0 0.5rem;
 }
@@ -25,21 +25,21 @@
   font-family: var(--font-body);
   font-size: 1.375rem;
   font-style: italic;
-  color: #4a2c1a;
+  color: var(--color-brown-warm);
   line-height: 1.6;
   margin: 0 0 0.75rem;
 }
 
 .quote-author {
   font-size: 0.875rem;
-  color: #8b7355;
+  color: var(--color-brown-soft);
   margin: 0;
 }
 
 .intro-text {
   font-family: var(--font-body);
   font-size: 1.125rem;
-  color: #5c4033;
+  color: var(--color-brown-muted);
   line-height: 1.8;
   margin: 0;
 }

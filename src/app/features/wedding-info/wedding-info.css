@@ -13,23 +13,23 @@
 .invitation-frame {
   position: relative;
   border-radius: 16px;
-  background: linear-gradient(145deg, #d4af37 0%, #b8860b 50%, #d4af37 100%);
+  background: linear-gradient(145deg, var(--color-gold) 0%, var(--color-gold-deep) 50%, var(--color-gold) 100%);
   padding: 3px;
   box-shadow:
-    0 16px 36px -6px rgba(44, 24, 16, 0.22),
-    0 4px 12px rgba(44, 24, 16, 0.1);
+    0 16px 36px -6px var(--color-ink-shadow-22),
+    0 4px 12px var(--color-ink-shadow-10);
 }
 
 .info-card {
   position: relative;
-  background: linear-gradient(155deg, #fdfbf7 0%, #f6ecdc 100%);
+  background: linear-gradient(155deg, var(--color-paper-card) 0%, var(--color-paper-card-shadow) 100%);
   border-radius: 13px;
   padding: 2.25rem 1.5rem 2rem;
   text-align: center;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  border: 1px solid var(--color-gold-tint-35);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.8),
-    inset 0 0 28px rgba(212, 175, 55, 0.06);
+    inset 0 0 0 1px var(--color-white-tint-80),
+    inset 0 0 28px var(--color-gold-tint-6);
 }
 
 /* ── Corner Filigrees ── */
@@ -80,7 +80,7 @@
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 600;
-  color: #a8743b;
+  color: var(--color-paper-under);
   letter-spacing: 5px;
   text-transform: uppercase;
   margin: 0 0 0.5rem;
@@ -89,7 +89,7 @@
 .info-title {
   font-family: var(--font-serif);
   font-size: 1.65rem;
-  color: #2c1810;
+  color: var(--color-dark-brown);
   margin: 0 0 0.25rem;
   letter-spacing: 0.5px;
 }
@@ -97,16 +97,16 @@
 .ampersand {
   font-family: var(--font-handwriting);
   font-size: 1.55em;
-  color: #d4af37;
+  color: var(--color-gold);
   margin: 0 0.15em;
   vertical-align: -2px;
-  text-shadow: 0 1px 2px rgba(212, 175, 55, 0.2);
+  text-shadow: 0 1px 2px var(--color-gold-tint-0-2);
 }
 
 .info-subtitle {
   font-family: var(--font-body);
   font-size: 0.95rem;
-  color: #7d5e3f;
+  color: var(--color-brown-taupe);
   font-style: italic;
   margin: 0 0 1.25rem;
 }
@@ -118,7 +118,7 @@
   margin: 0 auto 1.5rem;
   background-image: repeating-linear-gradient(
     90deg,
-    rgba(212, 175, 55, 0.65) 0 8px,
+    var(--color-gold-tint-0-65) 0 8px,
     transparent 8px 16px
   );
   background-repeat: no-repeat;
@@ -133,8 +133,8 @@
   top: 50%;
   transform: translate(-50%, -50%);
   font-size: 0.7rem;
-  color: #d4af37;
-  background: #f8efe2;
+  color: var(--color-gold);
+  background: var(--color-paper-ivory);
   padding: 0 0.5rem;
   line-height: 1;
 }
@@ -150,12 +150,12 @@
 
 .detail-note {
   position: relative;
-  background: #fdfaf5;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: var(--color-paper-light);
+  border: 1px solid var(--color-gold-tint-35);
   border-radius: 8px;
   box-shadow:
-    0 4px 12px rgba(44, 24, 16, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+    0 4px 12px var(--color-ink-shadow-8),
+    inset 0 0 0 1px var(--color-white-tint-90);
   padding: 1.2rem 0.85rem 1rem;
   text-align: center;
   transition:
@@ -166,8 +166,8 @@
 .detail-note:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 8px 20px rgba(44, 24, 16, 0.12),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+    0 8px 20px var(--color-ink-shadow-12),
+    inset 0 0 0 1px var(--color-white-tint-90);
 }
 
 .detail-note--venue {
@@ -181,16 +181,16 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.75rem;
-  color: #d4af37;
-  background: #fdfaf5;
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: var(--color-gold);
+  background: var(--color-paper-light);
+  border: 1px solid var(--color-gold-tint-40);
   border-radius: 50%;
   width: 18px;
   height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 3px rgba(44, 24, 16, 0.1);
+  box-shadow: 0 1px 3px var(--color-ink-shadow-10);
   line-height: 1;
 }
 
@@ -201,7 +201,7 @@
   font-size: 0.82rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #8b7355;
+  color: var(--color-brown-soft);
   margin: 0 0 0.2rem;
 }
 
@@ -209,7 +209,7 @@
   display: block;
   font-family: var(--font-serif);
   font-size: 1.15rem;
-  color: #2c1810;
+  color: var(--color-dark-brown);
   line-height: 1.35;
 }
 
@@ -218,7 +218,7 @@
   font-size: 1.45rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  color: #b8860b;
+  color: var(--color-gold-deep);
   line-height: 1.25;
 }
 
@@ -227,7 +227,7 @@
   font-family: var(--font-body);
   font-style: italic;
   font-size: 0.9rem;
-  color: #6b4c35;
+  color: var(--color-brown-walnut);
   margin-top: 0.25rem;
   margin-bottom: 0.85rem;
 }
@@ -240,11 +240,11 @@
   width: 100%;
   border-radius: 10px;
   overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.45);
+  border: 1px solid var(--color-gold-tint-45);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.8),
-    0 4px 12px rgba(44, 24, 16, 0.08);
-  background: #fdfaf5;
+    inset 0 0 0 1px var(--color-white-tint-80),
+    0 4px 12px var(--color-ink-shadow-8);
+  background: var(--color-paper-light);
   margin-bottom: 0.85rem;
   text-decoration: none;
   cursor: pointer;
@@ -268,14 +268,14 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  background: rgba(44, 24, 16, 0.78);
-  color: #fdfaf5;
+  background: var(--color-ink-shadow-0-78);
+  color: var(--color-paper-light);
   font-family: var(--font-body);
   font-size: 0.82rem;
   padding: 0.3rem 0.65rem;
   border-radius: 20px;
   backdrop-filter: blur(4px);
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  border: 1px solid var(--color-gold-tint-40);
   transition: all 0.3s ease;
 }
 
@@ -284,9 +284,9 @@
 }
 
 .map-frame-wrapper:hover .map-hover-hint {
-  background: rgba(44, 24, 16, 0.92);
-  color: #d4af37;
-  border-color: #d4af37;
+  background: var(--color-ink-shadow-0-92);
+  color: var(--color-gold);
+  border-color: var(--color-gold);
 }
 
 /* ── Map Action ── */
@@ -296,7 +296,7 @@
   justify-content: center;
   margin: 0.5rem 0 0.15rem;
   padding-top: 0.85rem;
-  border-top: 1px dashed rgba(212, 175, 55, 0.4);
+  border-top: 1px dashed var(--color-gold-tint-40);
 }
 
 .map-btn {
@@ -307,35 +307,35 @@
   font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 600;
-  color: #2c1810;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
-  border: 1px solid #d4af37;
+  color: var(--color-dark-brown);
+  background: linear-gradient(135deg, var(--color-gold-tint-15) 0%, var(--color-gold-tint-0-05) 100%);
+  border: 1px solid var(--color-gold);
   border-radius: 30px;
   padding: 0.55rem 1.35rem;
   text-decoration: none;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 2px 6px var(--color-gold-tint-15);
 }
 
 .map-icon {
   width: 15px;
   height: 15px;
-  color: #b8860b;
+  color: var(--color-gold-deep);
   flex-shrink: 0;
 }
 
 .map-btn:hover {
-  background: #2c1810;
-  color: #fdf8f0;
-  border-color: #2c1810;
+  background: var(--color-dark-brown);
+  color: var(--color-parchment);
+  border-color: var(--color-dark-brown);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(44, 24, 16, 0.2);
+  box-shadow: 0 4px 10px var(--color-ink-shadow-20);
 }
 
 .map-btn:hover .map-icon {
-  color: #d4af37;
+  color: var(--color-gold);
 }
 
 /* ── Storybook Schedule ── */
@@ -351,7 +351,7 @@
   font-family: var(--font-serif);
   font-size: 1.05rem;
   font-weight: 600;
-  color: #2c1810;
+  color: var(--color-dark-brown);
   letter-spacing: 3px;
   text-transform: uppercase;
   margin: 0 0 1rem;
@@ -362,15 +362,15 @@
   content: '';
   width: 24px;
   height: 1px;
-  background: #d4af37;
+  background: var(--color-gold);
 }
 
 .program-card {
   position: relative;
   margin: 0 auto;
   padding: 0.85rem 1rem;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: var(--color-white-tint-0-6);
+  border: 1px solid var(--color-gold-tint-30);
   border-radius: 8px;
 }
 
@@ -383,7 +383,7 @@
 }
 
 .program-stub:not(:last-child) {
-  border-bottom: 1px dashed rgba(212, 175, 55, 0.25);
+  border-bottom: 1px dashed var(--color-gold-tint-25);
 }
 
 .program-time-wrap {
@@ -394,7 +394,7 @@
   font-family: var(--font-serif);
   font-size: 1.05rem;
   font-weight: 600;
-  color: #b8860b;
+  color: var(--color-gold-deep);
   letter-spacing: 0.5px;
 }
 
@@ -408,15 +408,15 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #d4af37;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25);
+  background: var(--color-gold);
+  box-shadow: 0 0 0 2px var(--color-gold-tint-25);
 }
 
 .program-label {
   flex: 1;
   font-family: var(--font-body);
   font-size: 0.95rem;
-  color: #2c1810;
+  color: var(--color-dark-brown);
   text-align: left;
   letter-spacing: 0.5px;
 }

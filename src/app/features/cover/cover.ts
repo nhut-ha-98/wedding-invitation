@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import type { FlipSetting } from 'page-flip';
 import { PageFlip } from 'page-flip';
+import { gsap } from 'gsap';
 import { WeddingConfig } from '../../core/models/wedding-config';
 import { AudioService } from '../../core/services/audio.service';
 import { CoverHandwriteDirective } from './cover-handwrite.directive';
@@ -146,6 +147,7 @@ export class Cover {
   config = input.required<WeddingConfig>();
   opened = output<void>();
   showTapPrompt = signal(false);
+  private opening = false;
 
   formattedDate = computed(() => {
     try {
@@ -161,20 +163,44 @@ export class Cover {
   private audioService = inject(AudioService);
   private pageFlip: PageFlip | null = null;
   private animationFrameId: number | null = null;
-  private bookContainerEl: HTMLElement | null = null;
+  private promptTimer: ReturnType<typeof setTimeout> | null = null;
+  private promptFrame: number | null = null;
+  private promptAnimation: gsap.core.Tween | null = null;
+  private pointerStartedAfterPrompt = false;
 
   constructor() {
     afterNextRender(() => {
+      const container = this.bookContainer().nativeElement;
+      const preventEarlyFlip = (event: Event) => {
+        event.stopImmediatePropagation();
+        if (!this.showTapPrompt() && event.cancelable) event.preventDefault();
+      };
+
+      container.addEventListener('mousedown', preventEarlyFlip, true);
+      container.addEventListener('touchstart', preventEarlyFlip, { capture: true, passive: false });
+      this.destroyRef.onDestroy(() => {
+        container.removeEventListener('mousedown', preventEarlyFlip, true);
+        container.removeEventListener('touchstart', preventEarlyFlip, true);
+      });
+
       this.initPageFlip();
       this.initParticles();
       this.startAmbientAudio();
-      setTimeout(() => {
+      this.promptTimer = setTimeout(() => {
         this.showTapPrompt.set(true);
-      }, 1500);
+        this.promptTimer = null;
+        this.promptFrame = requestAnimationFrame(() => {
+          this.promptFrame = null;
+          this.animateTapPrompt();
+        });
+      }, this.config().coverOpenPromptDelayMs);
+      this.destroyRef.onDestroy(() => {
+        if (this.promptTimer) clearTimeout(this.promptTimer);
+        if (this.promptFrame !== null) cancelAnimationFrame(this.promptFrame);
+        this.promptAnimation?.kill();
+      });
 
       try {
-        const container = this.bookContainer().nativeElement;
-        this.bookContainerEl = container;
         const revealPhoto = () => {
           const wrap = container.querySelector<HTMLElement>('.cover-photo-wrap');
           if (wrap) wrap.classList.add('show');
@@ -212,7 +238,8 @@ export class Cover {
       startZIndex: 10,
       drawShadow: true,
       swipeDistance: 20,
-      disableFlipByClick: false,
+      disableFlipByClick: true,
+      showPageCorners: false,
       mobileScrollSupport: false,
     } as Partial<FlipSetting>);
 
@@ -220,6 +247,7 @@ export class Cover {
 
     this.pageFlip.on('flip', (e) => {
       if (e.data === 1) {
+        this.opening = true;
         this.audioService.stopWind();
         setTimeout(() => this.opened.emit(), 500);
       }
@@ -317,7 +345,42 @@ export class Cover {
     return this.audioService.isMusicPlaying();
   }
 
+  private animateTapPrompt(): void {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const prompt = this.bookContainer().nativeElement.querySelector<HTMLElement>('.tap-prompt');
+    if (!prompt) return;
+
+    this.promptAnimation = gsap.fromTo(
+      prompt,
+      { autoAlpha: 0, y: 8 },
+      { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power1.out' },
+    );
+  }
+
+  handleCoverPointerDown(): void {
+    this.pointerStartedAfterPrompt = this.showTapPrompt() && !this.opening;
+  }
+
+  handleCoverPointerUp(event: PointerEvent): void {
+    const canOpen = this.pointerStartedAfterPrompt;
+    this.pointerStartedAfterPrompt = false;
+    if (event.button !== 0 || !canOpen || !this.showTapPrompt() || this.opening) return;
+    this.openBook();
+  }
+
+  handleCoverKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    if (!this.showTapPrompt() || this.opening) return;
+
+    event.preventDefault();
+    this.openBook();
+  }
+
   openBook(): void {
+    if (!this.showTapPrompt() || this.opening) return;
+    this.opening = true;
+    this.promptAnimation?.kill();
     this.audioService.playClick();
     this.audioService.playFlip();
     const container = this.bookContainer().nativeElement;

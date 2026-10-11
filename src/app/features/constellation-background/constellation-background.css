@@ -28,25 +28,25 @@
 }
 
 .sky-daylight {
-  background: #f4f9ff;
+  background: var(--color-sky-frost);
   opacity: 1;
   will-change: opacity;
 }
 
 .sky-dawn {
-  background: linear-gradient(180deg, #fffcf5 0%, #fcf5e8 50%, #f5e8d0 100%);
+  background: linear-gradient(180deg, var(--color-paper-sunlit) 0%, var(--color-paper-cream) 50%, var(--color-paper-sand) 100%);
   opacity: 0;
   will-change: opacity;
 }
 
 .sky-sunset {
-  background: linear-gradient(180deg, #fae5c3 0%, #f4b875 35%, #de7e5d 70%, #6f3458 100%);
+  background: linear-gradient(180deg, var(--color-sunset-apricot) 0%, var(--color-sunset-peach) 35%, var(--color-sunset-terracotta) 70%, var(--color-sunset-plum) 100%);
   opacity: 0;
   will-change: opacity;
 }
 
 .sky-night {
-  background: radial-gradient(circle at 50% 40%, #10273e 0%, #081321 68%, #07101c 100%);
+  background: radial-gradient(circle at 50% 40%, var(--color-night-blue) 0%, var(--color-night-deep-blue) 68%, var(--color-night-ink) 100%);
   opacity: 0;
   will-change: opacity;
 }

@@ -29,11 +29,11 @@
   font-weight: 600;
   letter-spacing: 0.23em;
   text-transform: uppercase;
-  color: #f2dfc2;
+  color: var(--color-cover-title-highlight);
   /* Soft ivory distinguishes the tagline from the gilded names. */
   text-shadow:
-    0 1px 0 #3a1d0d,
-    0 2px 3px rgba(12, 5, 2, 0.75);
+    0 1px 0 var(--color-cover-title-shadow),
+    0 2px 3px var(--color-cover-shadow-umber-0-75);
 }
 
 @keyframes taglineReveal {
@@ -83,18 +83,18 @@
   /* Luminous Gilded Caramel & Antique Parchment Gradient */
   background: linear-gradient(
     180deg,
-    #faeedb 0%,
-    #edd1a8 22%,
-    #dba463 52%,
-    #be8044 80%,
-    #925826 100%
+    var(--color-cover-gold-light) 0%,
+    var(--color-cover-gold) 22%,
+    var(--color-cover-gold-mid) 52%,
+    var(--color-cover-copper) 80%,
+    var(--color-cover-bronze) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: #edd1a8;
+  color: var(--color-cover-gold);
   /* Multi-level papercut drop-shadow: simulates thick cut-paper letters mounted on background */
-  filter: drop-shadow(0 2px 4px rgba(12, 5, 2, 0.48));
+  filter: drop-shadow(0 2px 4px var(--color-cover-shadow-umber-0-48));
   position: relative;
   white-space: nowrap;
   max-width: 100%;
@@ -116,12 +116,12 @@
   font-weight: 500;
   line-height: 1;
   display: inline-block;
-  background: linear-gradient(180deg, #faeedb 0%, #e0a765 52%, #9f6129 100%);
+  background: linear-gradient(180deg, var(--color-cover-gold-light) 0%, var(--color-cover-gold-bright) 52%, var(--color-cover-gold-deep) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: #e0a765;
-  filter: drop-shadow(0 1px 2px rgba(12, 5, 2, 0.42));
+  color: var(--color-cover-gold-bright);
+  filter: drop-shadow(0 1px 2px var(--color-cover-shadow-umber-0-42));
 }
 
 /* ─── Wedding Date Capsule ─── */
@@ -136,7 +136,7 @@
   width: clamp(5rem, 24vw, 7.5rem);
   height: 1px;
   margin: 0 auto 0.85rem;
-  background: rgba(205, 164, 111, 0.62);
+  background: var(--color-cover-antique-gold-0-62);
 }
 
 .wedding-date {
@@ -144,10 +144,10 @@
   font-size: clamp(0.76rem, 2.6vw, 1rem);
   font-weight: 500;
   letter-spacing: 0.3em;
-  color: #f2dfc2;
+  color: var(--color-cover-title-highlight);
   /* Soft ivory distinguishes the date from the gilded names. */
   margin: 0;
-  text-shadow: 0 1px 2px rgba(10, 4, 2, 0.42);
+  text-shadow: 0 1px 2px var(--color-cover-shadow-espresso-0-42);
 }
 
 @keyframes dateReveal {

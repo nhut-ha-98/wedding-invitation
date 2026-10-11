@@ -21,7 +21,7 @@
 
 .ending-ornament {
   opacity: 0.85;
-  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+  filter: drop-shadow(0 0 8px var(--color-gold-tint-0-5));
 }
 
 .thank-you-block {
@@ -31,10 +31,10 @@
 .thank-you-title {
   font-family: var(--font-handwriting);
   font-size: clamp(3.5rem, 8vw, 5.5rem);
-  color: #fff8e7;
+  color: var(--color-ending-ivory);
   text-shadow:
-    0 0 12px rgba(255, 230, 160, 0.6),
-    0 0 24px rgba(212, 175, 55, 0.4);
+    0 0 12px var(--color-ending-gold-glow-0-6),
+    0 0 24px var(--color-gold-tint-40);
   line-height: 1.1;
   margin: 0 0 0.5rem;
   letter-spacing: 1px;
@@ -44,9 +44,9 @@
   font-family: var(--font-body);
   font-size: 1.35rem;
   font-style: italic;
-  color: #faecc5;
+  color: var(--color-ending-cream);
   letter-spacing: 0.08em;
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+  text-shadow: 0 0 8px var(--color-gold-tint-30);
   margin: 0;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .monogram-accent {
-  color: #d4af37;
+  color: var(--color-gold);
   font-size: 1.1rem;
   letter-spacing: 0.3em;
   opacity: 0.8;
@@ -67,12 +67,12 @@
 .couple-names {
   font-family: var(--font-serif);
   font-size: 1.25rem;
-  color: #fdf3d0;
+  color: var(--color-ending-glow);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-weight: 500;
   margin: 0;
-  text-shadow: 0 0 10px rgba(255, 215, 100, 0.35);
+  text-shadow: 0 0 10px var(--color-ending-gold-glow-0-35);
 }
 
 .wedding-date {
@@ -83,11 +83,11 @@
 
   background: linear-gradient(
     110deg,
-    #8f6d38 20%,
-    #caa038 40%,
-    #f0d889 50%,
-    #caa038 60%,
-    #8f6d38 80%
+    var(--color-ending-bronze) 20%,
+    var(--color-ending-gold) 40%,
+    var(--color-ending-gold-light) 50%,
+    var(--color-ending-gold) 60%,
+    var(--color-ending-bronze) 80%
   );
 
   background-size: 250% 100%;

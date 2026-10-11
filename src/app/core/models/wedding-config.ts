@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 export interface WeddingConfig {
+  coverOpenPromptDelayMs: number;
   couple: {
     partner1: string;
     partner2: string;
@@ -75,6 +76,7 @@ export interface CoupleProfile {
 export const WEDDING_CONFIG = new InjectionToken<WeddingConfig>('WEDDING_CONFIG');
 
 export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
+  coverOpenPromptDelayMs: 1500,
   couple: {
     partner1: 'Nhựt Hạ',
     partner2: 'Hoa Hạ',

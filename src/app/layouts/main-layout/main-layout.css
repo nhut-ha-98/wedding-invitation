@@ -6,7 +6,7 @@
   position: fixed;
   inset: 0;
   z-index: 10;
-  background: #1a0f0a;
+  background: var(--color-layout-background);
 }
 
 .scroll-stage {

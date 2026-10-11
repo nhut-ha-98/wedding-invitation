@@ -8,11 +8,11 @@
 
 .paper-star {
   position: absolute;
-  color: #ebd5b8;
+  color: var(--color-cover-star-light);
   font-family: serif;
   text-shadow:
-    0 1px 2px rgba(12, 5, 2, 0.9),
-    0 0 6px rgba(216, 180, 135, 0.35);
+    0 1px 2px var(--color-cover-shadow-umber-0-9),
+    0 0 6px var(--color-cover-gold-glow-0-35);
   animation: starTwinkle 3.2s ease-in-out infinite alternate;
 }
 
@@ -27,7 +27,7 @@
   top: 142px;
   right: 76px;
   font-size: 0.65rem;
-  color: #d6b083;
+  color: var(--color-gold-light);
   animation-delay: 0.9s;
 }
 
@@ -42,7 +42,7 @@
   top: 248px;
   right: 60px;
   font-size: 0.65rem;
-  color: #d6b083;
+  color: var(--color-gold-light);
   animation-delay: 0.6s;
 }
 
@@ -64,7 +64,7 @@
   bottom: 136px;
   left: 78px;
   font-size: 0.65rem;
-  color: #d6b083;
+  color: var(--color-gold-light);
   animation-delay: 2.3s;
 }
 

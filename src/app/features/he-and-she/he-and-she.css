@@ -11,7 +11,7 @@
 
 .couple-title {
   font-size: 2.4rem;
-  color: var(--color-dark-brown, #2c1810);
+  color: var(--color-dark-brown, var(--color-dark-brown));
   margin: 0 0 3rem;
 }
 

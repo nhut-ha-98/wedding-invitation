@@ -27,15 +27,15 @@
   position: relative;
   overflow: hidden;
   border-radius: 5px 14px 14px 5px;
-  color: #eedcc6;
+  color: var(--color-cover-parchment);
   /* Aged parchment text - No pure white */
-  background: #2a150b;
+  background: var(--color-cover-leather);
   /* Base deep chocolate brown paper sheet */
   box-shadow:
-    0 4px 12px rgba(10, 4, 2, 0.4),
-    0 18px 45px rgba(8, 3, 1, 0.75),
-    0 35px 85px rgba(5, 2, 1, 0.85),
-    inset 0 0 40px rgba(12, 5, 2, 0.7);
+    0 4px 12px var(--color-cover-shadow-espresso-0-4),
+    0 18px 45px var(--color-cover-shadow-deep-0-75),
+    0 35px 85px var(--color-cover-shadow-dark-0-85),
+    inset 0 0 40px var(--color-cover-shadow-umber-0-7);
   animation: detailsReveal 700ms ease 250ms both;
 }
 
@@ -53,11 +53,11 @@
 .paper-deckle-edge {
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(214, 179, 136, 0.16);
+  border: 1px solid var(--color-cover-gold-edge-0-16);
   border-radius: inherit;
   box-shadow:
-    inset 1px 1px 0 rgba(235, 213, 184, 0.08),
-    inset -1px -1px 0 rgba(16, 7, 3, 0.5);
+    inset 1px 1px 0 var(--color-cover-paper-highlight-0-08),
+    inset -1px -1px 0 var(--color-cover-shadow-roasted-0-5);
   pointer-events: none;
   z-index: 10;
 }
@@ -69,11 +69,11 @@
   background:
     radial-gradient(
       ellipse at 50% 30%,
-      rgba(84, 46, 26, 0.28) 0%,
-      rgba(42, 21, 11, 0.55) 60%,
-      rgba(22, 10, 5, 0.85) 100%
+      var(--color-cover-shadow-walnut-0-28) 0%,
+      var(--color-cover-shadow-leather-0-55) 60%,
+      var(--color-cover-shadow-brown-0-85) 100%
     ),
-    linear-gradient(175deg, #351b0e 0%, #28130a 35%, #200e06 70%, #180a04 100%);
+    linear-gradient(175deg, var(--color-cover-leather-highlight) 0%, var(--color-cover-leather-mid) 35%, var(--color-cover-leather-shadow) 70%, var(--color-cover-leather-deep) 100%);
   pointer-events: none;
   z-index: 0;
 }
@@ -98,17 +98,17 @@
   background:
     linear-gradient(
       to right,
-      rgba(10, 4, 2, 0.75) 0%,
-      rgba(38, 19, 10, 0.4) 30%,
-      rgba(62, 33, 18, 0.3) 65%,
-      rgba(10, 4, 2, 0.65) 100%
+      var(--color-cover-shadow-espresso-0-75) 0%,
+      var(--color-cover-shadow-brown-0-4) 30%,
+      var(--color-cover-shadow-walnut-0-3) 65%,
+      var(--color-cover-shadow-espresso-0-65) 100%
     ),
-    linear-gradient(180deg, #241107 0%, #1a0b04 100%);
-  border-right: 1.5px solid rgba(184, 143, 98, 0.22);
+    linear-gradient(180deg, var(--color-cover-spine) 0%, var(--color-cover-spine-shadow) 100%);
+  border-right: 1.5px solid var(--color-cover-antique-gold-0-22);
   border-radius: 5px 0 0 5px;
   pointer-events: none;
   z-index: 6;
-  box-shadow: 2px 0 6px rgba(10, 4, 2, 0.5);
+  box-shadow: 2px 0 6px var(--color-cover-shadow-espresso-0-5);
 }
 
 .spine-crease {
@@ -117,7 +117,7 @@
   right: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(to right, rgba(10, 4, 2, 0.6), transparent);
+  background: linear-gradient(to right, var(--color-cover-shadow-espresso-0-6), transparent);
 }
 
 .spine-band {
@@ -127,11 +127,11 @@
   height: 2px;
   background: linear-gradient(
     to right,
-    rgba(184, 143, 98, 0.1),
-    rgba(216, 180, 135, 0.35),
-    rgba(184, 143, 98, 0.1)
+    var(--color-cover-antique-gold-0-1),
+    var(--color-cover-gold-glow-0-35),
+    var(--color-cover-antique-gold-0-1)
   );
-  box-shadow: 0 1px 2px rgba(8, 3, 1, 0.8);
+  box-shadow: 0 1px 2px var(--color-cover-shadow-deep-0-8);
 }
 
 .band-1 {
@@ -161,21 +161,21 @@
 /* Outer Mat: Deep coffee paper layer with deckled border */
 .mat-outer {
   inset: 12px 12px 12px 15px;
-  background: rgba(38, 20, 11, 0.48);
+  background: var(--color-cover-shadow-cocoa-0-48);
   box-shadow:
-    inset 0 0 10px rgba(10, 4, 2, 0.8),
-    0 1px 3px rgba(12, 5, 2, 0.7);
-  border: 1.5px solid rgba(186, 142, 98, 0.32);
+    inset 0 0 10px var(--color-cover-shadow-espresso-0-8),
+    0 1px 3px var(--color-cover-shadow-umber-0-7);
+  border: 1.5px solid var(--color-cover-gold-shadow-0-32);
 }
 
 /* Middle Mat: Warm sepia/caramel under-frame with stitched dash */
 .mat-middle {
   inset: 17px 17px 17px 20px;
-  background: rgba(48, 26, 14, 0.38);
+  background: var(--color-cover-shadow-cocoa-0-38);
   box-shadow:
-    inset 0 0 14px rgba(8, 3, 1, 0.9),
-    0 2px 5px rgba(6, 2, 1, 0.7);
-  border: 1px dashed rgba(216, 175, 128, 0.28);
+    inset 0 0 14px var(--color-cover-shadow-deep-0-9),
+    0 2px 5px var(--color-cover-shadow-black-0-7);
+  border: 1px dashed var(--color-cover-gold-edge-0-28);
 }
 
 /* Inner Mat: Aged parchment stage ground with grooved bevel */
@@ -183,12 +183,12 @@
   inset: 22px 22px 22px 25px;
   background: radial-gradient(
     ellipse at 50% 45%,
-    rgba(54, 29, 16, 0.4) 0%,
-    rgba(34, 17, 9, 0.7) 70%,
-    rgba(20, 9, 4, 0.85) 100%
+    var(--color-cover-shadow-cocoa-0-4) 0%,
+    var(--color-cover-shadow-leather-0-7) 70%,
+    var(--color-cover-shadow-espresso-0-85) 100%
   );
-  border: 1px solid rgba(168, 124, 82, 0.2);
+  border: 1px solid var(--color-cover-antique-gold-0-2);
   box-shadow:
-    inset 0 3px 12px rgba(10, 4, 2, 0.85),
-    0 1px 2px rgba(216, 180, 135, 0.16);
+    inset 0 3px 12px var(--color-cover-shadow-espresso-0-85),
+    0 1px 2px var(--color-cover-gold-glow-0-16);
 }
