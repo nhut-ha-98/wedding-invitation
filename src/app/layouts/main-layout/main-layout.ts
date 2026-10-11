@@ -97,45 +97,43 @@ export class MainLayout {
 
   onCoverOpened(): void {
     this.bookState.setOpening();
-    setTimeout(() => {
-      const coverEl = document.querySelector('.cover-stage') as HTMLElement | null;
-      const scrollEl = document.querySelector('.scroll-stage') as HTMLElement | null;
+    const coverEl = document.querySelector('.cover-stage') as HTMLElement | null;
+    const scrollEl = document.querySelector('.scroll-stage') as HTMLElement | null;
 
-      this.showTransition.set(true);
+    this.showTransition.set(true);
 
-      const finalize = () => {
-        this.bookState.setOpen();
-        this.startSectionObserver();
-        this.startScrollProgressTracking();
-        this.storyAutoScroll.startTour();
-        this.scrollToInitialHash();
-        requestAnimationFrame(() => {
-          ScrollTrigger.refresh();
-        });
-      };
+    const finalize = () => {
+      this.bookState.setOpen();
+      this.startSectionObserver();
+      this.startScrollProgressTracking();
+      this.storyAutoScroll.startTour();
+      this.scrollToInitialHash();
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+    };
 
-      if (coverEl && scrollEl) {
-        gsap.set(scrollEl, { opacity: 0, y: 0 });
-        gsap.to(coverEl, {
-          opacity: 0,
-          duration: 0.8,
-          ease: 'power2.inOut',
-        });
-        gsap.to(scrollEl, {
-          opacity: 1,
-          duration: 0.6,
-          delay: 0.3,
-          ease: 'power2.out',
-          onComplete: () => {
-            gsap.set(coverEl, { display: 'none' });
-            gsap.set(scrollEl, { clearProps: 'all' });
-            finalize();
-          },
-        });
-      } else {
-        finalize();
-      }
-    }, 600);
+    if (coverEl && scrollEl) {
+      gsap.set(scrollEl, { opacity: 0, y: 0 });
+      gsap.to(coverEl, {
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.inOut',
+      });
+      gsap.to(scrollEl, {
+        opacity: 1,
+        duration: 0.6,
+        delay: 0.3,
+        ease: 'power2.out',
+        onComplete: () => {
+          gsap.set(coverEl, { display: 'none' });
+          gsap.set(scrollEl, { clearProps: 'all' });
+          finalize();
+        },
+      });
+    } else {
+      finalize();
+    }
   }
 
   onTransitionComplete(): void {

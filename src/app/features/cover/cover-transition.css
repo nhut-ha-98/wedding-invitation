@@ -31,27 +31,57 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 4rem;
-  padding: 12% 2rem 1.5rem;
+  justify-content: center;
+  gap: clamp(1rem, 4vh, 2rem);
+  padding: 8% 1.4rem 1.25rem;
   z-index: 2;
   height: 100%;
   width: 100%;
   max-width: 520px;
 }
 
+.transition-story-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: 100%;
+}
+
 .transition-text {
-  font-size: 2.05rem;
+  font-size: clamp(1.35rem, 5.5vw, 1.9rem);
   color: var(--color-cover-ink-soft);
   /* Deep sepia */
   letter-spacing: 1px;
   text-shadow: 0 1px 0 var(--color-cover-paper-shadow-0-35);
   position: relative;
-  line-height: 1.2;
+  line-height: 1.15;
   width: 100%;
-  max-width: 28rem;
   margin: 0;
+}
+
+.transition-text--left {
+  text-align: left;
+}
+
+.transition-text--right {
+  text-align: right;
+}
+
+.transition-text--center {
   text-align: center;
+}
+
+.transition-character {
+  display: inline-block;
+}
+
+.transition-highlight {
+  display: block;
+  margin-top: 0.5em;
+  color: var(--color-cover-gold-deep);
+  font-size: 1.18em;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
 }
 
 .transition-text::after {
@@ -75,7 +105,7 @@
 
 /* Cover photo (hidden until triggered) */
 .cover-photo-wrap {
-  width: min(68vw, 280px);
+  width: min(54vw, 220px);
   aspect-ratio: 1;
   box-sizing: border-box;
   border: 1px solid var(--color-cover-antique-gold-0-45);
@@ -87,10 +117,6 @@
   opacity: 0;
   visibility: hidden;
   transform: translateY(6px) scale(0.98);
-  transition:
-    opacity 520ms ease,
-    transform 520ms cubic-bezier(0.22, 0.9, 0.3, 1),
-    visibility 0s linear 520ms;
 }
 
 .cover-photo-wrap img.cover-transition-photo {
@@ -120,24 +146,6 @@
     0 100%
   );
   transform: translateX(0);
-  transition:
-    transform 950ms cubic-bezier(0.55, 0, 0.25, 1),
-    opacity 180ms ease 770ms;
-}
-
-.cover-photo-wrap.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0) scale(1);
-  transition:
-    opacity 520ms ease,
-    transform 520ms cubic-bezier(0.22, 0.9, 0.3, 1),
-    visibility 0s;
-}
-
-.cover-photo-wrap.show .photo-wipe {
-  transform: translateX(110%);
-  opacity: 0;
 }
 
 /* subtle drifting for small seeds inside the dandelion group */

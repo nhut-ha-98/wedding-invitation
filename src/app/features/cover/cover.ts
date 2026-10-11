@@ -16,7 +16,6 @@ import { PageFlip } from 'page-flip';
 import { gsap } from 'gsap';
 import { WeddingConfig } from '../../core/models/wedding-config';
 import { AudioService } from '../../core/services/audio.service';
-import { CoverHandwriteDirective } from './cover-handwrite.directive';
 
 class DandelionParticle {
   x = 0;
@@ -138,7 +137,6 @@ class GlowingDust {
 
 @Component({
   selector: 'app-cover',
-  imports: [CoverHandwriteDirective],
   templateUrl: './cover.html',
   styleUrl: './cover.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -166,6 +164,14 @@ export class Cover {
   private promptTimer: ReturnType<typeof setTimeout> | null = null;
   private promptFrame: number | null = null;
   private promptAnimation: gsap.core.Tween | null = null;
+  private insideStoryTimeline: gsap.core.Timeline | null = null;
+  private insideStoryTimer: ReturnType<typeof setTimeout> | null = null;
+  private insideStoryStarted = false;
+  private insideStoryCompleted = false;
+  private insideStoryLines: HTMLElement[] = [];
+  private insideStoryCharacters: HTMLElement[][] = [];
+  private insideStoryPhoto: HTMLElement | null = null;
+  private insideStoryWipe: HTMLElement | null = null;
   private pointerStartedAfterPrompt = false;
 
   constructor() {
@@ -184,6 +190,7 @@ export class Cover {
       });
 
       this.initPageFlip();
+      this.prepareInsideStory();
       this.initParticles();
       this.startAmbientAudio();
       this.promptTimer = setTimeout(() => {
@@ -200,18 +207,7 @@ export class Cover {
         this.promptAnimation?.kill();
       });
 
-      try {
-        const revealPhoto = () => {
-          const wrap = container.querySelector<HTMLElement>('.cover-photo-wrap');
-          if (wrap) wrap.classList.add('show');
-        };
-        container.addEventListener('cover-handwrite-complete', revealPhoto);
-        this.destroyRef.onDestroy(() =>
-          container.removeEventListener('cover-handwrite-complete', revealPhoto),
-        );
-      } catch {
-        // noop
-      }
+      this.destroyRef.onDestroy(() => this.cancelInsideStory());
     });
   }
 
@@ -249,7 +245,18 @@ export class Cover {
       if (e.data === 1) {
         this.opening = true;
         this.audioService.stopWind();
-        setTimeout(() => this.opened.emit(), 500);
+      }
+    });
+
+    this.pageFlip.on('changeState', (e) => {
+      if (e.data !== 'read') return;
+
+      const pageIndex = this.pageFlip?.getCurrentPageIndex();
+      if (pageIndex === 1) {
+        this.playInsideStory();
+      } else if (pageIndex === 0) {
+        this.resetInsideStory();
+        this.opening = false;
       }
     });
 
@@ -259,6 +266,145 @@ export class Cover {
         cancelAnimationFrame(this.animationFrameId);
       }
     });
+  }
+
+  private prepareInsideStory(): void {
+    const container = this.bookContainer().nativeElement;
+    this.insideStoryLines = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-inside-story-line]'),
+    );
+    this.insideStoryCharacters = this.insideStoryLines.map((line) => {
+      const markedSegments = Array.from(
+        line.querySelectorAll<HTMLElement>('[data-inside-story-segment]'),
+      );
+      const segments =
+        markedSegments.length > 0
+          ? markedSegments.map((segment) => ({
+              text: segment.textContent?.trim() ?? '',
+              highlighted: segment.hasAttribute('data-inside-story-highlight'),
+              element: segment,
+            }))
+          : [{ text: line.textContent?.trim() ?? '', highlighted: false, element: null }];
+
+      line.textContent = '';
+      line.setAttribute('aria-label', segments.map((segment) => segment.text).join(' '));
+
+      return segments.flatMap((segment) => {
+        const wrapper = segment.element ?? document.createElement('span');
+        wrapper.textContent = '';
+        wrapper.classList.add(segment.highlighted ? 'transition-highlight' : 'transition-segment');
+        wrapper.setAttribute('aria-hidden', 'true');
+        line.appendChild(wrapper);
+
+        return Array.from(segment.text).map((value) => {
+          const character = document.createElement('span');
+          character.className = 'transition-character';
+          character.style.display = 'inline-block';
+          character.textContent = value === ' ' ? '\u00a0' : value;
+          wrapper.appendChild(character);
+          return character;
+        });
+      });
+    });
+    this.insideStoryPhoto = container.querySelector<HTMLElement>('.cover-photo-wrap');
+    this.insideStoryWipe = container.querySelector<HTMLElement>('.photo-wipe');
+    this.setInsideStoryInitialState();
+  }
+
+  private playInsideStory(): void {
+    if (this.insideStoryStarted) return;
+    this.insideStoryStarted = true;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(this.insideStoryCharacters.flat(), { autoAlpha: 1, y: 0 });
+      if (this.insideStoryPhoto) {
+        gsap.set(this.insideStoryPhoto, { autoAlpha: 1, y: 0, scale: 1 });
+      }
+      if (this.insideStoryWipe) {
+        gsap.set(this.insideStoryWipe, { autoAlpha: 0, xPercent: 110 });
+      }
+      this.insideStoryTimer = setTimeout(() => this.completeInsideStory(), 3_000);
+      return;
+    }
+
+    const timeline = gsap.timeline();
+    this.insideStoryTimeline = timeline;
+    this.addLineReveal(timeline, this.insideStoryCharacters[0] ?? [], 0, 0.65);
+    this.addLineReveal(timeline, this.insideStoryCharacters[1] ?? [], 1.1, 0.9);
+    this.addLineReveal(timeline, this.insideStoryCharacters[2] ?? [], 2.45, 0.9);
+
+    if (this.insideStoryPhoto) {
+      timeline.to(
+        this.insideStoryPhoto,
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.65, ease: 'power2.out' },
+        3.8,
+      );
+    }
+    if (this.insideStoryWipe) {
+      timeline.to(
+        this.insideStoryWipe,
+        { autoAlpha: 0, xPercent: 110, duration: 0.9, ease: 'power2.inOut' },
+        3.8,
+      );
+    }
+    timeline.call(() => this.completeInsideStory(), [], 6);
+  }
+
+  private addLineReveal(
+    timeline: gsap.core.Timeline,
+    characters: HTMLElement[],
+    startAt: number,
+    totalDuration: number,
+  ): void {
+    if (characters.length === 0) return;
+    const characterDuration = 0.1;
+    const stagger =
+      characters.length > 1 ? (totalDuration - characterDuration) / (characters.length - 1) : 0;
+
+    timeline.to(
+      characters,
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: characterDuration,
+        stagger,
+        ease: 'power2.out',
+      },
+      startAt,
+    );
+  }
+
+  private completeInsideStory(): void {
+    if (this.insideStoryCompleted) return;
+    this.insideStoryCompleted = true;
+    this.insideStoryTimer = null;
+    this.opened.emit();
+  }
+
+  private setInsideStoryInitialState(): void {
+    gsap.set(this.insideStoryCharacters.flat(), { autoAlpha: 0, y: 6 });
+    if (this.insideStoryPhoto) {
+      gsap.set(this.insideStoryPhoto, { autoAlpha: 0, y: 6, scale: 0.98 });
+    }
+    if (this.insideStoryWipe) {
+      gsap.set(this.insideStoryWipe, { autoAlpha: 1, xPercent: 0 });
+    }
+  }
+
+  private cancelInsideStory(): void {
+    this.insideStoryTimeline?.kill();
+    this.insideStoryTimeline = null;
+    if (this.insideStoryTimer !== null) {
+      clearTimeout(this.insideStoryTimer);
+      this.insideStoryTimer = null;
+    }
+  }
+
+  private resetInsideStory(): void {
+    this.cancelInsideStory();
+    this.insideStoryStarted = false;
+    this.insideStoryCompleted = false;
+    this.setInsideStoryInitialState();
   }
 
   private initParticles(): void {
@@ -392,6 +538,12 @@ export class Cover {
   }
 
   resetFlip(): void {
-    this.pageFlip?.flipPrev('top' as never);
+    this.cancelInsideStory();
+    if (this.pageFlip) {
+      this.pageFlip.flipPrev('top' as never);
+    } else {
+      this.resetInsideStory();
+      this.opening = false;
+    }
   }
 }
