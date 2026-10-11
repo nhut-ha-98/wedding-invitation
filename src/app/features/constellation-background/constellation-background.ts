@@ -16,6 +16,15 @@ import { BookStateService } from '../../core/services/book-state.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const MIN_SCROLL_DURATION = 0.01;
+const MAX_SCROLL_START = 1 - MIN_SCROLL_DURATION;
+const DEFAULT_TIMING: ConstellationConfig = {
+  drawStart: 0.18,
+  drawDuration: 0.8,
+  opacityStart: 0.176,
+  opacityDuration: 0.22,
+};
+
 interface ReferenceEdge {
   readonly element: SVGGElement;
   readonly paths: readonly SVGPathElement[];
@@ -304,25 +313,45 @@ export class ConstellationBackground {
   }
 
   private starlightProgress(pageProgress: number): number {
-    const { drawStart, drawDuration } = this.timing();
-    return this.smoothstep(
-      (pageProgress - this.scrollValue(drawStart)) / this.scrollDuration(drawDuration),
-    );
+    const { drawStart, drawDuration } = this.constrainedTiming();
+    return this.smoothstep((pageProgress - drawStart) / drawDuration);
   }
 
   private starlightOpacity(pageProgress: number): number {
-    const { opacityStart, opacityDuration } = this.timing();
-    return this.smoothstep(
-      (pageProgress - this.scrollValue(opacityStart)) / this.scrollDuration(opacityDuration),
-    );
+    const { opacityStart, opacityDuration } = this.constrainedTiming();
+    return this.smoothstep((pageProgress - opacityStart) / opacityDuration);
   }
 
-  private scrollValue(value: number): number {
-    return Math.max(0, Math.min(1, value));
+  /** Keep configurable timing finite, in range, and complete by the final scroll position. */
+  private constrainedTiming(): ConstellationConfig {
+    const timing = this.timing();
+    const drawStart = this.scrollStart(timing.drawStart, DEFAULT_TIMING.drawStart);
+    const opacityStart = this.scrollStart(timing.opacityStart, DEFAULT_TIMING.opacityStart);
+
+    return {
+      drawStart,
+      drawDuration: this.scrollDuration(
+        timing.drawDuration,
+        drawStart,
+        DEFAULT_TIMING.drawDuration,
+      ),
+      opacityStart,
+      opacityDuration: this.scrollDuration(
+        timing.opacityDuration,
+        opacityStart,
+        DEFAULT_TIMING.opacityDuration,
+      ),
+    };
   }
 
-  private scrollDuration(value: number): number {
-    return Math.max(0.01, Math.min(1, value));
+  private scrollStart(value: number, fallback: number): number {
+    const safeValue = Number.isFinite(value) ? value : fallback;
+    return Math.max(0, Math.min(MAX_SCROLL_START, safeValue));
+  }
+
+  private scrollDuration(value: number, start: number, fallback: number): number {
+    const safeValue = Number.isFinite(value) ? value : fallback;
+    return Math.max(MIN_SCROLL_DURATION, Math.min(1 - start, safeValue));
   }
 
   private smoothstep(value: number): number {

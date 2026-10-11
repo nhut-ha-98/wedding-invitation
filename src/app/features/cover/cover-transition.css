@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: center;
   gap: clamp(1rem, 4vh, 2rem);
-  padding: 8% 1.4rem 1.25rem;
+  padding: 8% 2rem 1.25rem;
   z-index: 2;
   height: 100%;
   width: 100%;

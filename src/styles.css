@@ -59,6 +59,12 @@
   --color-night-deep-blue: #081321;
   --color-night-ink: #07101c;
   --color-cover-shadow: #120904;
+  --color-cover-stage-ivory: #f7f0e5;
+  --color-cover-stage-beige: #e9ddca;
+  --color-cover-book-contact-shadow: rgba(44, 24, 16, 0.24);
+  --color-cover-book-contact-shadow-soft: rgba(44, 24, 16, 0.12);
+  --color-cover-music-contact-shadow: rgba(44, 24, 16, 0.16);
+  --color-cover-music-glow: rgba(216, 180, 135, 0.28);
   --color-cover-shadow-0-28: rgba(32, 18, 10, 0.28);
   --color-cover-parchment: #eedcc6;
   --color-cover-leather: #2a150b;

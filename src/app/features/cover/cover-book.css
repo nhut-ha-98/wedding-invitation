@@ -28,9 +28,8 @@
   background: var(--color-cover-leather);
   /* Base deep chocolate brown paper sheet */
   box-shadow:
-    0 4px 12px var(--color-cover-shadow-espresso-0-4),
-    0 18px 45px var(--color-cover-shadow-deep-0-75),
-    0 35px 85px var(--color-cover-shadow-dark-0-85),
+    0 7px 14px -7px var(--color-cover-book-contact-shadow),
+    0 13px 24px -15px var(--color-cover-book-contact-shadow-soft),
     inset 0 0 40px var(--color-cover-shadow-umber-0-7);
   animation: detailsReveal 700ms ease 250ms both;
 }

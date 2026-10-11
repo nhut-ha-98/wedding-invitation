@@ -36,11 +36,15 @@ export interface WeddingConfig {
   constellation: ConstellationConfig;
 }
 
-/** Scroll timing for the closing constellation, expressed from 0 to 1. */
+/** Scroll timing for the constellation, expressed from 0 to 1. */
 export interface ConstellationConfig {
+  /** First scroll position. Must be within 0..0.99. */
   drawStart: number;
+  /** Reveal length. Must be within 0.01..(1 - drawStart). */
   drawDuration: number;
+  /** First visible scroll position. Must be within 0..0.99. */
   opacityStart: number;
+  /** Fade-in length. Must be within 0.01..(1 - opacityStart). */
   opacityDuration: number;
 }
 
@@ -192,9 +196,10 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     'Điều đẹp nhất không phải là đã đi được bao xa, mà là sau từng ấy năm, quay lại vẫn thấy người bên cạnh là người mình muốn cùng đi tiếp.',
   closingQuoteAuthor: 'Chúng mình',
   constellation: {
-    drawStart: 0.54,
-    drawDuration: 0.46,
-    opacityStart: 0.56,
-    opacityDuration: 0.44,
+    // Dawn starts at 0.175. Begin starlight immediately after it arrives.
+    drawStart: 0.18,
+    drawDuration: 0.8,
+    opacityStart: 0.176,
+    opacityDuration: 0.22,
   },
 };
