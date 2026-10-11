@@ -13,7 +13,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { DEFAULT_WEDDING_CONFIG } from '../../core/models/wedding-config';
 import { BookStateService } from '../../core/services/book-state.service';
-import { StoryAutoScrollService } from '../../core/services/story-auto-scroll.service';
 import { ChapterOne } from '../../features/chapter-one/chapter-one';
 import { ConstellationBackground } from '../../features/constellation-background/constellation-background';
 import { Cover } from '../../features/cover/cover';
@@ -54,7 +53,6 @@ export class MainLayout {
   private readonly document = inject(DOCUMENT);
   private bookState = inject(BookStateService);
   private destroyRef = inject(DestroyRef);
-  private storyAutoScroll = inject(StoryAutoScrollService);
   private observer: IntersectionObserver | null = null;
   private currentHash = '';
   private coverScrollLocked = false;
@@ -125,7 +123,6 @@ export class MainLayout {
       this.unlockCoverScroll();
       this.startSectionObserver();
       this.startScrollProgressTracking();
-      this.storyAutoScroll.startTour();
       requestAnimationFrame(() => {
         ScrollTrigger.refresh();
       });
@@ -165,7 +162,6 @@ export class MainLayout {
   }
 
   onBreadcrumbNavigate(index: number): void {
-    this.storyAutoScroll.endTour();
     const section = this.breadcrumbSections[index];
     if (section) {
       document.getElementById(section.id)?.scrollIntoView({ behavior: 'smooth' });
@@ -185,7 +181,6 @@ export class MainLayout {
   onCloseBook(): void {
     this.bookState.setClosing();
     this.observer?.disconnect();
-    this.storyAutoScroll.endTour();
 
     this.lockCoverScroll();
 
