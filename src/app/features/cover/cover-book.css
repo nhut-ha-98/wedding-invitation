@@ -2,12 +2,8 @@
 .book-container {
   position: relative;
   z-index: 2;
+  transform-origin: 12% 50%;
   animation: bookEntrance 850ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.book-container.scale-down {
-  transition: transform 150ms ease;
-  transform: scale(0.98);
 }
 
 @keyframes bookEntrance {

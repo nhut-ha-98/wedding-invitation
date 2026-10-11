@@ -229,7 +229,9 @@ export class Cover {
       height: bookHeight,
       size: 'fixed',
       autoSize: false,
-      flippingTime: 800,
+      // Keep the physical page turn below one second, but leave enough time
+      // for the cover to feel like it is settling open.
+      flippingTime: 960,
       showCover: true,
       startZIndex: 10,
       drawShadow: true,
@@ -535,11 +537,17 @@ export class Cover {
     this.audioService.playClick();
     this.audioService.playFlip();
     const container = this.bookContainer().nativeElement;
-    container.classList.add('scale-down');
-    setTimeout(() => {
-      container.classList.remove('scale-down');
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       this.pageFlip?.flipNext('top' as never);
-    }, 150);
+      return;
+    }
+
+    gsap
+      .timeline()
+      .to(container, { scale: 0.992, duration: 0.14, ease: 'sine.out' })
+      .call(() => this.pageFlip?.flipNext('top' as never))
+      .to(container, { scale: 1, duration: 0.32, ease: 'sine.inOut' }, '<');
   }
 
   resetFlip(): void {
