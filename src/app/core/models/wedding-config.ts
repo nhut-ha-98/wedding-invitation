@@ -30,6 +30,10 @@ export interface WeddingConfig {
   timeline: TimelineEvent[];
   schedule: ScheduleEvent[];
   album: AlbumPhoto[];
+  /** Fixed photo slots before stacking cycles. Positive integer; defaults to 3. */
+  albumStackThreshold?: number;
+  /** Polaroid drop duration in seconds. Defaults to 0.7; capped at 1. */
+  albumTransitionDuration?: number;
   proposalStory: string;
   closingQuote: string;
   closingQuoteAuthor: string;
@@ -173,21 +177,53 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     { time: '18:00', label: 'ĐÓN KHÁCH' },
     { time: '19:00', label: 'KHAI TIỆC' },
   ],
+  albumStackThreshold: 2,
+  albumTransitionDuration: 0.7,
   album: [
     {
       imageUrl: 'album/album-2-v002.webp',
-      alt: 'Khoảnh khắc cầu hôn',
-      caption: '#We',
+      alt: '',
+      caption: '#11.2026',
+    },
+    {
+      imageUrl: 'album/album-5.webp',
+      alt: '#Sapa-9.2024',
+      caption: '#Sapa-9.2024',
+    },
+    {
+      imageUrl: 'album/album-6.webp',
+      alt: '#LongBien-9.2024',
+      caption: '#LongBien-9.2024',
+    },
+    {
+      imageUrl: 'album/album-7.webp',
+      alt: '#SocSon-9.2024',
+      caption: '#SocSon-9.2024',
+    },
+    {
+      imageUrl: 'album/album-8.webp',
+      alt: '#Sapa-9.2024',
+      caption: '#Sapa-9.2024',
+    },
+    {
+      imageUrl: 'album/album-9.webp',
+      alt: '#HaNoi-9.2024',
+      caption: '#HaNoi-9.2024',
+    },
+    {
+      imageUrl: 'album/album-10.webp',
+      alt: '#SocSon-9.2024',
+      caption: '#SocSon-9.2024',
     },
     {
       imageUrl: 'album/album-3-v002.webp',
-      alt: 'Niềm vui sau lời cầu hôn',
-      caption: '#Are',
+      alt: '',
+      caption: '#11.2026',
     },
     {
       imageUrl: 'album/album-4-v002.webp',
-      alt: 'Chiếc nhẫn',
-      caption: '#Ha',
+      alt: '',
+      caption: '#11.2026',
     },
   ],
   proposalStory:

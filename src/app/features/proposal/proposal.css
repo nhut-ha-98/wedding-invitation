@@ -18,28 +18,31 @@
   gap: 1.5rem;
 }
 
-.polaroid {
-  position: relative;
-  background: linear-gradient(160deg, var(--color-paper-highlight) 0%, var(--color-parchment) 55%, var(--color-paper-warm) 100%);
-  padding: 14px 14px 20px;
-  max-width: 300px;
+.polaroid-slot {
+  display: grid;
   flex: 1 1 200px;
+  max-width: 300px;
+  min-width: 0;
+  isolation: isolate;
+}
+
+.polaroid {
+  grid-area: 1 / 1;
+  align-self: start;
+  min-width: 0;
+  position: relative;
+  background: linear-gradient(
+    160deg,
+    var(--color-paper-highlight) 0%,
+    var(--color-parchment) 55%,
+    var(--color-paper-warm) 100%
+  );
+  padding: 14px 14px 20px;
   border: 1px solid var(--color-paper-border-0-12);
   box-shadow:
     0 1px 2px var(--color-ink-shadow-10),
     0 8px 20px var(--color-ink-shadow-16),
     0 18px 34px var(--color-ink-shadow-8);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.polaroid:hover {
-  transform: rotate(0deg) translateY(-6px) scale(1.03) !important;
-  box-shadow:
-    0 2px 4px var(--color-ink-shadow-12),
-    0 14px 28px var(--color-ink-shadow-20),
-    0 26px 46px var(--color-ink-shadow-10);
 }
 
 .polaroid-photo {
@@ -72,13 +75,12 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at center, var(--color-ink-transparent) 55%, var(--color-ink-shadow-28) 100%),
+    radial-gradient(
+      ellipse at center,
+      var(--color-ink-transparent) 55%,
+      var(--color-ink-shadow-28) 100%
+    ),
     linear-gradient(180deg, var(--color-paper-tint-0-06) 0%, var(--color-rose-tint-0-1) 100%);
-}
-
-.polaroid:hover .polaroid-photo img {
-  transform: scale(1.05);
-  filter: sepia(0.06) saturate(1) contrast(1.03) brightness(1.03);
 }
 
 .polaroid-caption {
@@ -99,4 +101,50 @@
   line-height: 1.8;
   margin: 0;
   text-align: left;
+}
+
+/* A single, photo-sized exposure glow; never flashes the whole page. */
+.snapshot-flash,
+.snapshot-shutter {
+  position: absolute;
+  inset: 0;
+  background: #fff9ed;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.snapshot-shutter {
+  background: var(--color-dark-brown);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .proposal-section:not(.reduced-motion) .polaroid {
+    visibility: hidden;
+  }
+}
+
+.reduced-motion .polaroid-slot {
+  display: contents;
+}
+
+.reduced-motion .polaroid {
+  flex: 1 1 200px;
+  max-width: 300px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .polaroid-slot {
+    display: contents;
+  }
+
+  .polaroid {
+    flex: 1 1 200px;
+    max-width: 300px;
+  }
+
+  .polaroid-photo img {
+    transition: none;
+  }
 }

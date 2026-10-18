@@ -1,26 +1,37 @@
-<app-animated-section>
-  <section class="proposal-section">
-    <app-section-header title="Album" subtitle="Những khoảnh khắc được lưu giữ" />
-    <div class="polaroid-grid">
-      @for (polaroid of polaroids(); track polaroid.alt; let i = $index) {
-        <div
-          class="polaroid paper-grain"
-          [style.--rotate]="polaroid.rotate + 'deg'"
-          [style.--top]="polaroid.top + 'px'"
-          [style.--left]="polaroid.left + 'px'"
-          [attr.data-rotate]="polaroid.rotate"
-        >
-          <div class="polaroid-photo">
-            <img [src]="polaroid.imageUrl" [alt]="polaroid.alt" loading="lazy" decoding="async" />
+<section class="proposal-section" [class.reduced-motion]="reducedMotion()">
+  <app-section-header title="Album" subtitle="Những khoảnh khắc được lưu giữ" />
+  <div class="polaroid-grid">
+    @for (slot of slots(); track $index) {
+      <div class="polaroid-slot">
+        @for (polaroid of slot; track polaroid.index) {
+          <div
+            appInstantPhoto
+            class="polaroid paper-grain"
+            [style.z-index]="polaroid.index + 1"
+            [style.order]="polaroid.index"
+            [attr.data-index]="polaroid.index"
+            [attr.data-rotate]="polaroid.rotate"
+            [attr.data-offset]="polaroid.offset"
+          >
+            <div class="polaroid-photo">
+              <img
+                [attr.data-src]="polaroid.imageUrl"
+                [alt]="polaroid.alt"
+                [loading]="reducedMotion() ? 'lazy' : 'eager'"
+                decoding="async"
+              />
+              <span class="snapshot-flash" aria-hidden="true"></span>
+              <span class="snapshot-shutter" aria-hidden="true"></span>
+            </div>
+            @if (polaroid.caption) {
+              <p class="polaroid-caption">{{ polaroid.caption }}</p>
+            }
           </div>
-          @if (polaroid.caption) {
-            <p class="polaroid-caption">{{ polaroid.caption }}</p>
-          }
-        </div>
-      }
-    </div>
-    <!-- <div class="proposal-story">
-      <p appHandwrite>{{ config().proposalStory }}</p>
-    </div> -->
-  </section>
-</app-animated-section>
+        }
+      </div>
+    }
+  </div>
+  <!-- <div class="proposal-story">
+    <p appHandwrite>{{ config().proposalStory }}</p>
+  </div> -->
+</section>

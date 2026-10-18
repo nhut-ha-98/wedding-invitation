@@ -13,6 +13,7 @@ import { AnimatedSection } from '../../shared/components/animated-section';
 import { PapercutArt, PapercutVariant } from '../../shared/components/papercut-art';
 import { SectionHeader } from '../../shared/components/section-header';
 import { WeddingConfig } from '../../core/models/wedding-config';
+import { appendInstantPhotoCapture } from '../../shared/directives/instant-photo.directive';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -101,9 +102,6 @@ export class Timeline {
           }
 
           if (polaroid) {
-            const photo = polaroid.querySelector('img');
-            const flash = polaroid.querySelector('.snapshot-flash');
-            const shutter = polaroid.querySelector('.snapshot-shutter');
             itemTl.fromTo(
               polaroid,
               { opacity: 0, y: 15, scale: 0.94, rotation: i % 2 === 0 ? -8 : 8 },
@@ -118,19 +116,7 @@ export class Timeline {
               '-=0.4',
             );
 
-            // One exposure pulse, then the image develops as the print settles.
-            if (photo && flash && shutter) {
-              // Hold a blank print after the shutter, then develop it gradually.
-              gsap.set(flash, { opacity: 1 });
-              itemTl
-                .fromTo(
-                  shutter,
-                  { scaleY: 1 },
-                  { scaleY: 0, duration: 0.12, ease: 'power3.in' },
-                  0.46,
-                )
-                .to(flash, { opacity: 0, duration: 0.95, ease: 'power1.inOut' }, 0.76);
-            }
+            appendInstantPhotoCapture(itemTl, polaroid);
           }
 
           if (card) {
