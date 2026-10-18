@@ -1,25 +1,24 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  computed,
-  input,
-  ElementRef,
   afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
   DestroyRef,
+  ElementRef,
   inject,
+  input,
 } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { WeddingConfig } from '../../core/models/wedding-config';
 import { AnimatedSection } from '../../shared/components/animated-section';
 import { SectionHeader } from '../../shared/components/section-header';
-import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
-import { WeddingConfig } from '../../core/models/wedding-config';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-proposal',
-  imports: [AnimatedSection, SectionHeader, HandwriteDirective],
+  imports: [AnimatedSection, SectionHeader],
   templateUrl: './proposal.html',
   styleUrl: './proposal.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

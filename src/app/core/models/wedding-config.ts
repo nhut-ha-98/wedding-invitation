@@ -107,15 +107,15 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   },
   heAndShe: {
     he: {
-      name: 'Nhut Ha',
-      portraitUrl: 'he.webp',
+      name: 'Nhựt Hạ',
+      portraitUrl: 'he-002.webp',
       alt: 'Chân dung chú rể',
       intro:
         'Ngày ấy, anh chẳng phải hình mẫu cô thích, thậm chí còn từng bị cô ghét vì học giỏi và lạc quan đến đáng ghét. Nhưng chính sự lạc quan và tử tế của anh đã khiến cô vui vẻ hơn, nhẹ nhàng hơn, và nhìn mọi thứ bằng một ánh mắt khác.',
     },
     she: {
-      name: 'Hoa Ha',
-      portraitUrl: 'she.webp',
+      name: 'Hoa Hạ',
+      portraitUrl: 'she-002.webp',
       alt: 'Chân dung cô dâu',
       intro:
         'Cô gái từng chẳng mấy thiện cảm với anh, rồi trở thành người cùng anh đi qua những năm tháng đẹp nhất của tuổi trẻ. Từ những ngày còn là bạn học đến hôm nay, em vẫn là người anh muốn cùng viết tiếp mọi chặng đường.',
@@ -135,7 +135,7 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       year: '2016',
       title: 'Cái nắm tay đầu tiên',
       description:
-        'Một ngày tháng 6 trước kỳ thi đại học, cái nắm tay bất ngờ mở đầu cho mối tình đầu, bộ phim Me Before You và những chuyến đi đầu tiên cùng nhau.',
+        'Tháng Sáu, trước kỳ thi đại học, một cái nắm tay mở đầu câu chuyện. Bộ phim Me Before You, chuyến đi đầu tiên & những ngày tháng thanh xuân đẹp nhất của hai đứa bắt đầu...',
       icon: '🤝',
       image: 'album/timeline-2.webp',
       imageStyle: 'portrait',
@@ -153,19 +153,19 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
       year: '2025',
       title: 'Một lời hứa',
       description:
-        'Trong buổi tối ở Monad Stopover, giữa những lưng đèo Bảo Lộc, một chiếc nhẫn và lời cầu hôn mở ra hành trình dài hơn của hai đứa.',
+        'Một tối tháng 11 ở Monad Stopover, trong ngôi nhà gỗ bên lưng đồi, một chiếc nhẫn và lời cầu hôn mở ra hành trình dài hơn của hai đứa.',
       icon: '💍',
-      image: 'album/timeline-4.webp',
+      image: 'album/timeline-4-v002.webp',
       imageStyle: 'portrait',
     },
     {
       year: '2026',
       title: 'Đám Cưới Của Chúng Mình',
       description:
-        'Sau mười năm kể từ cái nắm tay đầu tiên, chúng mình cùng những người thân yêu mừng chương mới và hứa sẽ tiếp tục đi bên nhau.',
+        'Từ cái nắm tay đầu tiên đến mười năm có nhau, hôm nay, giữa những người thân yêu, chúng mình cùng bắt đầu một chương mới, gửi vào đó là lời hẹn ước dài lâu và những điều tốt đẹp nhất.',
       icon: '🥂',
-      image: 'album/timeline-5.webp',
-      imageStyle: 'portrait',
+      image: 'album/timeline-5-v002.webp',
+      imageStyle: 'landscape',
     },
   ],
   schedule: [
@@ -175,17 +175,17 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
   ],
   album: [
     {
-      imageUrl: 'album/album-2.webp',
+      imageUrl: 'album/album-2-v002.webp',
       alt: 'Khoảnh khắc cầu hôn',
       caption: '#We',
     },
     {
-      imageUrl: 'album/album-3.webp',
+      imageUrl: 'album/album-3-v002.webp',
       alt: 'Niềm vui sau lời cầu hôn',
       caption: '#Are',
     },
     {
-      imageUrl: 'album/album-4.webp',
+      imageUrl: 'album/album-4-v002.webp',
       alt: 'Chiếc nhẫn',
       caption: '#Ha',
     },
