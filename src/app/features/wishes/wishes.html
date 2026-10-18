@@ -1,0 +1,64 @@
+﻿@if (wishes().length) {
+  <section
+    class="wishes"
+    aria-label="Lời chúc yêu thương"
+    aria-roledescription="trình chiếu"
+    [attr.aria-hidden]="!revealed()"
+    [inert]="!revealed()"
+    (mouseenter)="hovered.set(true)"
+    (mouseleave)="hovered.set(false)"
+    (focusin)="focused.set(true)"
+    (focusout)="onFocusOut($event)"
+    (keydown.arrowleft)="move(-1); $event.preventDefault()"
+    (keydown.arrowright)="move(1); $event.preventDefault()"
+  >
+    <!-- <span class="wish-ornament" aria-hidden="true">✧</span> -->
+    <div class="wishes-header">
+      <h3 class="wishes-title">Lời chúc</h3>
+      @if (wishes().length > 1) {
+        <div class="wish-navigation" role="group" aria-label="Chuyển lời chúc">
+          <button type="button" aria-label="Lời chúc trước" (click)="move(-1)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg>
+          </button>
+          <button type="button" aria-label="Lời chúc tiếp theo" (click)="move(1)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg>
+          </button>
+        </div>
+      }
+    </div>
+    <div class="wishes-stage" [attr.aria-live]="paused() || reducedMotion() ? 'polite' : 'off'">
+      @for (wish of wishes(); track wish.id) {
+        <div
+          class="wish-card"
+          role="group"
+          aria-roledescription="lời chúc"
+          [attr.aria-label]="$index + 1 + ' / ' + wishes().length"
+          [attr.aria-hidden]="!revealed() || activeIndex() !== $index"
+          [inert]="!revealed() || activeIndex() !== $index"
+          [attr.tabindex]="revealed() && activeIndex() === $index ? 0 : -1"
+        >
+          <blockquote>
+            <p>{{ wish.notes }}</p>
+          </blockquote>
+          <div class="wish-footer">
+            <span class="wish-progress" aria-hidden="true"
+              ><span class="wish-progress-fill"></span
+            ></span>
+            <p class="wish-author">{{ maskName(wish.name) }}</p>
+          </div>
+        </div>
+      }
+    </div>
+    <!-- @if (wishes().length > 1 && !reducedMotion()) {
+      <button
+        type="button"
+        class="pause-button"
+        [attr.aria-label]="paused() ? 'Tiếp tục lời chúc' : 'Tạm dừng lời chúc'"
+        [attr.aria-pressed]="paused()"
+        (click)="paused.set(!paused())"
+      >
+        {{ paused() ? '▷' : 'Ⅱ' }}
+      </button>
+    } -->
+  </section>
+}

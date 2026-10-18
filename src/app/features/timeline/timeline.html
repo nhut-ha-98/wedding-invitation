@@ -18,6 +18,8 @@
                 [class.rotate-right]="idx % 2 !== 0"
               >
                 <img [src]="event.image" [alt]="event.title" loading="lazy" />
+                <span class="snapshot-flash" aria-hidden="true"></span>
+                <span class="snapshot-shutter" aria-hidden="true"></span>
               </div>
             } @else {
               <div

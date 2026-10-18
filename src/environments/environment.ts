@@ -1,5 +1,7 @@
 export const environment = {
   production: false,
+  // Set true to preview the wedding-day message without waiting for the countdown.
+  countdownPreview: false,
   firebase: {
     apiKey: 'AIzaSyATDZ0zEKbwIFw6pEmjrVMOTjmGJWn6RzU',
     projectId: 'wedding-invitation-483a3',

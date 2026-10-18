@@ -1,0 +1,18 @@
+<section aria-labelledby="countdown-title">
+  <h2 id="countdown-title" class="countdown-title">Đếm ngược</h2>
+
+  <div class="countdown-units" role="timer" aria-live="off" [attr.aria-label]="timerLabel()">
+    @for (unit of units(); track unit.label; let last = $last) {
+      <span class="countdown-value" aria-hidden="true">{{ unit.value }}</span>
+      @if (!last) {
+        <span class="countdown-value" aria-hidden="true">:</span>
+      }
+    }
+  </div>
+
+  <div role="status" aria-live="polite">
+    @if (remainingSeconds() === 0) {
+      <p class="countdown-message">Ngày lành đã đến, hẹn bạn lúc 18g tối nay</p>
+    }
+  </div>
+</section>

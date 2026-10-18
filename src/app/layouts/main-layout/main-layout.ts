@@ -16,6 +16,7 @@ import { BookStateService } from '../../core/services/book-state.service';
 import { ChapterOne } from '../../features/chapter-one/chapter-one';
 import { ConstellationBackground } from '../../features/constellation-background/constellation-background';
 import { Cover } from '../../features/cover/cover';
+import { Countdown } from '../../features/countdown/countdown';
 import { Ending } from '../../features/ending/ending';
 import { HeAndShe } from '../../features/he-and-she/he-and-she';
 import { Introduction } from '../../features/introduction/introduction';
@@ -38,6 +39,7 @@ gsap.registerPlugin(ScrollTrigger);
     ChapterOne,
     Timeline,
     Proposal,
+    Countdown,
     WeddingInfo,
     Rsvp,
     Ending,
@@ -65,6 +67,7 @@ export class MainLayout {
     'proposal',
     'wedding-info',
     'rsvp',
+    'countdown',
     'ending',
   ];
 
@@ -82,7 +85,8 @@ export class MainLayout {
     { id: 'proposal', number: 5, label: 'Proposal' },
     { id: 'wedding-info', number: 6, label: 'Wedding Info' },
     { id: 'rsvp', number: 7, label: 'RSVP' },
-    { id: 'ending', number: 8, label: 'Ending' },
+    { id: 'countdown', number: 8, label: 'Countdown' },
+    { id: 'ending', number: 9, label: 'Ending' },
   ];
 
   private scrollContainer = viewChild.required<ElementRef<HTMLElement>>('scrollContent');

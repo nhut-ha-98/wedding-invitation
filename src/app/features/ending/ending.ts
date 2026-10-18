@@ -11,11 +11,13 @@ import {
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { WeddingConfig } from '../../core/models/wedding-config';
+import { Wishes } from '../wishes/wishes';
 
 gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-ending',
+  imports: [Wishes],
   templateUrl: './ending.html',
   styleUrl: './ending.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

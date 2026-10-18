@@ -1,0 +1,162 @@
+﻿:host {
+  display: block;
+  width: 100%;
+}
+
+.wishes {
+  visibility: hidden;
+  opacity: 0;
+  margin: 0 auto clamp(2.5rem, 7vh, 4.5rem);
+  max-width: 30rem;
+  text-align: center;
+  color: var(--color-ending-ivory);
+  padding-block: 1.25rem 0.75rem;
+}
+
+.wishes-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.wishes-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  margin: 0;
+  color: var(--color-ending-cream);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.wishes-title::before,
+.wishes-title::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid rgb(250 236 197 / 30%);
+}
+
+.wish-ornament {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--color-ending-cream);
+  font-size: 1.6rem;
+}
+
+.wishes-stage {
+  display: grid;
+  align-items: center;
+  min-height: 10rem;
+}
+
+.wish-card {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  padding: 1rem 1.25rem;
+  background: rgb(250 236 197 / 5%);
+  border-radius: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ending-gold) transparent;
+  overflow-wrap: anywhere;
+}
+
+blockquote {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(1.35rem, 4.5vw, 1.8rem);
+  font-style: italic;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  text-shadow: 0 2px 12px var(--color-night-ink);
+  max-height: min(35dvh, 18rem);
+  overflow-y: auto;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+.wish-author {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--color-ending-cream);
+}
+
+.wish-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.wish-progress {
+  flex: 1;
+  min-width: 1rem;
+  height: 1px;
+  background: rgb(250 236 197 / 22%);
+  overflow: hidden;
+}
+
+.wish-progress-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-ending-cream);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.wish-author {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.wish-navigation {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.wish-navigation svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+button {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--color-ending-cream);
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
+button:hover {
+  color: var(--color-ending-ivory);
+}
+
+button:focus-visible,
+.wish-card:focus-visible {
+  outline: 2px solid var(--color-ending-cream);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.pause-button {
+  margin: 0.75rem auto 0;
+  font-size: 1rem;
+}
