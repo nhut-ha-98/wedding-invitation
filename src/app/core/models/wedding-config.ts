@@ -34,6 +34,8 @@ export interface WeddingConfig {
   albumStackThreshold?: number;
   /** Polaroid drop duration in seconds. Defaults to 0.7; capped at 1. */
   albumTransitionDuration?: number;
+  /** Seconds to wait after each capture. Clicks restart this wait. Defaults to 3. */
+  albumAutoStackDelay?: number;
   proposalStory: string;
   closingQuote: string;
   closingQuoteAuthor: string;
@@ -177,8 +179,9 @@ export const DEFAULT_WEDDING_CONFIG: WeddingConfig = {
     { time: '18:00', label: 'ĐÓN KHÁCH' },
     { time: '19:00', label: 'KHAI TIỆC' },
   ],
-  albumStackThreshold: 2,
+  albumStackThreshold: 1,
   albumTransitionDuration: 0.7,
+  albumAutoStackDelay: 3,
   album: [
     {
       imageUrl: 'album/album-2-v002.webp',

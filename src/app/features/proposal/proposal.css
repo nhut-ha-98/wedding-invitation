@@ -1,5 +1,8 @@
 :host {
   display: block;
+  min-width: 0;
+  /* Keep rotated stacks and pop animations from widening the page. */
+  overflow-x: clip;
 }
 
 .proposal-section {
@@ -19,7 +22,10 @@
 }
 
 .polaroid-slot {
+  position: relative;
   display: grid;
+  /* Reserve room for paper edges and small rotations inside each fixed slot. */
+  padding: 1rem 1.25rem;
   flex: 1 1 200px;
   max-width: 300px;
   min-width: 0;
@@ -147,4 +153,13 @@
   .polaroid-photo img {
     transition: none;
   }
+}
+
+.polaroid-slot[role='button'] {
+  cursor: pointer;
+}
+
+.polaroid-slot:focus-visible {
+  outline: 2px solid var(--color-dark-brown);
+  outline-offset: 12px;
 }

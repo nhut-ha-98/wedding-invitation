@@ -2,11 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { gsap } from 'gsap';
 import { DEFAULT_WEDDING_CONFIG } from '../../core/models/wedding-config';
 import { Proposal } from './proposal';
+import { ProposalAlbumPlayer } from './proposal-album-player';
 
+/** Exercises real GSAP sequences with explicit image and viewport events. */
 describe('Proposal album stacks', () => {
   let fixture: ComponentFixture<Proposal>;
-  let reducedMotion: boolean;
   let setVisible: (visible: boolean) => void;
+  let reducedMotion: boolean;
   const disconnect = vi.fn();
 
   beforeEach(() => {
@@ -43,14 +45,16 @@ describe('Proposal album stacks', () => {
 
   async function create(
     count: number,
-    albumStackThreshold = 3,
-    albumTransitionDuration = 0.7,
+    threshold = 3,
+    duration = 0.7,
+    delay = 3,
   ): Promise<HTMLElement> {
     fixture = TestBed.createComponent(Proposal);
     fixture.componentRef.setInput('config', {
       ...DEFAULT_WEDDING_CONFIG,
-      albumStackThreshold,
-      albumTransitionDuration,
+      albumStackThreshold: threshold,
+      albumTransitionDuration: duration,
+      albumAutoStackDelay: delay,
       album: Array.from({ length: count }, (_, index) => ({
         imageUrl: `/album/${index}.webp`,
         alt: 'Shared alt text',
@@ -60,84 +64,368 @@ describe('Proposal album stacks', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
-    playback()?.pause(0);
     return fixture.nativeElement as HTMLElement;
   }
 
-  function playback(): gsap.core.Timeline | null {
-    return (fixture.componentInstance as unknown as { playback: gsap.core.Timeline | null })
-      .playback;
+  function runtime(): {
+    animation: gsap.core.Timeline | null;
+    autoTimer: gsap.core.Tween | null;
+    pendingPrint: { index: number } | null;
+  } {
+    const player = (fixture.componentInstance as unknown as { player: ProposalAlbumPlayer }).player;
+    return player as unknown as ReturnType<typeof runtime>;
   }
 
-  function tweens(): gsap.core.Tween[] {
-    return (playback()?.getChildren(false, true, false) ?? []) as gsap.core.Tween[];
+  function imageAt(root: HTMLElement, index: number): HTMLImageElement {
+    return root.querySelector<HTMLImageElement>(`[data-index="${index}"] img`)!;
   }
 
-  function targetsClass(tween: gsap.core.Tween, className: string): boolean {
-    const target: unknown = tween.targets()[0];
-    return target instanceof HTMLElement && target.classList.contains(className);
+  function load(root: HTMLElement, index: number): gsap.core.Timeline {
+    imageAt(root, index).dispatchEvent(new Event('load'));
+    const animation = runtime().animation;
+    if (!animation) throw new Error(`No animation for photo ${index}`);
+    return animation.pause(0);
   }
 
-  it('cycles through three fixed slots without changing playback order', async () => {
-    const root = await create(10);
-    const slots = Array.from(root.querySelectorAll('.polaroid-slot'));
-    expect(
-      slots.map((slot) =>
-        Array.from(slot.querySelectorAll<HTMLElement>('.polaroid')).map((photo) =>
-          Number(photo.dataset['index']),
-        ),
-      ),
-    ).toEqual([
-      [0, 3, 6, 9],
-      [1, 4, 7],
-      [2, 5, 8],
-    ]);
-    const landings = tweens().filter((tween) => targetsClass(tween, 'polaroid'));
-    expect(
-      landings.map((tween) => Number((tween.targets()[0] as HTMLElement).dataset['index'])),
-    ).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    expect(root.querySelector('button')).toBeNull();
-    expect(playback()?.paused()).toBe(true);
-    expect(landings.every((tween) => Number(tween.vars.y) <= 0)).toBe(true);
-    expect(
-      new Set(fixture.componentInstance.polaroids().map((photo) => photo.rotate)).size,
-    ).toBeGreaterThan(3);
-    expect(fixture.componentInstance.polaroids()[3].offset).toBeGreaterThan(
-      fixture.componentInstance.polaroids()[0].offset,
-    );
-    playback()?.progress(1, false);
-    expect(
-      Array.from(root.querySelectorAll<HTMLElement>('.polaroid')).every(
-        (photo) => photo.style.visibility === 'inherit' && Number(photo.style.opacity) === 1,
-      ),
-    ).toBe(true);
-  });
+  function finish(): void {
+    runtime().animation?.progress(1, false);
+    runtime().autoTimer?.pause();
+    fixture.detectChanges();
+  }
 
-  it.each([1, 2, 4])(
-    'cycles through %i configured slots in original playback order',
+  function nextAuto(): void {
+    runtime().autoTimer?.progress(1, false);
+  }
+
+  it.each([1, 2, 3, 4])(
+    'keeps the photo pool fixed across clicks for %i slots',
     async (threshold) => {
-      const root = await create(8, threshold);
-      const slots = Array.from(root.querySelectorAll('.polaroid-slot'));
-      expect(slots).toHaveLength(threshold);
-      slots.forEach((slot, slotIndex) => {
-        const indexes = Array.from(slot.querySelectorAll<HTMLElement>('.polaroid')).map((photo) =>
-          Number(photo.dataset['index']),
-        );
-        expect(indexes).toEqual(
-          Array.from({ length: 8 }, (_, index) => index).filter(
-            (index) => index % threshold === slotIndex,
+      const root = await create(10, threshold);
+      const pools = (): string[][] =>
+        Array.from(root.querySelectorAll('.polaroid-slot')).map((slot) =>
+          Array.from(slot.querySelectorAll<HTMLElement>('.polaroid')).map(
+            (photo) => photo.dataset['index']!,
           ),
         );
-      });
-      const landings = tweens().filter((tween) => targetsClass(tween, 'polaroid'));
+      const expected = Array.from({ length: threshold }, (_, slot) =>
+        Array.from({ length: 10 }, (_, index) => index)
+          .filter((index) => index % threshold === slot)
+          .map(String),
+      );
+      expect(pools()).toEqual(expected);
+      setVisible(true);
+      load(root, 0);
+      finish();
+      fixture.componentInstance.activateSlot(0);
+      load(root, threshold);
+      finish();
+      expect(pools()).toEqual(expected);
+      expect(fixture.componentInstance.shownCounts()[0]).toBe(2);
+      expect(root.querySelectorAll('.polaroid')).toHaveLength(10);
       expect(
-        landings.map((tween) => Number((tween.targets()[0] as HTMLElement).dataset['index'])),
-      ).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
-      expect(
-        fixture.componentInstance.polaroids().every((photo) => Number.isFinite(photo.rotate)),
-      ).toBe(true);
-      expect(fixture.componentInstance.polaroids()[threshold].offset).toBe(5);
-      expect(playback()?.duration()).toBeCloseTo(8 * 2.41, 5);
+        Array.from(root.querySelectorAll<HTMLElement>('.polaroid-slot')).map((slot) =>
+          Number(slot.dataset['photoCount']),
+        ),
+      ).toEqual(expected.map((pool) => pool.length));
+    },
+  );
+
+  it('keeps resting offsets bounded even with a large photo pool', async () => {
+    await create(120, 1);
+    const offsets = fixture.componentInstance.polaroids().map((photo) => photo.offset);
+    expect(offsets[0]).toBe(0);
+    expect(offsets[offsets.length - 1]).toBe(8);
+    expect(offsets.every((offset) => offset >= 0 && offset <= 8)).toBe(true);
+    expect(new Set(offsets).size).toBe(120);
+  });
+
+  it('refits active and settled paper on resize without restarting capture', async () => {
+    let resize = (): void => {};
+    const disconnectResize = vi.fn();
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          resize = (): void => callback([], this as unknown as ResizeObserver);
+        }
+        observe(): void {}
+        disconnect = disconnectResize;
+      },
+    );
+    const root = await create(1);
+    const paper = root.querySelector<HTMLElement>('.polaroid')!;
+    const slot = paper.parentElement!;
+    let slotWidth = 300;
+    Object.defineProperties(paper, {
+      offsetWidth: { get: () => slotWidth - 40 },
+      offsetHeight: { get: () => 360 },
+      offsetLeft: { get: () => 20 },
+    });
+    Object.defineProperty(slot, 'clientWidth', { get: () => slotWidth });
+    const expectInsideSlot = (): void => {
+      const radians = (Math.abs(Number(gsap.getProperty(paper, 'rotation'))) * Math.PI) / 180;
+      const halfWidth = ((slotWidth - 40) * Math.cos(radians) + 360 * Math.sin(radians)) / 2;
+      const center = 20 + (slotWidth - 40) / 2 + Number(gsap.getProperty(paper, 'x'));
+      expect(center - halfWidth).toBeGreaterThanOrEqual(-0.001);
+      expect(center + halfWidth).toBeLessThanOrEqual(slotWidth + 0.001);
+    };
+    setVisible(true);
+    const timeline = load(root, 0);
+    for (const time of [0.1, 0.3, 0.5, 0.7]) {
+      timeline.time(time, false);
+      expectInsideSlot();
+    }
+    timeline.time(0.3, false);
+    slotWidth = 180;
+    resize();
+    for (const time of [0.3, 0.4, 0.5, 0.7]) {
+      timeline.time(time, false);
+      expectInsideSlot();
+    }
+    timeline.time(1.5, false);
+    const flash = root.querySelector<HTMLElement>('.snapshot-flash')!;
+    const development = flash.style.opacity;
+    slotWidth = 160;
+    resize();
+    expectInsideSlot();
+    expect(timeline.time()).toBe(1.5);
+    expect(flash.style.opacity).toBe(development);
+    finish();
+    slotWidth = 120;
+    resize();
+    expectInsideSlot();
+    fixture.destroy();
+    expect(disconnectResize).toHaveBeenCalledOnce();
+  });
+
+  it('autoplays in original album order despite grouped DOM and retains final stacks', async () => {
+    const root = await create(7);
+    setVisible(true);
+    for (let index = 0; index < 7; index++) {
+      expect(runtime().pendingPrint?.index).toBe(index);
+      expect(imageAt(root, index).getAttribute('src')).toBe(`/album/${index}.webp`);
+      load(root, index);
+      finish();
+      if (index < 6) nextAuto();
+    }
+    expect(runtime().autoTimer).toBeNull();
+    expect(fixture.componentInstance.shownCounts()).toEqual([3, 2, 2]);
+    const styles = Array.from(root.querySelectorAll<HTMLElement>('.polaroid')).map(
+      (photo) => photo.style.cssText,
+    );
+    setVisible(false);
+    setVisible(true);
+    expect(runtime().animation).toBeNull();
+    expect(runtime().pendingPrint).toBeNull();
+    expect(
+      Array.from(root.querySelectorAll<HTMLElement>('.polaroid')).map(
+        (photo) => photo.style.cssText,
+      ),
+    ).toEqual(styles);
+  });
+
+  it('clicks add only the clicked slot’s next photo and reset the autoplay wait', async () => {
+    const root = await create(6, 2, 0.7, 5);
+    setVisible(true);
+    load(root, 0);
+    finish();
+    const previousTimer = runtime().autoTimer!;
+    previousTimer.delay(1);
+    const slots = root.querySelectorAll<HTMLElement>('.polaroid-slot');
+    slots[0].click();
+    expect(previousTimer.parent).toBeNull();
+    expect(runtime().autoTimer).toBeNull();
+    expect(imageAt(root, 2).hasAttribute('src')).toBe(true);
+    expect(imageAt(root, 1).hasAttribute('src')).toBe(false);
+    load(root, 2);
+    finish();
+    const newTimer = runtime().autoTimer!;
+    expect(newTimer).not.toBe(previousTimer);
+    expect(newTimer.duration()).toBe(0);
+    expect(newTimer.delay()).toBe(5);
+    expect(newTimer.progress()).toBe(0);
+    nextAuto();
+    expect(runtime().pendingPrint?.index).toBe(1);
+    for (const index of [1, 3, 4, 5]) {
+      expect(runtime().pendingPrint?.index).toBe(index);
+      load(root, index);
+      finish();
+      if (index < 5) nextAuto();
+    }
+    expect(fixture.componentInstance.shownCounts()).toEqual([3, 3]);
+    expect(root.querySelectorAll('.polaroid')).toHaveLength(6);
+  });
+
+  it('clicking a slot replaces another slot’s pending load without stacking its photo', async () => {
+    const root = await create(6, 2);
+    setVisible(true);
+    load(root, 0);
+    finish();
+    nextAuto();
+    expect(runtime().pendingPrint?.index).toBe(1);
+    root.querySelector<HTMLElement>('[data-slot="0"]')!.click();
+    expect(runtime().pendingPrint?.index).toBe(2);
+    imageAt(root, 1).dispatchEvent(new Event('load'));
+    expect(runtime().animation).toBeNull();
+    expect(runtime().pendingPrint?.index).toBe(2);
+    expect(fixture.componentInstance.shownCounts()).toEqual([1, 0]);
+    load(root, 2);
+    finish();
+    expect(fixture.componentInstance.shownCounts()).toEqual([2, 0]);
+    expect(runtime().autoTimer?.delay()).toBe(3);
+    expect(imageAt(root, 1).closest<HTMLElement>('.polaroid')?.style.visibility).not.toBe(
+      'inherit',
+    );
+    // Only the later autoplay timeout may resume the other slot's cached image.
+    nextAuto();
+    const landing = runtime().animation?.getChildren(false, true, false)[0] as gsap.core.Tween;
+    expect((landing.targets()[0] as HTMLElement).dataset['index']).toBe('1');
+  });
+
+  it.each([0, 1, 2])('a click while the first photo loads targets only slot %i', async (slot) => {
+    const root = await create(9);
+    setVisible(true);
+    root.querySelector<HTMLElement>(`[data-slot="${slot}"]`)!.click();
+    expect(runtime().pendingPrint?.index).toBe(slot);
+    if (slot !== 0) {
+      imageAt(root, 0).dispatchEvent(new Event('load'));
+      expect(runtime().animation).toBeNull();
+    }
+    load(root, slot);
+    finish();
+    expect(fixture.componentInstance.shownCounts()).toEqual(
+      [0, 1, 2].map((index) => (index === slot ? 1 : 0)),
+    );
+    expect(root.querySelectorAll(`[data-slot="${slot}"] .polaroid`)).toHaveLength(3);
+  });
+
+  it('keeps a single-photo stack intact when clicked after completion', async () => {
+    const root = await create(1, 1);
+    setVisible(true);
+    load(root, 0);
+    finish();
+    fixture.componentInstance.activateSlot(0);
+    expect(fixture.componentInstance.shownCounts()).toEqual([1]);
+    expect(runtime().animation).toBeNull();
+    expect(runtime().autoTimer).toBeNull();
+    expect(Number(root.querySelector<HTMLElement>('.polaroid')?.style.opacity)).toBe(1);
+  });
+
+  it('queues clicks until capture finishes, without interrupting development', async () => {
+    const root = await create(6, 2);
+    setVisible(true);
+    const first = load(root, 0);
+    first.time(1.5, false);
+    root.querySelectorAll<HTMLElement>('.polaroid-slot')[1].click();
+    expect(runtime().animation).toBe(first);
+    expect(first.time()).toBe(1.5);
+    expect(imageAt(root, 1).hasAttribute('src')).toBe(false);
+    finish();
+    expect(runtime().pendingPrint?.index).toBe(1);
+    load(root, 1);
+    finish();
+    expect(runtime().autoTimer?.delay()).toBe(3);
+    expect(fixture.componentInstance.shownCounts()).toEqual([1, 1]);
+  });
+
+  it('pops exhausted stacks one photo at a time and can restack without changing allocation', async () => {
+    const root = await create(3, 1);
+    setVisible(true);
+    for (let index = 0; index < 3; index++) {
+      load(root, index);
+      finish();
+      if (index < 2) fixture.componentInstance.activateSlot(0);
+    }
+    const top = root.querySelector<HTMLElement>('[data-index="2"]')!;
+    fixture.componentInstance.activateSlot(0);
+    finish();
+    expect(Number(top.style.opacity)).toBe(0);
+    expect(fixture.componentInstance.shownCounts()).toEqual([2]);
+    expect(root.querySelectorAll('.polaroid')).toHaveLength(3);
+    fixture.componentInstance.activateSlot(0);
+    finish();
+    expect(fixture.componentInstance.shownCounts()).toEqual([1]);
+    fixture.componentInstance.activateSlot(0);
+    // Cached image can start immediately; no additional network request.
+    expect(runtime().animation).not.toBeNull();
+    finish();
+    expect(fixture.componentInstance.shownCounts()).toEqual([2]);
+    expect(root.querySelectorAll('.polaroid')).toHaveLength(3);
+  });
+
+  it('supports Enter and Space without scrolling the page', async () => {
+    const root = await create(4, 2);
+    setVisible(true);
+    load(root, 0);
+    finish();
+    const slot = root.querySelectorAll<HTMLElement>('.polaroid-slot')[0];
+    expect(slot.getAttribute('role')).toBe('button');
+    expect(slot.tabIndex).toBe(0);
+    const enter = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+    slot.dispatchEvent(enter);
+    expect(enter.defaultPrevented).toBe(true);
+    expect(runtime().pendingPrint?.index).toBe(2);
+    load(root, 2);
+    finish();
+    const space = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
+    slot.dispatchEvent(space);
+    expect(space.defaultPrevented).toBe(true);
+    finish();
+    expect(fixture.componentInstance.shownCounts()[0]).toBe(1);
+  });
+
+  it('pauses image loading and development offscreen, including late load completion', async () => {
+    const root = await create(4);
+    expect(root.querySelectorAll('.polaroid img[src]')).toHaveLength(0);
+    setVisible(true);
+    expect(imageAt(root, 0).hasAttribute('src')).toBe(true);
+    setVisible(false);
+    imageAt(root, 0).dispatchEvent(new Event('load'));
+    expect(runtime().animation).toBeNull();
+    setVisible(true);
+    const timeline = runtime().animation!;
+    timeline.pause().time(1.5, false);
+    setVisible(false);
+    expect(timeline.paused()).toBe(true);
+    expect(imageAt(root, 1).hasAttribute('src')).toBe(false);
+    setVisible(true);
+    expect(timeline.paused()).toBe(false);
+    expect(timeline.time()).toBe(1.5);
+    finish();
+    const timer = runtime().autoTimer!;
+    timer.pause();
+    setVisible(false);
+    expect(timer.paused()).toBe(true);
+    setVisible(true);
+    expect(timer.paused()).toBe(false);
+  });
+
+  it('continues after an image error and cleans up playback on destruction', async () => {
+    const root = await create(3);
+    setVisible(true);
+    imageAt(root, 0).dispatchEvent(new Event('error'));
+    expect(runtime().animation).not.toBeNull();
+    finish();
+    const timer = runtime().autoTimer!;
+    fixture.destroy();
+    expect(timer.parent).toBeNull();
+    expect(disconnect).toHaveBeenCalledOnce();
+    const counts = fixture.componentInstance.shownCounts();
+    imageAt(root, 1).dispatchEvent(new Event('load'));
+    expect(fixture.componentInstance.shownCounts()).toBe(counts);
+  });
+
+  it.each([0.3, 0.7, 1])(
+    'keeps original capture timing with a %s second drop, even for one photo',
+    async (duration) => {
+      const root = await create(1, 3, duration);
+      setVisible(true);
+      const timeline = load(root, 0);
+      const children = timeline.getChildren(false, true, false);
+      expect(children.map((child) => child.duration())).toEqual([duration, 0.12, 0.95]);
+      expect(children[1].startTime()).toBeCloseTo(duration + 0.46, 5);
+      expect(children[2].startTime()).toBeCloseTo(duration + 0.76, 5);
+      expect(timeline.duration()).toBeCloseTo(duration + 1.71, 5);
     },
   );
 
@@ -152,76 +440,34 @@ describe('Proposal album stacks', () => {
     },
   );
 
-  it.each([1, 2, 3, 7])(
-    'finishes the unchanged capture before the next photo for %i images',
-    async (count) => {
-      await create(count);
-      const landings = tweens().filter((tween) => targetsClass(tween, 'polaroid'));
-      const shutters = tweens().filter((tween) => targetsClass(tween, 'snapshot-shutter'));
-      const developments = tweens().filter((tween) => targetsClass(tween, 'snapshot-flash'));
-      expect(shutters).toHaveLength(count);
-      expect(developments).toHaveLength(count);
-      landings.forEach((landing, index) => {
-        const landed = landing.endTime();
-        expect(landing.duration()).toBe(0.7);
-        expect(shutters[index].startTime() - landed).toBeCloseTo(0.46, 5);
-        expect(shutters[index].duration()).toBe(0.12);
-        expect(developments[index].startTime() - landed).toBeCloseTo(0.76, 5);
-        expect(developments[index].duration()).toBe(0.95);
-        expect(developments[index].vars.ease).toBe('power1.inOut');
-        const flash = developments[index].targets()[0] as HTMLElement;
-        expect(flash.closest<HTMLElement>('.polaroid')?.dataset['index']).toBe(String(index));
-        if (index + 1 < landings.length) {
-          expect(landings[index + 1].startTime()).toBeGreaterThanOrEqual(
-            developments[index].endTime() - 0.00001,
-          );
-        }
-      });
-      expect(playback()?.duration()).toBeCloseTo(count * 2.41, 5);
-    },
-  );
-
   it.each([
-    [0.3, 0.3],
-    [1, 1],
     [2, 1],
     [0, 0.7],
     [NaN, 0.7],
-  ])(
-    'uses transition duration %s as %s seconds without changing capture timing',
-    async (configured, expected) => {
-      await create(2, 3, configured);
-      const landings = tweens().filter((tween) => targetsClass(tween, 'polaroid'));
-      const developments = tweens().filter((tween) => targetsClass(tween, 'snapshot-flash'));
-      for (const [index, landing] of landings.entries()) {
-        expect(landing.duration()).toBe(expected);
-        expect(developments[index].startTime() - landing.endTime()).toBeCloseTo(0.76, 5);
-        expect(developments[index].duration()).toBe(0.95);
-      }
-      expect(landings[1].startTime()).toBeCloseTo(expected + 1.71, 5);
-      expect(playback()?.duration()).toBeCloseTo(2 * (expected + 1.71), 5);
-    },
-  );
+  ])('normalizes transition duration %s to %s', async (duration, expected) => {
+    await create(1, 3, duration);
+    expect(fixture.componentInstance.transitionDuration()).toBe(expected);
+  });
 
-  it('shows every photo as a static grid under reduced motion', async () => {
+  it('uses a static noninteractive grid under reduced motion and loads only in view', async () => {
     reducedMotion = true;
     const root = await create(7);
     expect(root.querySelector('.proposal-section')?.classList).toContain('reduced-motion');
-    expect(playback()).toBeNull();
-    const photos = Array.from(root.querySelectorAll<HTMLElement>('.polaroid'));
-    expect(photos).toHaveLength(7);
-    expect(photos.every((photo) => !photo.style.transform && !photo.style.visibility)).toBe(true);
-    expect(photos.map((photo) => Number(photo.style.order)).sort((a, b) => a - b)).toEqual([
-      0, 1, 2, 3, 4, 5, 6,
-    ]);
+    expect(root.querySelector('[role="button"]')).toBeNull();
+    expect(root.querySelectorAll('.polaroid img[src]')).toHaveLength(0);
+    setVisible(true);
+    expect(root.querySelectorAll('.polaroid img[src]')).toHaveLength(7);
+    fixture.componentInstance.activateSlot(0);
+    expect(runtime().animation).toBeNull();
+    expect(runtime().autoTimer).toBeNull();
     expect(
-      Array.from(root.querySelectorAll<HTMLElement>('.snapshot-flash')).every(
-        (flash) => !flash.style.opacity,
+      Array.from(root.querySelectorAll<HTMLElement>('.polaroid')).every(
+        (photo) => !photo.style.transform && !photo.style.visibility,
       ),
     ).toBe(true);
   });
 
-  it('stops playback and restores every photo when reduced motion is enabled mid-sequence', async () => {
+  it('switches an active capture to a static grid when reduced motion is enabled', async () => {
     const events = new EventTarget();
     const original = window.matchMedia('(prefers-reduced-motion: reduce)');
     vi.mocked(window.matchMedia).mockReturnValue({
@@ -229,102 +475,25 @@ describe('Proposal album stacks', () => {
       addEventListener: events.addEventListener.bind(events),
       removeEventListener: events.removeEventListener.bind(events),
     });
-    const root = await create(7);
-    const timeline = playback();
-    const kill = vi.spyOn(timeline!, 'kill');
-    timeline?.time(1.6, false);
+    const root = await create(4);
+    setVisible(true);
+    load(root, 0);
     const change = new Event('change');
     Object.defineProperty(change, 'matches', { value: true });
     events.dispatchEvent(change);
     fixture.detectChanges();
-    expect(kill).toHaveBeenCalled();
-    expect(root.querySelector('.proposal-section')?.classList).toContain('reduced-motion');
-    expect(
-      Array.from(root.querySelectorAll<HTMLElement>('.polaroid')).every(
-        (photo) => !photo.style.transform && !photo.style.visibility && photo.style.zIndex !== '',
-      ),
-    ).toBe(true);
-    expect(
-      Array.from(root.querySelectorAll<HTMLElement>('.snapshot-flash')).every(
-        (flash) => !flash.style.opacity,
-      ),
-    ).toBe(true);
-  });
-
-  function imageAt(root: HTMLElement, index: number): HTMLImageElement {
-    return root.querySelector<HTMLImageElement>(`[data-index="${index}"] img`)!;
-  }
-
-  it('requests photos sequentially only in view and pauses development offscreen', async () => {
-    const root = await create(4);
-    const timeline = playback()!;
-    expect(root.querySelectorAll('img[src]')).toHaveLength(1); // Section ornament only.
-    expect(timeline.paused()).toBe(true);
-    setVisible(true);
-    expect(imageAt(root, 0).getAttribute('src')).toBe('/album/0.webp');
-    expect(imageAt(root, 1).hasAttribute('src')).toBe(false);
-    expect(timeline.paused()).toBe(true); // Wait for the requested image.
-    imageAt(root, 0).dispatchEvent(new Event('load'));
-    expect(timeline.paused()).toBe(false);
-    timeline.render(1.5, false, false);
-    setVisible(false);
-    const pausedAt = timeline.time();
-    expect(timeline.paused()).toBe(true);
-    expect(imageAt(root, 1).hasAttribute('src')).toBe(false);
-    setVisible(true);
-    expect(timeline.paused()).toBe(false);
-    expect(timeline.time()).toBe(pausedAt);
-    timeline.render(2.42, false, false);
-    expect(timeline.time()).toBeCloseTo(2.41, 5);
-    expect(timeline.paused()).toBe(true);
-    expect(imageAt(root, 1).getAttribute('src')).toBe('/album/1.webp');
-    expect(imageAt(root, 2).hasAttribute('src')).toBe(false);
-    setVisible(false);
-    imageAt(root, 1).dispatchEvent(new Event('load'));
-    expect(timeline.paused()).toBe(true); // Offscreen completion must not resume.
-    setVisible(true);
-    expect(timeline.paused()).toBe(false);
-    expect(imageAt(root, 2).hasAttribute('src')).toBe(false);
-  });
-
-  it('continues after a failed image without requesting the next photo early', async () => {
-    const root = await create(2);
-    setVisible(true);
-    imageAt(root, 0).dispatchEvent(new Event('error'));
-    expect(playback()?.paused()).toBe(false);
-    expect(imageAt(root, 1).hasAttribute('src')).toBe(false);
-  });
-
-  it('loads static reduced-motion images only after the section enters view', async () => {
-    reducedMotion = true;
-    const root = await create(4);
-    expect(root.querySelectorAll('.polaroid img[src]')).toHaveLength(0);
-    setVisible(true);
+    expect(runtime().animation).toBeNull();
+    expect(runtime().autoTimer).toBeNull();
+    expect(root.querySelector('[role="button"]')).toBeNull();
     expect(root.querySelectorAll('.polaroid img[src]')).toHaveLength(4);
-    setVisible(false);
-    expect(playback()).toBeNull();
   });
 
-  it('retains completed stacks on re-entry and disconnects on destruction', async () => {
-    await create(1);
-    setVisible(true);
-    const timeline = playback()!;
-    const image = (fixture.nativeElement as HTMLElement).querySelector<HTMLImageElement>(
-      '.polaroid img',
-    )!;
-    image.dispatchEvent(new Event('load'));
-    timeline.render(timeline.duration(), false, false);
-    setVisible(false);
-    setVisible(true);
-    expect(timeline.progress()).toBe(1);
-    fixture.destroy();
-    expect(disconnect).toHaveBeenCalledOnce();
-  });
-
-  it('handles an empty album without starting playback', async () => {
+  it('handles empty albums without starting autoplay', async () => {
     const root = await create(0);
-    expect(root.querySelectorAll('.polaroid-slot')).toHaveLength(3);
+    setVisible(true);
+    fixture.componentInstance.activateSlot(0);
     expect(root.querySelectorAll('.polaroid')).toHaveLength(0);
-    expect(playback()).toBeNull();
+    expect(runtime().animation).toBeNull();
+    expect(runtime().autoTimer).toBeNull();
   });
 });

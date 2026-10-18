@@ -10,10 +10,10 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { gsap } from 'gsap';
 import { WeddingConfig } from '../../core/models/wedding-config';
 import { SectionHeader } from '../../shared/components/section-header';
 import { InstantPhoto } from '../../shared/directives/instant-photo.directive';
+import { ProposalAlbumPlayer } from './proposal-album-player';
 
 /** Configurable fixed paper stacks; one sequence follows the original album order. */
 @Component({
@@ -30,7 +30,25 @@ export class Proposal {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly captures = viewChildren(InstantPhoto);
-  private playback: gsap.core.Timeline | null = null;
+  private player: ProposalAlbumPlayer | null = null;
+  readonly shownCounts = signal<readonly number[]>([]);
+  readonly busy = signal(false);
+
+  activateSlot(slot: number): void {
+    this.player?.activate(slot);
+  }
+
+  onSlotKeydown(event: KeyboardEvent, slot: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.activateSlot(slot);
+    }
+  }
+
+  readonly autoStackDelay = computed(() => {
+    const delay = this.config().albumAutoStackDelay ?? 3;
+    return Number.isFinite(delay) && delay >= 0 ? delay : 3;
+  });
 
   readonly slotCount = computed(() => {
     const threshold = this.config().albumStackThreshold ?? 3;
@@ -51,7 +69,10 @@ export class Proposal {
         index,
         slot,
         rotate: [-3, 4, -2][slot % 3] + (depth % 3) * 2,
-        offset: depth * 5,
+        // Distribute all paper layers within eight pixels, regardless of album size.
+        offset:
+          (8 * depth) /
+          Math.max(1, Math.ceil((this.config().album.length - slot) / this.slotCount()) - 1),
       };
     }),
   );
@@ -76,104 +97,44 @@ export class Proposal {
         ]),
       );
 
-      let visible = false;
-      let pendingPhoto: HTMLElement | null = photos[0] ?? null;
-      const imageEvents = new AbortController();
-      const images = photos.flatMap((photo) => {
-        const image = photo.querySelector('img');
-        return image ? [image] : [];
+      const prints = photos.map((element) => {
+        const index = Number(element.dataset['index']);
+        const photo = this.polaroids()[index];
+        return {
+          ...photo,
+          element,
+          image: element.querySelector<HTMLImageElement>('img')!,
+          capture: captureByPhoto.get(element)!,
+        };
       });
-      const requestImage = (image: HTMLImageElement): void => {
-        const source = image.dataset['src'];
-        if (source && !image.hasAttribute('src')) image.src = source;
-      };
-      const showStaticImages = (): void => {
-        if (visible) images.forEach(requestImage);
-      };
-      const finishImage = (image: HTMLImageElement): void => {
-        if (pendingPhoto?.querySelector('img') !== image) return;
-        pendingPhoto = null;
-        if (visible && !this.reducedMotion()) this.playback?.resume();
-      };
-      const requestPendingPhoto = (): void => {
-        if (!visible || !pendingPhoto) return;
-        const image = pendingPhoto.querySelector('img');
-        if (!image) return;
-        requestImage(image);
-        if (image.complete) finishImage(image);
-      };
-      images.forEach((image) => {
-        const ready = (): void => finishImage(image);
-        image.addEventListener('load', ready, { signal: imageEvents.signal });
-        image.addEventListener('error', ready, { signal: imageEvents.signal });
+      this.player = new ProposalAlbumPlayer(prints, {
+        slotCount: this.slotCount(),
+        transitionDuration: this.transitionDuration(),
+        autoDelay: this.autoStackDelay(),
+        onStateChange: (counts, busy) => {
+          this.shownCounts.set(counts);
+          this.busy.set(busy);
+        },
       });
-
       const showStatic = (): void => {
         this.reducedMotion.set(true);
-        this.playback?.kill();
-        gsap.set(photos, { clearProps: 'transform,opacity,visibility' });
-        gsap.set(root.querySelectorAll('.snapshot-flash, .snapshot-shutter'), {
-          clearProps: 'transform,opacity',
-        });
-        showStaticImages();
+        this.player?.showStatic();
       };
       const onMotionChange = (event: MediaQueryListEvent): void => {
         if (event.matches) showStatic();
       };
       // Observe the section throughout playback, including after its first entrance.
       const observer = new IntersectionObserver(([entry]) => {
-        visible = entry.isIntersecting;
-        if (!visible) {
-          this.playback?.pause();
-        } else if (this.reducedMotion()) {
-          showStaticImages();
-        } else if (pendingPhoto) {
-          requestPendingPhoto();
-        } else {
-          this.playback?.resume();
-        }
+        this.player?.setVisible(entry.isIntersecting);
       });
       observer.observe(root.querySelector('.proposal-section') ?? root);
       media.addEventListener('change', onMotionChange);
       this.destroyRef.onDestroy(() => {
         observer.disconnect();
-        imageEvents.abort();
         media.removeEventListener('change', onMotionChange);
-        this.playback?.kill();
+        this.player?.destroy();
       });
-
-      if (media.matches) {
-        showStatic();
-        return;
-      }
-      if (!photos.length) return;
-
-      const timeline = gsap.timeline({ paused: true });
-      this.playback = timeline;
-
-      for (const [index, photo] of photos.entries()) {
-        if (index > 0) {
-          // Wait at the next drop until its image is ready, requesting only in view.
-          timeline.addPause(timeline.duration(), () => {
-            pendingPhoto = photo;
-            requestPendingPhoto();
-          });
-        }
-        timeline.fromTo(
-          photo,
-          { autoAlpha: 0, y: -45, x: 0, rotation: Number(photo.dataset['rotate']) - 5 },
-          {
-            autoAlpha: 1,
-            y: -Number(photo.dataset['offset']),
-            x: Number(photo.dataset['offset']),
-            rotation: Number(photo.dataset['rotate']),
-            duration: this.transitionDuration(),
-            ease: 'power2.out',
-          },
-        );
-        // Appending extends the sequence through full development before the next landing.
-        captureByPhoto.get(photo)?.appendTo(timeline, timeline.duration());
-      }
+      if (media.matches) showStatic();
     });
   }
 }

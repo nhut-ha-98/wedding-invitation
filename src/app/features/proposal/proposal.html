@@ -1,8 +1,26 @@
 <section class="proposal-section" [class.reduced-motion]="reducedMotion()">
   <app-section-header title="Album" subtitle="Những khoảnh khắc được lưu giữ" />
-  <div class="polaroid-grid">
-    @for (slot of slots(); track $index) {
-      <div class="polaroid-slot">
+  <div class="polaroid-grid" [attr.aria-busy]="busy()">
+    @for (slot of slots(); track $index; let slotIndex = $index) {
+      <div
+        class="polaroid-slot"
+        [attr.role]="!reducedMotion() && slot.length ? 'button' : null"
+        [attr.tabindex]="!reducedMotion() && slot.length ? 0 : null"
+        [attr.aria-label]="
+          !reducedMotion() && slot.length
+            ? 'Xem ảnh trong chồng ảnh ' +
+              (slotIndex + 1) +
+              ', ' +
+              (shownCounts()[slotIndex] ?? 0) +
+              ' / ' +
+              slot.length
+            : null
+        "
+        [attr.data-photo-count]="slot.length"
+        [attr.data-slot]="slotIndex"
+        (click)="activateSlot(slotIndex)"
+        (keydown)="onSlotKeydown($event, slotIndex)"
+      >
         @for (polaroid of slot; track polaroid.index) {
           <div
             appInstantPhoto
