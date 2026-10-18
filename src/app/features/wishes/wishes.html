@@ -29,7 +29,7 @@
     <div class="wishes-stage" [attr.aria-live]="paused() || reducedMotion() ? 'polite' : 'off'">
       @for (wish of wishes(); track wish.id) {
         <div
-          class="wish-card"
+          class="wish-card translucent-panel"
           role="group"
           aria-roledescription="lời chúc"
           [attr.aria-label]="$index + 1 + ' / ' + wishes().length"

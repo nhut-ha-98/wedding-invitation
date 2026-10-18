@@ -1,10 +1,10 @@
-<section aria-labelledby="countdown-title">
+<section class="translucent-panel" aria-labelledby="countdown-title">
   <h2 id="countdown-title" class="countdown-title">Đếm ngược</h2>
 
   <div class="countdown-units" role="timer" aria-live="off" [attr.aria-label]="timerLabel()">
-    @for (unit of units(); track unit.label; let last = $last) {
-      <span class="countdown-value" aria-hidden="true">{{ unit.value }}</span>
-      @if (!last) {
+    @for (unit of units(); track unit.label; let first = $first; let last = $last) {
+      <span class="countdown-value" aria-hidden="true">{{ unit.value + (first ? ' Ngày,' : '') }}</span>
+      @if (!first && !last) {
         <span class="countdown-value" aria-hidden="true">:</span>
       }
     }

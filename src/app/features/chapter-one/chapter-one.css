@@ -44,12 +44,6 @@
   overflow: hidden;
 }
 
-.photo-placeholder app-papercut-art {
-  position: absolute;
-  inset: 0;
-  height: auto;
-}
-
 .photo-img {
   position: absolute;
   inset: 0;

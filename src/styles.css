@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './app/shared/styles/translucent-panel.css';
 
 @theme {
   --font-serif: 'Playfair Display', serif;

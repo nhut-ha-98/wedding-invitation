@@ -11,7 +11,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { WeddingConfig } from '../../core/models/wedding-config';
 import { AnimatedSection } from '../../shared/components/animated-section';
-import { PapercutArt } from '../../shared/components/papercut-art';
 import { SectionHeader } from '../../shared/components/section-header';
 import { HandwriteDirective } from '../../shared/directives/handwrite.directive';
 
@@ -19,7 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-chapter-one',
-  imports: [AnimatedSection, PapercutArt, SectionHeader, HandwriteDirective],
+  imports: [AnimatedSection, SectionHeader, HandwriteDirective],
   templateUrl: './chapter-one.html',
   styleUrl: './chapter-one.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

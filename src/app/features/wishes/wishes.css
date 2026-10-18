@@ -57,8 +57,6 @@
   grid-area: 1 / 1;
   visibility: hidden;
   padding: 1rem 1.25rem;
-  background: rgb(250 236 197 / 5%);
-  border-radius: 6px;
   scrollbar-width: thin;
   scrollbar-color: var(--color-ending-gold) transparent;
   overflow-wrap: anywhere;
