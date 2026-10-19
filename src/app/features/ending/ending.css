@@ -29,8 +29,12 @@
 }
 
 .thank-you-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.25em;
   font-family: var(--font-handwriting);
-  font-size: clamp(3.5rem, 8vw, 5.5rem);
+  font-size: clamp(3rem, 8vw, 5.5rem);
   color: var(--color-ending-ivory);
   text-shadow:
     0 0 12px var(--color-ending-gold-glow-0-6),
@@ -38,6 +42,10 @@
   line-height: 1.1;
   margin: 0 0 0.5rem;
   letter-spacing: 1px;
+}
+
+.thank-you-title > span {
+  white-space: nowrap;
 }
 
 .thank-you-subtitle {
